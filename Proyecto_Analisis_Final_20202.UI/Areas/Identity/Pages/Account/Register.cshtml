@@ -1,0 +1,66 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Registro";
+}
+<link href="~/css/FondoPantalla.css" rel="stylesheet" />
+<br>
+<br>
+<div class="row">
+
+    <div class="col-5">
+        <div class="panel panel-login" style="   border: 3px solid white; border-radius: 22px;">
+            <form id="account" method="post">
+                <Center>
+                    <h3>Nuevo Usuario</h3>
+                </Center>
+                <br>
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="col">
+                    <div class="form-group">
+                        <label asp-for="Input.UserName"></label>
+                        <input asp-for="Input.UserName" class="form-control" placeholder="ejemplo04" />
+                        <span asp-validation-for="Input.UserName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label asp-for="Input.Email"></label>
+                        <input asp-for="Input.Email" class="form-control" placeholder="ejemplo04@gmail.com" />
+                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label asp-for="Input.Password"></label>
+                        <input asp-for="Input.Password" class="form-control" />
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label asp-for="Input.ConfirmPassword"></label>
+                        <input asp-for="Input.ConfirmPassword" class="form-control" />
+                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col">
+                    <center>
+                        <button type="submit" class="btn btn-success" style="align-content:center">Crear</button>
+                    </center>
+                    <a style="color: white; font-family:Calibri; font-size: 15px; font-weight:normal" href='/PortalPrincipalController1/PantallaPrincipal' class="btn btn-success"> Volver</a>
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <div class="col-4">
+        <center style=" font-family: 'Radley'">
+            <img src="~/IconoPersonas.png" width="400" height="400" style="left: 500px;" />
+        </center>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,41 @@
+﻿@page
+@model LoginModel
+
+@{ ViewData["Title"] = "InicioSesion";
+}
+
+<link href="~/css/FondoPantalla.css" rel="stylesheet" />
+<hr />
+<div class="row">
+    <div class="col-md-4" id="ContenedorInicioSesion">
+        <center style=" font-family:'Radley' ">
+            <img src="~/IconoPersonas.png" width="200" height="200" />
+            <h4>Iniciar sesión</h4>
+        </center>
+        <br />
+
+        <form id="account" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group" style=" font-family:'Radley' ">
+                <input asp-for="Input.Email" class="form-control" placeholder="Email" />
+                <span asp-validation-for="Input.Email" class="text-danger" id="text1"></span>
+            </div>
+
+            <div class="form-group" style=" font-family:'Radley' ">
+                <input asp-for="Input.Password" class="form-control" placeholder="Contraseña" />
+                <span asp-validation-for="Input.Password" class="text-danger" id="text3"></span>
+            </div>
+            <center>
+                <div id="cabecera" class="form-group" style=" font-family:'Radley'">
+                    <button type="submit" class="btn btn-primary">Ingresar</button>
+                </div>
+            </center>
+            <a style="color: white; font-family:Calibri; font-size: 15px; font-weight:normal" href='/PortalPrincipal/PantallaPrincipal' class="btn btn-success"> Volver</a>
+        </form>
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
