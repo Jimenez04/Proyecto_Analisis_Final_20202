@@ -21,7 +21,8 @@ namespace Proyecto_Analisis_Final_20202.UI.Areas.Identity.Pages.Account.Manage
             _userManager = userManager;
             _signInManager = signInManager;
         }
-
+        [Display(Name = "Nombre de usuario")]
+        [MaxLength(25, ErrorMessage = "El tamaño máximo de el nombre de usuario es de 25 caracteres")]
         public string Username { get; set; }
 
         [TempData]
@@ -32,8 +33,8 @@ namespace Proyecto_Analisis_Final_20202.UI.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
-            [Phone]
-            [Display(Name = "Phone number")]
+            [Phone(ErrorMessage ="Solo se permiten números")]
+            [Display(Name = "Teléfono")]
             public string PhoneNumber { get; set; }
         }
 
@@ -55,7 +56,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Error con el usuario '{_userManager.GetUserId(User)}'.");
             }
 
             await LoadAsync(user);
@@ -67,7 +68,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Error con el usuario '{_userManager.GetUserId(User)}'.");
             }
 
             if (!ModelState.IsValid)
@@ -82,13 +83,13 @@ namespace Proyecto_Analisis_Final_20202.UI.Areas.Identity.Pages.Account.Manage
                 var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
                 if (!setPhoneResult.Succeeded)
                 {
-                    StatusMessage = "Unexpected error when trying to set phone number.";
+                    StatusMessage = "Error con el número teléfonico";
                     return RedirectToPage();
                 }
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
+            StatusMessage = "Datos actualizados";
             return RedirectToPage();
         }
     }

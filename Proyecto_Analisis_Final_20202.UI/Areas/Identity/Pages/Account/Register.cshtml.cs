@@ -47,22 +47,24 @@ namespace Proyecto_Analisis_Final_20202.UI.Areas.Identity.Pages.Account
         public class InputModel
         {
 
-            [Display(Name = "Nombre")]
+            [Display(Name = "Nombre Usuario")]
+            [Required(ErrorMessage = "Campo obligatorio")]
+            [MaxLength(25, ErrorMessage = "El tamaño máximo de el nombre de usuario es de 25 caracteres")]
             public string UserName { get; set; }
 
-            [Required]
-            [EmailAddress]
-            [Display(Name = "Email")]
+            [Required(ErrorMessage = "Campo obligatorio")]
+            [EmailAddress(ErrorMessage ="Verifique su correo")]
+            [Display(Name = "Correo")]
             public string Email { get; set; }
 
-            [Required(ErrorMessage = "La contraseña es requerida")]
+            [Required(ErrorMessage = "Campo obligatorio")]
             [DisplayName("Contraseña")]
             [DataType(DataType.Password)]
             [MaxLength(25, ErrorMessage = "El tamaño máximo de la contraseña es de 25 caracteres")]
             public string Password { get; set; }
 
 
-            [Required(ErrorMessage = "La contraseña es requerida")]
+            [Required(ErrorMessage = "Campo obligatorio")]
             [DisplayName("Contraseña")]
             [DataType(DataType.Password)]
             [MaxLength(25, ErrorMessage = "El tamaño máximo de la contraseña es de 25 caracteres")]
@@ -105,7 +107,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Areas.Identity.Pages.Account
                     else
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
+                        return RedirectToAction("VentanaPrincipal", "Usuario");
                     }
                 }
                 foreach (var error in result.Errors)

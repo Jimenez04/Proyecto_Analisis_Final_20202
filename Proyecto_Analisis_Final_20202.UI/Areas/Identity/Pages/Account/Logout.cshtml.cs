@@ -32,7 +32,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Areas.Identity.Pages.Account
             _logger.LogInformation("User logged out.");
             if (returnUrl != null)
             {
-                return LocalRedirect(returnUrl);
+                return RedirectToAction("PantallaPrincipal", "PortalPrincipal");
             }
             else
             {

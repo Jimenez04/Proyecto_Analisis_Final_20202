@@ -33,20 +33,20 @@ namespace Proyecto_Analisis_Final_20202.UI.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage ="Este campo es requerido")]
             [DataType(DataType.Password)]
-            [Display(Name = "Current password")]
+            [Display(Name = "Contraseña actual")]
             public string OldPassword { get; set; }
 
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "La contraseña es muy debil", MinimumLength = 6)]
+            [Required(ErrorMessage = "Campo obligatorio")]
             [DataType(DataType.Password)]
-            [Display(Name = "New password")]
+            [Display(Name = "Nueva contraseña")]
             public string NewPassword { get; set; }
 
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm new password")]
-            [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+            [Display(Name = "Confirme su contraseña")]
+            [Compare("NewPassword", ErrorMessage = "Las contraseñas no coinciden")]
             public string ConfirmPassword { get; set; }
         }
 
@@ -55,7 +55,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Error con el usuario '{_userManager.GetUserId(User)}'.");
             }
 
             var hasPassword = await _userManager.HasPasswordAsync(user);
@@ -77,7 +77,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Error con el usuario '{_userManager.GetUserId(User)}'.");
             }
 
             var changePasswordResult = await _userManager.ChangePasswordAsync(user, Input.OldPassword, Input.NewPassword);
@@ -92,7 +92,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Areas.Identity.Pages.Account.Manage
 
             await _signInManager.RefreshSignInAsync(user);
             _logger.LogInformation("User changed their password successfully.");
-            StatusMessage = "Your password has been changed.";
+            StatusMessage = "Su contraseña fue actualizada";
 
             return RedirectToPage();
         }

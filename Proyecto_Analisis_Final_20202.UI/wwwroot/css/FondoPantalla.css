@@ -6,12 +6,12 @@
 }
 
 #VentanaRegistrar {
-    width: 300px;
-    height: 400px;
-    border: 3px solid black;
+    width: 500px;
+    height: 500px;
+    border: 3px solid white;
     border-radius: 22px;
     padding: 9px;
-    top: 100px;
+    top: 50px;
 }
 
 
@@ -33,7 +33,7 @@
 #ContenedorInicioSesion {
     position: absolute;
     width: 400px;
-    height: 500px;
+    height: 520px;
     left: 500px;
     top: 120px;
     border: 6px solid #FFFFFF;
@@ -75,30 +75,100 @@
 
 #text1 {
     position: absolute;
-    padding-left: 100px;
     top: 267px;
-    right: 18px;
+    right: 73px;
 }
 
 #text2 {
     position: absolute;
-    padding-left: 100px;
     top: 320px;
     right: 59px;
 }
 
 #text3 {
     position: absolute;
-    padding-left: 100px;
     top: 320px;
     right: 73px;
 }
 
 #text4 {
     position: absolute;
-    padding-left: 100px;
     top: 320px;
     right: 18px;
 }
 
+#text5 {
+    position: absolute;
+    top: 38px;
+    right: 73px;
+}
 
+#text6 {
+    position: absolute;
+    top: 40px;
+    right: 73px;
+}
+
+#text7 {
+    position: absolute;
+    top: 40px;
+    right: 73px;
+}
+#text8 {
+    position: absolute;
+    top: 40px;
+    right: 73px;
+}
+#BotonVolver {
+    position: absolute;
+    top: 0px;         
+    right: 370px;
+}
+#BotonCrear {
+    position: absolute;
+    top: 0px;
+    right: 15px;
+}
+#IconoInicio {
+    padding-left: 40px;
+}
+
+#CampoCandado {
+    padding-left: 40px;
+}
+
+#IconoLabel {
+    position: absolute;
+    left: 20px;
+    top: 262px;
+}
+
+#IconoCandado {
+    position: absolute;
+    left: 23px;
+    top: 320px;
+}
+
+#inicio {
+    position: absolute;
+    left: 25px;
+    top: 110px;
+}
+
+#correo {
+    position: absolute;
+    left: 25px;
+    top: 200px;
+}
+
+#candado1 {
+    position: absolute;
+    left: 25px;
+    top: 285px;
+}
+
+#candado2 {
+    position: absolute;
+    left:25px;
+    top: 370px;
+}

@@ -5,95 +5,81 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>VentanaPrincipal</h1>
+<center>
+    <br />
+    <h1> Sistema de Facturación</h1>
+    </center>
 
-<div class="row">
-    <div class="col-md-2">.col-md-2</div>
-    <div class="col-md-1"><p><a asp-action="Create">Agregar</a></p></div>
-    <div class="col-md-1">.col-md-1</div>
-    <div class="col-md-1">.col-md-1</div>
-    <div class="col-md-1">.col-md-1</div>
-    <div class="col-md-1">.col-md-1</div>
-    <div class="col-md-1">.col-md-1</div>
-    <div class="col-md-1">.col-md-1</div>
-    <div class="col-md-1">.col-md-1</div>
-    <div class="col-md-1">.col-md-1</div>
-    <div class="col-md-1">.col-md-1</div>
-</div>
-<div class="row">
-    <div class="col-md-10">
-        <table class="table" style="border-collapse: separate; ">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Codigo_Producto)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Cantidad)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Nombre_Articulo)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Precio_Unidad)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.SubTotal)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Descuento)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Impuesto_Producto)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Total)
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Codigo_Producto)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Nombre_Articulo)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Cantidad)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Precio_Unidad)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.SubTotal)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Descuento)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Impuesto_Producto)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Total)
-                        </td>
+        <div class="row">
+            <div class="col-md-10">
+                <table class="table" style="border-collapse: separate; ">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Codigo_Producto)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Cantidad)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Nombre_Articulo)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Precio_Unidad)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.SubTotal)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Descuento)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Impuesto_Producto)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Total)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Codigo_Producto)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Nombre_Articulo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Cantidad)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Precio_Unidad)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.SubTotal)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Descuento)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Impuesto_Producto)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Total)
+                                </td>
 
-                        <td>
-                            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-    <div class="col-md-4">.col-md-4</div>
-</div>
-<div class="row">
-    <div class="col-md-6">.col-md-6</div>
-    <div class="col-md-6">.col-md-6</div>
-</div>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+

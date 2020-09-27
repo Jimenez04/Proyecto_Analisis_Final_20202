@@ -45,12 +45,14 @@ namespace Proyecto_Analisis_Final_20202.UI.Areas.Identity.Pages.Account
         {
 
             [Display(Name = "Nombre")]
+            [Required(ErrorMessage = "Campo obligatorio")]
+            [MaxLength(25, ErrorMessage = "El tamaño máximo de el nombre de usuario es de 25 caracteres")]
             public string UserName { get; set; }
 
-            [Required(ErrorMessage = "La clave es requerida")]
-            [DisplayName("Clave")]
+            [Required(ErrorMessage = "Campo obligatorio")]
+            [DisplayName("Contraseña")]
             [DataType(DataType.Password)]
-            [MaxLength(25, ErrorMessage = "El tamaño máximo de la clave es de 25 caracteres")]
+            [MaxLength(25, ErrorMessage = "El tamaño máximo de la contraseña es de 25 caracteres")]
             public String Password { get; set; }
             public bool RememberMe { get; set; }
 
@@ -99,7 +101,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Verifique sus datos");
+                    ModelState.AddModelError(string.Empty, "Verifique su usuario o contraseña");
                     return Page();
                 }
             }
