@@ -5,6 +5,16 @@
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
+
+
+    <li class="nav-item">
+        <img src="~/Factura.png" width="80" height="73" id="LogoEmpresa" />
+        <button width="80" height="73" src="~/Factura.png" action="/PortalPrincipal/PantallaPrincipal" />
+    </li>
+        <li class="nav-item">
+            <img src="~/Clientes.png"  width="80" height="73" id="LogoEmpresa"  />
+        </li>
+
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"> Cuenta @User.Identity.Name</a>
         </li>
@@ -16,14 +26,14 @@
     }
     else
     {
-    <ul class="navbar-nav flex-grow-1">
-    <li class="nav-item">
-        <a class="nav-link" style="color:white; font-size: 20px" asp-area="" asp-controller="Home" asp-action="Home">Servicios</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" style="color:white ; font-size: 20px" asp-area="" asp-controller="Home" asp-action="Home">Contactenos</a>
-    </li>
-    </ul>
+        <ul class="navbar-nav flex-grow-1">
+            <li class="nav-item">
+                <a class="nav-link" style="color:white; font-size: 20px" asp-area="" asp-controller="Home" asp-action="Home">Servicios</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" style="color:white ; font-size: 20px" asp-area="" asp-controller="Home" asp-action="Home">Contactenos</a>
+            </li>
+        </ul>
         <li class="nav-item">
             <a style="color: white; font-family:Calibri; font-size: 20px; font-weight:normal" href='/Identity/Account/Login' class="btn btn-success"> Iniciar Sesión</a>
         </li>
