@@ -172,3 +172,18 @@
     left:25px;
     top: 370px;
 }
+#AlinearFactura {
+    position: absolute; 
+    top:10px;
+    left: 360px;
+}
+#AlinearClientes {
+    position: absolute;
+    top:10px;
+    left: 460px;
+}
+#AlinearInventario {
+    position: absolute;
+    top: 10px;
+    left: 580px;
+}

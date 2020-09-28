@@ -2,25 +2,35 @@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
-<ul class="navbar-nav">
+<ul class="nav">
     @if (SignInManager.IsSignedIn(User))
     {
+     
+                <li class="nav navbar-nav navbar-left" id="AlinearFactura">
+                    <a title="Factura" href='/PortalPrincipal/PantallaPrincipal'>
+                        <img src="~/Factura.png" width="70" height="60" alt="Factura" />
+                    </a>
+                </li>
+                <li class="nav navbar-nav navbar-left" id="AlinearClientes">
+                    <a title="Clientes" href='/PortalPrincipal/PantallaPrincipal'>
+                        <img src="~/Clientes.png" width="70" height="60" alt="Clientes" />
+                    </a>
+                </li>
+                <li class="nav navbar-nav navbar-left" id="AlinearInventario">
+                    <a title="Inventario" href='/PortalPrincipal/PantallaPrincipal'>
+                        <img src="~/Inventario.png" width="70" height="60" alt="Inventario" />
+                    </a>
+                </li>
+      
+    
+       
 
-
-    <li class="nav-item">
-        <img src="~/Factura.png" width="80" height="73" id="LogoEmpresa" />
-        <button width="80" height="73" src="~/Factura.png" action="/PortalPrincipal/PantallaPrincipal" />
-    </li>
         <li class="nav-item">
-            <img src="~/Clientes.png"  width="80" height="73" id="LogoEmpresa"  />
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"> Cuenta @User.Identity.Name</a>
+            <a style="color: black; font-family:'Radley'; margin-left: 10px; font-size: 20px; font-weight:bold" class="nav-link " asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"> Cuenta @User.Identity.Name</a>
         </li>
         <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button type="submit" class="nav-link btn btn-link text-dark">Salir</button>
+                <button style="color: black; font-family:'Radley'; margin-left: 10px; ;font-size: 20px; font-weight:bold" type="submit" class="nav-link btn btn-link ">Salir</button>
             </form>
         </li>
     }
