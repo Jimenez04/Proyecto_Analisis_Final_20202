@@ -129,6 +129,8 @@
     top: 0px;
     right: 15px;
 }
+
+
 #IconoInicio {
     padding-left: 40px;
 }
@@ -171,4 +173,22 @@
     position: absolute;
     left:25px;
     top: 370px;
+}
+
+#eliminar {
+    position: absolute;
+    left: 480px;
+    top: 165px; 
+}
+
+#lupa {
+    position: absolute;
+    left: 520px;
+    top: 165px;
+}
+
+#canasta {
+    position: absolute;
+    left: 370px;
+    top: 165px;
 }
