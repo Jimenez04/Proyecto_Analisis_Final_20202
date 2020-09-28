@@ -1,0 +1,17 @@
+﻿body {
+    position: relative;
+    height: auto;
+   
+}
+
+#contenerproductos{
+margin: 150px auto;
+width:600px;
+}
+
+table {
+    background-color: white;
+    text-align: left;
+    border-collapse: collapse;
+    width: 100%;
+}
