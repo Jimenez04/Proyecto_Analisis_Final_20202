@@ -129,6 +129,8 @@
     top: 0px;
     right: 15px;
 }
+
+
 #IconoInicio {
     padding-left: 40px;
 }
@@ -172,18 +174,42 @@
     left:25px;
     top: 370px;
 }
+
+#eliminar {
+    position: absolute;
+    left: 480px;
+    top: 165px; 
+}
+
+#lupa {
+    position: absolute;
+    left: 520px;
+    top: 165px;
+}
+
+#canasta {
+    position: absolute;
+    left: 370px;
+    top: 165px;
+}
+
 #AlinearFactura {
-    position: absolute; 
-    top:10px;
+    position: absolute;
+    top: 10px;
     left: 360px;
 }
+
 #AlinearClientes {
     position: absolute;
-    top:10px;
+    top: 10px;
     left: 460px;
 }
+
 #AlinearInventario {
     position: absolute;
     top: 10px;
     left: 580px;
 }
+
+
+
