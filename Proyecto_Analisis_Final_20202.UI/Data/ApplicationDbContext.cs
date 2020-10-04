@@ -10,7 +10,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
-        {
+        { 
         }
     }
 }
