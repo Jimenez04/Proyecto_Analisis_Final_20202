@@ -48,19 +48,6 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
                         UserName = nuevaCuentaEmpresarial.Cedula,
                         Email = nuevaCuentaEmpresarial.CorreoElectronico,
                     };
-                    //
-                    IdentityRole Rol = new IdentityRole
-                    {
-                        Name = "Administrador"
-                    };
-                    IdentityRole Rol2 = new IdentityRole
-                    {
-                        Name = "Empleado"
-                    };
-                    //
-                    var resultado = await Roles.CreateAsync(Rol);
-                    var resultado2 = await Roles.CreateAsync(Rol2);
-                    //
                     var Estado = await gestionusuarios.CreateAsync(Usuario, contrasena);
                     await gestionusuarios.AddToRoleAsync(Usuario, "Administrador");
                     if (Estado.Succeeded)
