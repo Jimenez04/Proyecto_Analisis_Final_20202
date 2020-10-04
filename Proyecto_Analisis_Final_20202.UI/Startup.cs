@@ -41,8 +41,7 @@ namespace Proyecto_Analisis_Final_20202.UI
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
-            }).AddRoles<IdentityRole>()
-                  .AddEntityFrameworkStores<ApplicationDbContext>();
+            }).AddRoles<IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddMvc(options =>
             {

@@ -108,7 +108,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Areas.Identity.Pages.Account
                     else
                     {
                         //await _signInManager.SignInAsync(user, isPersistent: false);
-                       // return RedirectToAction("VentanaPrincipal", "Usuario");
+                       return RedirectToAction("VentanaPrincipal", "Usuario");
                     }
                 }
                 foreach (var error in result.Errors)

@@ -35,7 +35,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
         }
         [HttpPost]
         [AllowAnonymous]
-        //   [Route("PortalPrincipal/PantallaPrincipal")]
+        //[Route("PortalPrincipal/PantallaPrincipal")]
         public async Task<ActionResult> PantallaPrincipal(ModeloNuevaCuentaEmpresarial nuevaCuentaEmpresarial)
         {
             if (ModelState.IsValid) 
@@ -53,7 +53,6 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
                     if (Estado.Succeeded)
                     {
                         await Login.SignInAsync(Usuario, isPersistent: false);
-                       
                         return RedirectToAction("VentanaPrincipal", "Usuario");
                     }
                     else
