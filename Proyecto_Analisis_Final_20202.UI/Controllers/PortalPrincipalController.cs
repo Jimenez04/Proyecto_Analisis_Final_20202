@@ -58,15 +58,15 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
                         Name = "Empleado"
                     };
                     //
+                    var resultado = await Roles.CreateAsync(Rol);
+                    var resultado2 = await Roles.CreateAsync(Rol2);
+                    //
                     var Estado = await gestionusuarios.CreateAsync(Usuario, contrasena);
                     await gestionusuarios.AddToRoleAsync(Usuario, "Administrador");
                     if (Estado.Succeeded)
                     {
                         await Login.SignInAsync(Usuario, isPersistent: false);
-                        //
-                       var resultado = await Roles.CreateAsync(Rol);
-                       var resultado2 = await Roles.CreateAsync(Rol2);
-                        //
+                       
                         return RedirectToAction("VentanaPrincipal", "Usuario");
                     }
                     else
