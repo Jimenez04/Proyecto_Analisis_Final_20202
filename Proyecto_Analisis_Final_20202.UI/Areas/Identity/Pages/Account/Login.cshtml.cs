@@ -21,6 +21,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+         private readonly IEmailSender _emailSender;
 
         public LoginModel(SignInManager<IdentityUser> signInManager,
             ILogger<LoginModel> logger,
@@ -86,6 +87,9 @@ namespace Proyecto_Analisis_Final_20202.UI.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                   //  var user = await _userManager.FindByNameAsync(Input.UserName);
+                  //  await _emailSender.SendEmailAsync(user.Email, "Inicio de sesión usuario " + user.UserName,
+                    //      "Usted inició sesión el día " + DateTime.Now.ToString("dd/MM/yyyy") + " a las " + DateTime.Now.ToString("HH:mm"));
                     _logger.LogInformation("User logged in.");
 
                     return RedirectToAction("VentanaPrincipal", "Usuario");

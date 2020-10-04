@@ -9,7 +9,7 @@ using Proyecto_Analisis_Final_20202.Models;
 
 namespace Proyecto_Analisis_Final_20202.UI.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Administrador, Empleado")]
     public class UsuarioController : Controller
     {
         public IActionResult VentanaPrincipal()

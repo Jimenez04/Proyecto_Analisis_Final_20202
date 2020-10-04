@@ -1,17 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Proyecto_Analisis_Final_20202.UI.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Proyecto_Analisis_Final_20202.UI.Services;
+using Proyecto_Analisis_Final_20202.DA;
+using Proyecto_Analisis_Final_20202.BL;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace Proyecto_Analisis_Final_20202.UI
 {
@@ -30,13 +30,36 @@ namespace Proyecto_Analisis_Final_20202.UI
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDbContext<ContextoBaseDeDatos>(options =>
+           options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped<IRepositorioFacturacion, RepositorioFacturacion>();
+
             services.AddDefaultIdentity<IdentityUser>(options => {
+                options.SignIn.RequireConfirmedAccount = false;
                 options.SignIn.RequireConfirmedAccount = false;
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
-            })
+            }).AddRoles<IdentityRole>()
                   .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddMvc(options =>
+            {
+                var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                options.Filters.Add(new AuthorizeFilter(policy));
+            }).AddXmlDataContractSerializerFormatters();
+
+            services.AddTransient<IEmailSender, EmailSender>(i =>
+            new EmailSender(
+            Configuration["EmailSender:Host"],
+            Configuration.GetValue<int>("EmailSender:Port"),
+            Configuration.GetValue<bool>("EmailSender:EnableSSL"),
+            Configuration["EmailSender:UserName"],
+            Configuration["EmailSender:Password"]));
+
+           
+
             services.AddControllersWithViews();
             services.AddRazorPages();
         }

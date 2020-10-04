@@ -1,4 +1,5 @@
-﻿
+﻿@model Proyecto_Analisis_Final_20202.Models.ModeloNuevaCuentaEmpresarial
+
 @{
     ViewData["Title"] = "PantallaPrincipal";
 }
@@ -9,28 +10,46 @@
 <div class="row">
 
     <div class="col">
-
         <h1 style=" font-family:'Radley'">Nuestra Visión</h1>
         <h4 style=" font-family:'Radley'">Ser Lo Mejor En El Servicio Al Cliente</h4>
         <img src="~/Copia.png" id="FotosServicioalCliente" />
+
     </div>
 
-    <cente class="col-4" id="VentanaAuxiliar">
-        <center style=" font-family:'Radley'"> <h2>Información de la Empresa</h2></center> <br>
+    <cente class="col-4" id="VentanaRegistrar">
+        <center><h2>Registrar</h2></center>
+
+        <form asp-action="PantallaPrincipal">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input asp-for="Cedula" class="form-control" placeholder="Cédula Jurídica" style="text-align:center" />
+                <span asp-validation-for="Cedula" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="NombreCompleto" class="form-control" placeholder="Nombre Completo" style="text-align:center" />
+                <span asp-validation-for="NombreCompleto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="NombreOrganizacion" class="form-control" placeholder="Nombre Organización" style="text-align:center" />
+                <span asp-validation-for="NombreOrganizacion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="NumeroTelefonico" class="form-control" placeholder="Teléfono" style="text-align:center" />
+                <span asp-validation-for="NumeroTelefonico" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="CorreoElectronico" class="form-control" placeholder="Correo Electrónico" style="text-align:center" />
+                <span asp-validation-for="CorreoElectronico" class="text-danger"></span>
+            </div>
+            <center>
+                <div class="form-group align-items-center">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </center>
 
 
-        <h6 style="font-family: 'Radley'; font-size:15px  "> Cedula Jurídica: 3-102-129731 </h6><br>
-
-        <h6 style="font-family: 'Radley'; font-size:15px  "> Nombre de la Empresa: TecSon SA </h6><br>
-
-        <h6 style=" font-family: 'Radley';  font-size: 15px"> Número Telefónico: 2654 0123 - 2654 0018 </h6> <br>
-
-        <h6 style=" font-family: 'Radley'; font-size: 15px "> Correo Electrónico: facturacionjjyf@gmail.com</h6> <br>
-
-        <h6 style=" font-family: 'Radley'; font-size: 15px "> Razón Social: Resolver problemas sin solución de forma innovadora en su equipo de hardware y software; además de brindar equipo de calidad, manteniendo la calidad - precio.</h6> <br>
-        <br />
-
+        </form>
 </div>
 
-
+</div>
 

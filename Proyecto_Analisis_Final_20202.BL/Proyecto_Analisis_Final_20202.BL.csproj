@@ -1,7 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Proyecto_Analisis_Final_20202.DA\Proyecto_Analisis_Final_20202.DA.csproj" />
+    <ProjectReference Include="..\Proyecto_Analisis_Final_20202.Models\Proyecto_Analisis_Final_20202.Models.csproj" />
+  </ItemGroup>
 
 </Project>

@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Proyecto_Analisis_Final_20202.BL\Proyecto_Analisis_Final_20202.BL.csproj" />
     <ProjectReference Include="..\Proyecto_Analisis_Final_20202.Models\Proyecto_Analisis_Final_20202.Models.csproj" />
   </ItemGroup>
 
