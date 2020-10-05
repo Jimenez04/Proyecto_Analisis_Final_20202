@@ -22,7 +22,8 @@ namespace Proyecto_Analisis_Final_20202.DA
 
             public DbSet<Sexo> Sexo { get; set; }
 
-            public ContextoBaseDeDatos(DbContextOptions<ContextoBaseDeDatos> opciones) : base(opciones)
+        public DbSet<Inventario> Inventario { get; set; }
+        public ContextoBaseDeDatos(DbContextOptions<ContextoBaseDeDatos> opciones) : base(opciones)
             {
 
             }

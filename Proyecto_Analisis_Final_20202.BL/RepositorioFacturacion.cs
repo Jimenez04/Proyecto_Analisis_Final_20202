@@ -110,5 +110,27 @@ namespace Proyecto_Analisis_Final_20202.BL
             }
             return contraseniaAleatoria;
         }
+
+        //Metodos para el inventario
+        public List<Inventario> ListaInventario()
+        {
+            List<Inventario> laListaDeInventario;
+            laListaDeInventario = ElContextoDeBaseDeDatos.Inventario.ToList();
+            return laListaDeInventario;
+        }
+
+        public Inventario ObternerPorCodigo(int codigo)
+        {
+            Inventario producto;
+            producto = ElContextoDeBaseDeDatos.Inventario.Find(codigo);
+            return producto;
+        }
+
+        public void AgregarInventario(Inventario inventario)
+        {
+            ElContextoDeBaseDeDatos.Inventario.Add(inventario);
+            ElContextoDeBaseDeDatos.SaveChanges();
+        }
+
     }
 }

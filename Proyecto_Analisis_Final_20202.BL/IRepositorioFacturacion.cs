@@ -19,5 +19,14 @@ namespace Proyecto_Analisis_Final_20202.BL
         public String GeneradorDeContrasena();
 
         public Boolean CreacionDeCuentaEmpresarial(ModeloNuevaCuentaEmpresarial nuevaCuentaEmpresarial);
+
+        //Metodos para Administrador
+
+        public List<Inventario> ListaInventario();
+
+        public Inventario  ObternerPorCodigo(int codigo);
+
+        public void AgregarInventario(Inventario inventario);
+
     }
 }
