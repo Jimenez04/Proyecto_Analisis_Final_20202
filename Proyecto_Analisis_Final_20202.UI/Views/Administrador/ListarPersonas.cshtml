@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Proyecto_Analisis_Final_20202.Models.Persona>
+
+@{
+    ViewData["Title"] = "ListarPersonas";
+}
+
+<h1>ListarPersonas</h1>
+
+<p>
+    <a asp-action="AgregarPersona">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Cedula)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Apellido1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Apellido2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CorreoElectronico)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cedula)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Apellido1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Apellido2)
+            </td>
+           
+            <td>
+                @Html.DisplayFor(modelItem => item.CorreoElectronico)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

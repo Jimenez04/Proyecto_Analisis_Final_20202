@@ -15,12 +15,20 @@
 
 
 
-            <li class="nav navbar-nav navbar-left" >
-                <a title="Inventario" href='/Identity/Account/Register' >
+            <li class="nav navbar-nav navbar-left">
+                <a title="Inventario" href='/Identity/Account/Register'>
                     <img src="~/Clientes.png" width="70" height="60" alt="Inventario" />
                 </a>
             </li>
-            
+
+
+
+            <li class="nav navbar-nav navbar-left">
+                <a title="Personas" href='/Administrador/ListarPersonas'>
+                    <img src="~/Inventario.png" width="70" height="60" alt="Clientes" />
+                </a>
+            </li>
+
         }
         else if (@User.IsInRole("Empleado"))
         {

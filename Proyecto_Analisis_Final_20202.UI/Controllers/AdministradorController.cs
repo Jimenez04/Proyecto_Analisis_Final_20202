@@ -35,6 +35,13 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
             return View(LaLista);
         }
 
+        public ActionResult ListarPersonas()
+        {
+            List<Persona> LaLista;
+            LaLista = RepositorioFacturacion.ListarPersonas();
+            return View(LaLista);
+        }
+
         // GET: AdministradorController/Create
         public ActionResult AgregarInventario()
         {
@@ -63,6 +70,40 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
                 return View();
             }
         }
+
+        public ActionResult AgregarPersona()
+        {
+            return View();
+        }
+
+        // POST: AdministradorController/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AgregarPersona(Persona persona)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    RepositorioFacturacion.AgregarPersonas(persona);
+                    return RedirectToAction(nameof(ListarPersonas));
+                }
+                else
+                {
+                    return View();
+                }
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+
+
+
+
+
 
         // GET: AdministradorController/Edit/5
         public ActionResult Edit(int id)

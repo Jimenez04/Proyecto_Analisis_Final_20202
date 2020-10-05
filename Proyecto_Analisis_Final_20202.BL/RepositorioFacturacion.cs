@@ -137,5 +137,18 @@ namespace Proyecto_Analisis_Final_20202.BL
             ElContextoDeBaseDeDatos.Inventario.Update(producto);
             ElContextoDeBaseDeDatos.SaveChanges();
         }
+
+        public List<Persona> ListarPersonas()
+        {
+            List<Persona> laListaDePersonas;
+            laListaDePersonas = ElContextoDeBaseDeDatos.Persona.ToList();
+            return laListaDePersonas;
+        }
+
+        public void AgregarPersonas(Persona persona)
+        {
+            ElContextoDeBaseDeDatos.Persona.Add(persona);
+            ElContextoDeBaseDeDatos.SaveChanges();
+        }
     }
 }

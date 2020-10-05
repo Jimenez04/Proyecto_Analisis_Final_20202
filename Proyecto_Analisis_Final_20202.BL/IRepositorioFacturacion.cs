@@ -32,5 +32,9 @@ namespace Proyecto_Analisis_Final_20202.BL
 
         public void AgregarInventario(Inventario inventario);
 
+        public List<Persona> ListarPersonas();
+
+        public void AgregarPersonas(Persona persona);
+
     }
 }
