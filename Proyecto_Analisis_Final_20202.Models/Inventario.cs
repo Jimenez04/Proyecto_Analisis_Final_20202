@@ -12,7 +12,7 @@ namespace Proyecto_Analisis_Final_20202.Models
         //[Required(ErrorMessage = "El codigo de producto es requerido")]
        // [DisplayName("Código de Producto ")]
        // [MaxLength(25, ErrorMessage = "El tamaño máximo del codigo de producto es de 25 caracteres")]
-        public String Codigo_Producto { get; set; }
+        public String Codigo_Prodcuto { get; set; }
 
         [Required(ErrorMessage = "La nombre del producto es requerido")]
         [DisplayName("Nombre del producto")]
@@ -22,12 +22,12 @@ namespace Proyecto_Analisis_Final_20202.Models
 
         [Required(ErrorMessage = "El precio de venta es requerido")]
         [DisplayName("Precio de venta")]
-        public float Precio_Venta { get; set; }
+        public Double Precio_Venta { get; set; }
 
 
         [Required(ErrorMessage = "El precio de compra es requerido")]
         [DisplayName("Precio de compra")]
-        public float Precio_Compra { get; set; }
+        public Double Precio_Compra { get; set; }
 
 
         [Required(ErrorMessage = "La descripción es requerida")]

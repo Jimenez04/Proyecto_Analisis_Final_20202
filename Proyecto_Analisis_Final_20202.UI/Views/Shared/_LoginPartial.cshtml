@@ -6,30 +6,36 @@
     @if (SignInManager.IsSignedIn(User))
     {
         @if (@User.IsInRole("Administrador"))
-            {
-                <li class="nav navbar-nav navbar-left" id="AlinearInventario">
-                    <a title="Inventario" href='/Usuario/VentanaPrincipal'>
-                        <img src="~/Inventario.png" width="70" height="60" alt="Inventario" />
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a style="color: white; font-family:Calibri; margin-left: 10px; font-size: 20px; font-weight:normal" href='/Identity/Account/Register' class="btn btn-success"> Registrarse</a>
-                </li>
+        {
+            <li class="nav navbar-nav navbar-left" id="AlinearInventario">
+                <a title="Inventario" href='/Administrador/ListarInventario'>
+                    <img src="~/Inventario.png" width="70" height="60" alt="Inventario" />
+                </a>
+            </li>
+
+
+
+            <li class="nav navbar-nav navbar-left" >
+                <a title="Inventario" href='/Identity/Account/Register' >
+                    <img src="~/Clientes.png" width="70" height="60" alt="Inventario" />
+                </a>
+            </li>
+            
         }
         else if (@User.IsInRole("Empleado"))
         {
-                <li class="nav navbar-nav navbar-left" id="AlinearFactura">
-                    <a title="Factura" href='/Usuario/VentanaPrincipal'>
-                        <img src="~/Factura.png" width="70" height="60" alt="Factura" />
-                    </a>
-                </li>
-                <li class="nav navbar-nav navbar-left" id="AlinearClientes">
-                    <a title="Clientes" href='/Usuario/VentanaPrincipal'>
-                        <img src="~/Clientes.png" width="70" height="60" alt="Clientes" />
-                    </a>
-                </li>
-            }
-        
+            <li class="nav navbar-nav navbar-left" id="AlinearFactura">
+                <a title="Factura" href='/Usuario/VentanaPrincipal'>
+                    <img src="~/Factura.png" width="70" height="60" alt="Factura" />
+                </a>
+            </li>
+            <li class="nav navbar-nav navbar-left" id="AlinearClientes">
+                <a title="Clientes" href='/Usuario/VentanaPrincipal'>
+                    <img src="~/Clientes.png" width="70" height="60" alt="Clientes" />
+                </a>
+            </li>
+        }
+
         <li class="nav-item">
             <a style="color: black; font-family:'Radley'; margin-left: 10px; font-size: 20px; font-weight:bold" class="nav-link " asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"> Cuenta @User.Identity.Name</a>
         </li>

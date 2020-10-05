@@ -132,5 +132,10 @@ namespace Proyecto_Analisis_Final_20202.BL
             ElContextoDeBaseDeDatos.SaveChanges();
         }
 
+        public void EditarProducto(Inventario producto)
+        {
+            ElContextoDeBaseDeDatos.Inventario.Update(producto);
+            ElContextoDeBaseDeDatos.SaveChanges();
+        }
     }
 }
