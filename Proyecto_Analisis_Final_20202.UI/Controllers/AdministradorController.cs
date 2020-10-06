@@ -37,6 +37,13 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
             return View(LaLista);
         }
 
+        public ActionResult ListarEmpresa()
+        {
+            List<Empresa> LaLista;
+            LaLista = RepositorioFacturacion.ListarEmpresa();
+            return View(LaLista);
+        }
+
         public ActionResult ListarPersonas()
         {
             List<Persona> LaLista;
@@ -210,6 +217,43 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
 
             return View();
         }
+
+        public ActionResult EditarEmpresa(String Cedula_Juridica)
+        {
+
+
+            Empresa empresa = RepositorioFacturacion.ObtenerEmpresa(Cedula_Juridica);
+            return View(empresa);
+        }
+
+        // POST: AdministradorController/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditarEmpresa(Empresa empresa)
+        {
+
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    RepositorioFacturacion.EditarEmpresa(empresa);
+                    return RedirectToAction(nameof(ListarEmpresa));
+                }
+                else
+                {
+                    return View();
+                }
+            }
+            catch
+            {
+
+                return View();
+            }
+
+            return View();
+        }
+
 
 
 

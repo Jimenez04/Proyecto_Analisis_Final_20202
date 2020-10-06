@@ -36,6 +36,12 @@ namespace Proyecto_Analisis_Final_20202.BL
 
         public Boolean PersonaExiste(Persona persona);
 
+        public List<Empresa> ListarEmpresa();
+
+        public Empresa ObtenerEmpresa(String Cedula_Juridica);
+
+        public void EditarEmpresa(Empresa empresa);
+
 
         public Boolean ProductoExiste(Inventario producto);
 
