@@ -207,6 +207,8 @@ namespace Proyecto_Analisis_Final_20202.BL
         {
             Persona persona;
             persona = ElContextoDeBaseDeDatos.Persona.Find(Cedula);
+            persona.CorreoElectronico = ElContextoDeBaseDeDatos.Correo_Electronico.Find(Cedula).Correo;
+            persona.NumeroTelefonico = ElContextoDeBaseDeDatos.Telefono.Find(Cedula).Numero;
             return persona;
         }
 
