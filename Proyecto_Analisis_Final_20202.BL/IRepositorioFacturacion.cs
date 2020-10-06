@@ -30,6 +30,9 @@ namespace Proyecto_Analisis_Final_20202.BL
 
         public void EditarProducto(Inventario producto);
 
+        public Boolean PersonaExiste(Persona persona);
+        public Boolean ProductoExiste(Inventario producto);
+
         public void AgregarInventario(Inventario inventario);
 
         public List<Persona> ListarPersonas();

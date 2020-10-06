@@ -6,20 +6,21 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Proyecto_Analisis_Final_20202.BL;
 using Proyecto_Analisis_Final_20202.Models;
 
 namespace Proyecto_Analisis_Final_20202.UI.Controllers
 {
-    [Authorize] 
+    [Authorize]
 
     public class AdministradorController : Controller
     {
         private readonly IRepositorioFacturacion RepositorioFacturacion;
 
-       public AdministradorController(IRepositorioFacturacion repositorio)
+        public AdministradorController(IRepositorioFacturacion repositorio)
         {
-            RepositorioFacturacion = repositorio;          
+            RepositorioFacturacion = repositorio;
         }
 
 
@@ -58,8 +59,18 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    RepositorioFacturacion.AgregarInventario(inventario);
-                    return RedirectToAction(nameof(ListarInventario));
+                    if (!RepositorioFacturacion.ProductoExiste(inventario))
+                    {
+                        RepositorioFacturacion.AgregarInventario(inventario);
+                        return RedirectToAction(nameof(ListarInventario));
+
+                    }
+                    else {
+                        
+                        ModelState.AddModelError("Codigo_Prodcuto", "El código de producto ingresado ya  existe en nuestro sistema");
+
+                        return View();
+                    }
                 }
                 else
                 {
@@ -94,8 +105,17 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    RepositorioFacturacion.AgregarPersonas(persona);
-                    return RedirectToAction(nameof(ListarPersonas));
+                    if (!RepositorioFacturacion.PersonaExiste(persona))
+                    {
+                        RepositorioFacturacion.AgregarPersonas(persona);
+                        return RedirectToAction(nameof(ListarPersonas));
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Cedula", "La cédula ingresada ya  existe en nuestro sistema");
+
+                        return View();
+                    }
                 }
                 else
                 {
@@ -116,25 +136,5 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
 
 
         // GET: AdministradorController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: AdministradorController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-       
     }
 }

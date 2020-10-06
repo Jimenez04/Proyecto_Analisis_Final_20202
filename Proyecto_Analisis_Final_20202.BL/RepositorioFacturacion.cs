@@ -3,6 +3,7 @@ using Proyecto_Analisis_Final_20202.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Proyecto_Analisis_Final_20202.BL
 {
@@ -159,6 +160,40 @@ namespace Proyecto_Analisis_Final_20202.BL
             ElContextoDeBaseDeDatos.Telefono.Add(telefono);
             ElContextoDeBaseDeDatos.Correo_Electronico.Add(correopersona);
             ElContextoDeBaseDeDatos.SaveChanges();
+        }
+
+        public bool PersonaExiste(Persona persona)
+        {
+            
+            var existencia = ElContextoDeBaseDeDatos.Persona.Find(persona.Cedula);
+
+            if (existencia != null) {
+
+                return true;
+
+            } else
+            {
+                return false;
+
+            }                 
+        }
+
+        public bool ProductoExiste( Inventario producto)
+        {
+
+            var existencia = ElContextoDeBaseDeDatos.Inventario.Find(producto.Codigo_Prodcuto);
+
+            if (existencia != null)
+            {
+
+                return true;
+
+            }
+            else
+            {
+                return false;
+
+            }
         }
     }
 }
