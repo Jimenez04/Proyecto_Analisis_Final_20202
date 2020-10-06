@@ -10,11 +10,12 @@ namespace Proyecto_Analisis_Final_20202.Models
         [ForeignKey("Persona")]
         [Key]
         public String Cedula { get; set; }
-        [DisplayName("Número Telefónico")]
-        [Required(ErrorMessage = "El número telefónico es requerido")]
-        [MaxLength(9, ErrorMessage = "El tamaño máximo de la identificacion es de 25 digítos")]
-        [MinLength(9, ErrorMessage = "El tamaño mínimo de la identificacion es de 6 digítos")]
+        [DisplayName("Teléfono")]
+        [Required(ErrorMessage = "El teléfono es requerido")]
         [RegularExpression("(^[0-9]+$)", ErrorMessage = "Solo se permiten números")]
+        [MaxLength(50, ErrorMessage = "El tamaño máximo debe ser de: 12 caracteres")]
+        [MinLength(4, ErrorMessage = "El tamaño mínimo debe ser de: 8 caracteres")]
+        [Phone(ErrorMessage = "Verifique su número teléfonico")]
         public String Numero { get; set; }
     }
 }

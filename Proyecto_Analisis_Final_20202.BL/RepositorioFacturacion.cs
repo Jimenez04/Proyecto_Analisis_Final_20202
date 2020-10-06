@@ -147,25 +147,20 @@ namespace Proyecto_Analisis_Final_20202.BL
             laListaDePersonas = ElContextoDeBaseDeDatos.Persona.ToList();
             foreach (var item in laListaDePersonas)
             {
-                item.CorreoElectronico = ElContextoDeBaseDeDatos.Correo_Electronico.Find(item.Cedula).Correo;
+                item.Correo = ElContextoDeBaseDeDatos.Correo_Electronico.Find(item.Cedula);
             }
             return laListaDePersonas;
         }
 
         public void AgregarPersonas(Persona persona)
         {
-            Correo_Electronico correopersona = new Correo_Electronico();
-            Telefono telefono = new Models.Telefono();
-
-            telefono.Cedula = persona.Cedula;
-            correopersona.Cedula= persona.Cedula;
-            telefono.Numero = persona.NumeroTelefonico;
-            correopersona.Correo = persona.CorreoElectronico;
+            persona.telefono.Cedula = persona.Cedula;
+            persona.Correo.Cedula = persona.Cedula;
 
             ElContextoDeBaseDeDatos.Persona.Add(persona);
             ElContextoDeBaseDeDatos.SaveChanges();
-            ElContextoDeBaseDeDatos.Telefono.Add(telefono);
-            ElContextoDeBaseDeDatos.Correo_Electronico.Add(correopersona);
+            ElContextoDeBaseDeDatos.Telefono.Add(persona.telefono);
+            ElContextoDeBaseDeDatos.Correo_Electronico.Add(persona.Correo);
             ElContextoDeBaseDeDatos.SaveChanges();
         }
 
@@ -207,8 +202,8 @@ namespace Proyecto_Analisis_Final_20202.BL
         {
             Persona persona;
             persona = ElContextoDeBaseDeDatos.Persona.Find(Cedula);
-            persona.CorreoElectronico = ElContextoDeBaseDeDatos.Correo_Electronico.Find(Cedula).Correo;
-            persona.NumeroTelefonico = ElContextoDeBaseDeDatos.Telefono.Find(Cedula).Numero;
+            persona.Correo = ElContextoDeBaseDeDatos.Correo_Electronico.Find(Cedula);
+            persona.telefono = ElContextoDeBaseDeDatos.Telefono.Find(Cedula);
             return persona;
         }
 

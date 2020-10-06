@@ -31,7 +31,7 @@
                     @Html.DisplayNameFor(model => model.Apellido2)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.CorreoElectronico)
+                    @Html.DisplayNameFor(model => model.Correo.Correo)
                 </th>
                 <th></th>
             </tr>
@@ -57,7 +57,7 @@
                     </td>
 
                     <td>
-                        @Html.DisplayFor(modelItem => item.CorreoElectronico)
+                        @Html.DisplayFor(modelItem => item.Correo.Correo)
                     </td>
                     <td>
                         @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
