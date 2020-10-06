@@ -4,12 +4,18 @@
     ViewData["Title"] = "ListarInventario";
 }
 
-<h1>Listar Inventario</h1>
+<br />
+
+<h1 style=" font-family:'Radley' ">Listar Inventario</h1>
+
+<link href="~/css/FondoPantalla.css" rel="stylesheet" />
+<br />
 
 <p>
-    <a asp-action="AgregarInventario">Agregar</a>
+    <a asp-action="AgregarInventario" style=" font-family:'Radley' ">Agregar</a>
 </p>
-<table class="table">
+
+<table class="table" style=" font-family:'Radley' ">
     <thead>
         <tr>
             <th>
@@ -40,38 +46,39 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Codigo_Prodcuto)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Precio_Venta)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Precio_Compra)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descripcion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ID_Categoria)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cantidad_Disponible)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ID_Estado)
-            </td>
-            <td>
-                @Html.ActionLink("Editar", "EditarProducto", new { Codigo_Prodcuto = item.Codigo_Prodcuto}) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr style=" font-family:'Radley' ">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Codigo_Prodcuto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Precio_Venta)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Precio_Compra)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ID_Categoria)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cantidad_Disponible)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ID_Estado)
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "EditarProducto", new { Codigo_Prodcuto = item.Codigo_Prodcuto }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
