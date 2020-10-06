@@ -157,6 +157,7 @@ namespace Proyecto_Analisis_Final_20202.BL
             correopersona.Correo = persona.CorreoElectronico;
 
             ElContextoDeBaseDeDatos.Persona.Add(persona);
+            ElContextoDeBaseDeDatos.SaveChanges();
             ElContextoDeBaseDeDatos.Telefono.Add(telefono);
             ElContextoDeBaseDeDatos.Correo_Electronico.Add(correopersona);
             ElContextoDeBaseDeDatos.SaveChanges();
