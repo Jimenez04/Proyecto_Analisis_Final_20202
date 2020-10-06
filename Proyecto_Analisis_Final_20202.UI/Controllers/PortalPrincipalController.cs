@@ -31,6 +31,17 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
       [AllowAnonymous]
         public ActionResult PantallaPrincipal()
         {
+            if (User.Identity.IsAuthenticated && User.IsInRole("Administrador"))
+            {
+                Response.Redirect("/Administrador/ListarPersonas");
+            }
+            else if (User.Identity.IsAuthenticated && User.IsInRole("Administrador"))
+            {
+                Response.Redirect("/Usuarios/VentanaPrincipal");
+            } else
+            {
+                return View();
+            }
             return View();
         }
         [HttpPost]
