@@ -129,6 +129,8 @@ namespace Proyecto_Analisis_Final_20202.BL
 
         public void AgregarInventario(Inventario inventario)
         {
+            inventario.ID_Estado = 1;
+            inventario.ID_Categoria = 1;
             ElContextoDeBaseDeDatos.Inventario.Add(inventario);
             ElContextoDeBaseDeDatos.SaveChanges();
         }
