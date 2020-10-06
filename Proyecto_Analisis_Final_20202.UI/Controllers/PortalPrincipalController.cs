@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Proyecto_Analisis_Final_20202.BL;
 using Proyecto_Analisis_Final_20202.Models;
@@ -17,14 +18,16 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
         private readonly IRepositorioFacturacion RepositorioFacturacion;
         private readonly SignInManager<IdentityUser> Login;
         private readonly RoleManager<IdentityRole> Roles;
+        private readonly IEmailSender _emailSender;
 
         public PortalPrincipalController(UserManager<IdentityUser> userManager, IRepositorioFacturacion repositorio, 
-            SignInManager<IdentityUser> Log, RoleManager<IdentityRole> Rol)
+            SignInManager<IdentityUser> Log, RoleManager<IdentityRole> Rol, IEmailSender emailSender)
         {
             gestionusuarios = userManager;
             RepositorioFacturacion = repositorio;
             Roles = Rol;
             Login = Log;
+            _emailSender = emailSender;
         }
 
       //  [Route("PortalPrincipalController/PantallaPrincipal")]
@@ -64,6 +67,8 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
                     if (Estado.Succeeded)
                     {
                         await Login.SignInAsync(Usuario, isPersistent: false);
+                        await _emailSender.SendEmailAsync(Usuario.Email, "Creación de nuevo Usuario",
+                     "Usuario " + Usuario.UserName + ", contraseña temporal: " + contrasena + ", esta contraseña es su responsabilidad, cámbiela lo antes posible" );
                         return RedirectToAction("VentanaPrincipal", "Usuario");
                     }
                     else
