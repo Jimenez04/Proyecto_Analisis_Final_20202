@@ -8,6 +8,8 @@ namespace Proyecto_Analisis_Final_20202.BL
    public interface IRepositorioFacturacion
     {
         public Boolean VerificaciondeExistenciaEmpresa(string cedulaJudica);
+
+        public Empresa ObtenerEmpresa();
         public List<Sexo> ListadoDeSexos();
 
         public List<Provincia> ListadoDeProvincias();
@@ -35,6 +37,12 @@ namespace Proyecto_Analisis_Final_20202.BL
          public void EditarPersona(Persona persona);
 
         public Boolean PersonaExiste(Persona persona);
+
+        public List<Empresa> ListarEmpresa();
+
+        public Empresa ObtenerEmpresa(String Cedula_Juridica);
+
+        public void EditarEmpresa(Empresa empresa);
 
 
         public Boolean ProductoExiste(Inventario producto);

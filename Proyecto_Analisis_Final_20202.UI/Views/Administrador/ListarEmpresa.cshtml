@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Proyecto_Analisis_Final_20202.Models.Empresa>
+
+@{
+    ViewData["Title"] = "ListarEmpresa";
+}
+
+<h1>ListarEmpresa</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Cedula_Juridica)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Razon_Social)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ID_Provincia)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ID_Canton)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ID_Distrito)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Senas_Exactas)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Codigo_Postal)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cedula_Juridica)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Razon_Social)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ID_Provincia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ID_Canton)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ID_Distrito)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Senas_Exactas)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Codigo_Postal)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditarEmpresa", new { Cedula_Juridica = item.Cedula_Juridica}) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -212,5 +212,10 @@ namespace Proyecto_Analisis_Final_20202.BL
             ElContextoDeBaseDeDatos.Persona.Update(persona);
             ElContextoDeBaseDeDatos.SaveChanges();
         }
+
+        public Empresa ObtenerEmpresa() 
+        {
+            return ElContextoDeBaseDeDatos.Empresa.Find("1234567890");
+        }
     }
 }
