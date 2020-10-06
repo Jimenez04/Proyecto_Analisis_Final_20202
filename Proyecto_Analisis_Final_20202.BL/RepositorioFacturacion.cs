@@ -213,24 +213,9 @@ namespace Proyecto_Analisis_Final_20202.BL
             ElContextoDeBaseDeDatos.SaveChanges();
         }
 
-        public List<Empresa> ListarEmpresa()
+        public Empresa ObtenerEmpresa() 
         {
-            List<Empresa> laListaDeEmpresas;
-            laListaDeEmpresas = ElContextoDeBaseDeDatos.Empresa.ToList();
-            return laListaDeEmpresas;
-        }
-
-        public Empresa ObtenerEmpresa(string Cedula_Juridica)
-        {
-            Empresa  empresa;
-            empresa = ElContextoDeBaseDeDatos.Empresa.Find(Cedula_Juridica); 
-            return empresa;
-        }
-
-        public void EditarEmpresa(Empresa empresa)
-        {
-            ElContextoDeBaseDeDatos.Empresa.Update(empresa);
-            ElContextoDeBaseDeDatos.SaveChanges();
+            return ElContextoDeBaseDeDatos.Empresa.Find("1234567890");
         }
     }
 }

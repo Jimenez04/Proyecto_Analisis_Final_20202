@@ -54,20 +54,21 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
         {
             if (ModelState.IsValid) 
             {
-                if (!RepositorioFacturacion.VerificaciondeExistenciaEmpresa(nuevaCuentaEmpresarial.Cedula))
+                if (RepositorioFacturacion.VerificaciondeExistenciaEmpresa(nuevaCuentaEmpresarial.Cedula)) //Quitar esto
                 {
                     string contrasena = RepositorioFacturacion.GeneradorDeContrasena();
                     var Usuario = new IdentityUser
                     {
-                        UserName = nuevaCuentaEmpresarial.Cedula,
+                        UserName = nuevaCuentaEmpresarial.NombreCompleto,
                         Email = nuevaCuentaEmpresarial.CorreoElectronico,
+                        PhoneNumber = nuevaCuentaEmpresarial.NumeroTelefonico,
                     };
                     var Estado = await gestionusuarios.CreateAsync(Usuario, contrasena);
                     await gestionusuarios.AddToRoleAsync(Usuario, "Administrador");
                     if (Estado.Succeeded)
                     {
                         await Login.SignInAsync(Usuario, isPersistent: false);
-                        await _emailSender.SendEmailAsync(Usuario.Email, "Creación de nuevo Usuario",
+                        await _emailSender.SendEmailAsync(Usuario.Email, "Creación de nuevo usuario administrador",
                      "Usuario " + Usuario.UserName + ", contraseña temporal: " + contrasena + ", esta contraseña es su responsabilidad, cámbiela lo antes posible" );
                         return RedirectToAction("VentanaPrincipal", "Usuario");
                     }
@@ -78,7 +79,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
                 }
                 else 
                 {
-                    ModelState.AddModelError("Cedula", "La cédula ingresada ya  existe en nuestro sistema");
+                    ModelState.AddModelError("Cedula", "La empresa ingresada no  existe en nuestro sistema");
                 }
             }
             return View();
