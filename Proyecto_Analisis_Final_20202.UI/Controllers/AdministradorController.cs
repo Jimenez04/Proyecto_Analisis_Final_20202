@@ -155,6 +155,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
                 if (ModelState.IsValid)
                 {
                     RepositorioFacturacion.EditarProducto(producto);
+                    return RedirectToAction(nameof(ListarInventario));
 
                 }
                 else
@@ -195,7 +196,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
                 if (ModelState.IsValid)
                 {
                     RepositorioFacturacion.EditarPersona(persona);
-
+                    return RedirectToAction(nameof(ListarPersonas));
                 }
                 else
                 {

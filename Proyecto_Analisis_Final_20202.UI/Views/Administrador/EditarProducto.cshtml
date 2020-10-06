@@ -4,12 +4,14 @@
     ViewData["Title"] = "EditarProducto";
 }
 
-<h1>EditarProducto</h1>
+<link href="~/css/FondoPantalla.css" rel="stylesheet" />
+<br />
 
-<h4>Inventario</h4>
+<h1 style="text-align:center; font-family:'Franklin Gothic Medium'" >Editar Producto</h1>
+
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4" style=" font-family:'Radley' ">
         <form asp-action="EditarProducto">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -53,14 +55,14 @@
                 <span asp-validation-for="ID_Estado" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input  type="submit" value="Crear" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="ListarInventario">Volver</a>
 </div>
 
 @section Scripts {
