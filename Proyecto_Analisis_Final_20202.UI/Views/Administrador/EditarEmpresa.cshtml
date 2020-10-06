@@ -83,8 +83,14 @@
 
         <div class="row align-items-end">
             <div class="col-4">
+
             </div>
-            
+            <div class="col-4">
+                <label asp-for="Codigo_Postal" class="control-label"></label>
+                <input asp-for="Codigo_Postal" class="form-control" id="CodigoPostal" readonly />
+                <span asp-validation-for="Codigo_Postal" class="text-danger"></span>
+            </div>
+
             <div class="col-4">
             </div>
         </div>
@@ -100,11 +106,8 @@
 <script>
     var ListaProvincia = document.getElementById("Lista_Provincia");
     var ListaCanton = document.getElementById("Lista_Canton");
-    var ListaDistrito = document.getElementById("Lista_Distrito")
+    var ListaDistrito = document.getElementById("Lista_Distrito");
     var CodigoPostal = document.getElementById("CodigoPostal");
-    var ListaSexo = document.getElementById("Lista_Sexo");
-
-    ListaSexo.value;
 
     ListaProvincia.addEventListener("change", RecargarCanton)
     ListaCanton.addEventListener("change", RecargarDistrito)
@@ -196,9 +199,7 @@
 
 </script>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
