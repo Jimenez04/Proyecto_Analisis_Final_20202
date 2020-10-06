@@ -66,7 +66,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
 
                     }
                     else {
-                        
+
                         ModelState.AddModelError("Codigo_Prodcuto", "El código de producto ingresado ya  existe en nuestro sistema");
 
                         return View();
@@ -135,6 +135,37 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
 
 
 
-        // GET: AdministradorController/Edit/5
+        public ActionResult EditarProducto(String Codigo_Prodcuto)
+        {
+            Inventario producto = RepositorioFacturacion.ObternerPorCodigo(Codigo_Prodcuto);
+            return View(producto);
+        }
+
+        // POST: AdministradorController/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditarProducto(Inventario producto)
+        {
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    RepositorioFacturacion.EditarProducto(producto);
+
+                }
+                else
+                {
+                    return View();
+                }
+            }
+            catch
+            {
+
+                return View();
+            }
+
+            return View();
+        }
     }
 }

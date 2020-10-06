@@ -67,7 +67,7 @@
                 @Html.DisplayFor(modelItem => item.ID_Estado)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Editar", "EditarProducto", new { Codigo_Prodcuto = item.Codigo_Prodcuto}) |
                 @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
                 @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
             </td>

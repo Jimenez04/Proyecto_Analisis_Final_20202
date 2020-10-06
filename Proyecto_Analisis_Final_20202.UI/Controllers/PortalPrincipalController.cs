@@ -35,9 +35,9 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
             {
                 Response.Redirect("/Administrador/ListarPersonas");
             }
-            else if (User.Identity.IsAuthenticated && User.IsInRole("Administrador"))
+            else if (User.Identity.IsAuthenticated && User.IsInRole("Empleado"))
             {
-                Response.Redirect("/Usuarios/VentanaPrincipal");
+                Response.Redirect("/Usuario/VentanaPrincipal");
             } else
             {
                 return View();

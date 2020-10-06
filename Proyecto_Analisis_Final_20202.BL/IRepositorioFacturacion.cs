@@ -26,7 +26,7 @@ namespace Proyecto_Analisis_Final_20202.BL
 
         public List<Inventario> ListaInventario();
 
-        public Inventario  ObternerPorCodigo(int codigo);
+        public Inventario  ObternerPorCodigo(String codigo);
 
         public void EditarProducto(Inventario producto);
 
