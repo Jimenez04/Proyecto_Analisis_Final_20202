@@ -145,6 +145,10 @@ namespace Proyecto_Analisis_Final_20202.BL
         {
             List<Persona> laListaDePersonas;
             laListaDePersonas = ElContextoDeBaseDeDatos.Persona.ToList();
+            foreach (var item in laListaDePersonas)
+            {
+                item.CorreoElectronico = ElContextoDeBaseDeDatos.Correo_Electronico.Find(item.Cedula).Correo;
+            }
             return laListaDePersonas;
         }
 
