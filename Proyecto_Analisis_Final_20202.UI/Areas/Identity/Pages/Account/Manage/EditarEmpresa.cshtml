@@ -1,0 +1,68 @@
+﻿@model Proyecto_Analisis_Final_20202.Models.Empresa
+
+@{
+    ViewData["Title"] = "EditarEmpresa";
+}
+
+<h1>EditarEmpresa</h1>
+
+<h4>Empresa</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditarEmpresa">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Cedula_Juridica" class="control-label"></label>
+                <input asp-for="Cedula_Juridica" class="form-control" />
+                <span asp-validation-for="Cedula_Juridica" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Razon_Social" class="control-label"></label>
+                <input asp-for="Razon_Social" class="form-control" />
+                <span asp-validation-for="Razon_Social" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ID_Provincia" class="control-label"></label>
+                <input asp-for="ID_Provincia" class="form-control" />
+                <span asp-validation-for="ID_Provincia" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ID_Canton" class="control-label"></label>
+                <input asp-for="ID_Canton" class="form-control" />
+                <span asp-validation-for="ID_Canton" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ID_Distrito" class="control-label"></label>
+                <input asp-for="ID_Distrito" class="form-control" />
+                <span asp-validation-for="ID_Distrito" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Senas_Exactas" class="control-label"></label>
+                <input asp-for="Senas_Exactas" class="form-control" />
+                <span asp-validation-for="Senas_Exactas" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Codigo_Postal" class="control-label"></label>
+                <input asp-for="Codigo_Postal" class="form-control" />
+                <span asp-validation-for="Codigo_Postal" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

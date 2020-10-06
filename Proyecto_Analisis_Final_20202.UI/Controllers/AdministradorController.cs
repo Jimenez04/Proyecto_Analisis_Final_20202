@@ -212,6 +212,17 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
         }
 
 
+        public ActionResult EditarMachado()
+        {
+            ViewBag.Pais = new SelectList(RepositorioFacturacion.ListadoDeProvincias(), "ID_Provincia", "Nombre_Provincia");
+            ViewBag.Cantones = new SelectList(RepositorioFacturacion.ListadoDeCantones(0), "ID_Canton", "ID_Provincia", "Nombre_Canton");
+            ViewBag.Distritos = new SelectList(RepositorioFacturacion.ListadoDeDistritos(0, 0), "ID_Distrito", "ID_Canton", "ID_Provincia", "Nombre");
+            ViewBag.Sexo = new SelectList(RepositorioFacturacion.ListadoDeSexos(), "ID_Sexo", "Nombre_Sexo");
+            Empresa empresa = RepositorioFacturacion.ObtenerEmpresa();
+            return View(empresa);
+        }
+
+       
 
     }
 }
