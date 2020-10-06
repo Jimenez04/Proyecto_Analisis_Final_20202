@@ -198,5 +198,18 @@ namespace Proyecto_Analisis_Final_20202.BL
 
             }
         }
+
+        public Persona ObtenerPersonaPorCedula(String Cedula)
+        {
+            Persona persona;
+            persona = ElContextoDeBaseDeDatos.Persona.Find(Cedula);
+            return persona;
+        }
+
+        public void EditarPersona(Persona persona)
+        {
+            ElContextoDeBaseDeDatos.Persona.Update(persona);
+            ElContextoDeBaseDeDatos.SaveChanges();
+        }
     }
 }

@@ -137,6 +137,8 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
 
         public ActionResult EditarProducto(String Codigo_Prodcuto)
         {
+     
+
             Inventario producto = RepositorioFacturacion.ObternerPorCodigo(Codigo_Prodcuto);
             return View(producto);
         }
@@ -146,6 +148,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditarProducto(Inventario producto)
         {
+            
 
             try
             {
@@ -167,5 +170,48 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
 
             return View();
         }
+
+        public ActionResult EditarPersona(String Cedula)
+        {
+            ViewBag.Pais = new SelectList(RepositorioFacturacion.ListadoDeProvincias(), "ID_Provincia", "Nombre_Provincia");
+            ViewBag.Cantones = new SelectList(RepositorioFacturacion.ListadoDeCantones(0), "ID_Canton", "ID_Provincia", "Nombre_Canton");
+            ViewBag.Distritos = new SelectList(RepositorioFacturacion.ListadoDeDistritos(0, 0), "ID_Distrito", "ID_Canton", "ID_Provincia", "Nombre");
+            ViewBag.Sexo = new SelectList(RepositorioFacturacion.ListadoDeSexos(), "ID_Sexo", "Nombre_Sexo");
+            Persona persona = RepositorioFacturacion.ObtenerPersonaPorCedula(Cedula);
+            return View(persona);
+        }
+
+        // POST: AdministradorController/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditarPersona(Persona persona)
+        {
+            ViewBag.Pais = new SelectList(RepositorioFacturacion.ListadoDeProvincias(), "ID_Provincia", "Nombre_Provincia");
+            ViewBag.Cantones = new SelectList(RepositorioFacturacion.ListadoDeCantones(0), "ID_Canton", "ID_Provincia", "Nombre_Canton");
+            ViewBag.Distritos = new SelectList(RepositorioFacturacion.ListadoDeDistritos(0, 0), "ID_Distrito", "ID_Canton", "ID_Provincia", "Nombre");
+            ViewBag.Sexo = new SelectList(RepositorioFacturacion.ListadoDeSexos(), "ID_Sexo", "Nombre_Sexo");
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    RepositorioFacturacion.EditarPersona(persona);
+
+                }
+                else
+                {
+                    return View();
+                }
+            }
+            catch
+            {
+
+                return View();
+            }
+
+            return View();
+        }
+
+
+
     }
 }

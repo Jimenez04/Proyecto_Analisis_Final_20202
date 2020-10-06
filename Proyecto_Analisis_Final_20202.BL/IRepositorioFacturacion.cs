@@ -26,11 +26,17 @@ namespace Proyecto_Analisis_Final_20202.BL
 
         public List<Inventario> ListaInventario();
 
-        public Inventario  ObternerPorCodigo(String codigo);
+        public Inventario ObternerPorCodigo(String codigo);
+
+        public Persona ObtenerPersonaPorCedula(String Cedula);
 
         public void EditarProducto(Inventario producto);
 
+         public void EditarPersona(Persona persona);
+
         public Boolean PersonaExiste(Persona persona);
+
+
         public Boolean ProductoExiste(Inventario producto);
 
         public void AgregarInventario(Inventario inventario);
