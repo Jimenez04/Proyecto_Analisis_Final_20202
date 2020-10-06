@@ -1,12 +1,15 @@
 ﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Proyecto_Analisis_Final_20202.Models
 {
-    class Telefono
+    public class Telefono
     {
-        public String Cedula_CedulaJuridica { get; set; }
+        [ForeignKey("Persona")]
+        [Key]
+        public String Cedula { get; set; }
         [DisplayName("Número Telefónico")]
         [Required(ErrorMessage = "El número telefónico es requerido")]
         [MaxLength(9, ErrorMessage = "El tamaño máximo de la identificacion es de 25 digítos")]

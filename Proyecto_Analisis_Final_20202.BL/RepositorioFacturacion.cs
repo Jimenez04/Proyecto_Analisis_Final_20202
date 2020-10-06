@@ -147,7 +147,17 @@ namespace Proyecto_Analisis_Final_20202.BL
 
         public void AgregarPersonas(Persona persona)
         {
+            Correo_Electronico correopersona = new Correo_Electronico();
+            Telefono telefono = new Models.Telefono();
+
+            telefono.Cedula = persona.Cedula;
+            correopersona.Cedula= persona.Cedula;
+            telefono.Numero = persona.NumeroTelefonico;
+            correopersona.Correo = persona.CorreoElectronico;
+
             ElContextoDeBaseDeDatos.Persona.Add(persona);
+            ElContextoDeBaseDeDatos.Telefono.Add(telefono);
+            ElContextoDeBaseDeDatos.Correo_Electronico.Add(correopersona);
             ElContextoDeBaseDeDatos.SaveChanges();
         }
     }

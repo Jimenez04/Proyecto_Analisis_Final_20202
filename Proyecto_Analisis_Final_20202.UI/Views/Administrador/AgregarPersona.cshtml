@@ -4,85 +4,227 @@
     ViewData["Title"] = "AgregarPersona";
 }
 
-<h1>AgregarPersona</h1>
+<link href="~/css/FondoPantalla.css" rel="stylesheet" />
+<br/>
+<h1 style="text-align:center; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">Datos Cliente</h1>
 
-<h4>Persona</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="AgregarPersona">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Cedula" class="control-label"></label>
-                <input asp-for="Cedula" class="form-control" />
-                <span asp-validation-for="Cedula" class="text-danger"></span>
+<form asp-action="AgregarPersona">
+    <div class="container">
+        <div class="row align-items-start">
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="Cedula" class="control-label"></label>
+                    <input asp-for="Cedula" class="form-control" placeholder="123456789" autofocus />
+                    <span asp-validation-for="Cedula" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Nombre1" class="control-label"></label>
-                <input asp-for="Nombre1" class="form-control" />
-                <span asp-validation-for="Nombre1" class="text-danger"></span>
+            <div class="col">
+
             </div>
-            <div class="form-group">
-                <label asp-for="Nombre2" class="control-label"></label>
-                <input asp-for="Nombre2" class="form-control" />
-                <span asp-validation-for="Nombre2" class="text-danger"></span>
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="ID_Sexo" class="control-label"></label>
+                    @Html.DropDownList("ID_Sexo", (SelectList)ViewBag.Sexo, "Especifique", new { @class = "form-control", id = "Lista_Sexo" })
+                    <span asp-validation-for="ID_Sexo" class="text-danger"></span>
+
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Apellido1" class="control-label"></label>
-                <input asp-for="Apellido1" class="form-control" />
-                <span asp-validation-for="Apellido1" class="text-danger"></span>
+        </div>
+        <div class="row align-items-center">
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="Nombre1" class="control-label"></label>
+                    <input asp-for="Nombre1" class="form-control" />
+                    <span asp-validation-for="Nombre1" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Apellido2" class="control-label"></label>
-                <input asp-for="Apellido2" class="form-control" />
-                <span asp-validation-for="Apellido2" class="text-danger"></span>
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="Nombre2" class="control-label"></label>
+                    <input asp-for="Nombre2" class="form-control" />
+                    <span asp-validation-for="Nombre2" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="ID_Sexo" class="control-label"></label>
-                <input asp-for="ID_Sexo" class="form-control" />
-                <span asp-validation-for="ID_Sexo" class="text-danger"></span>
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="NumeroTelefonico" class="control-label"></label>
+                    <input asp-for="NumeroTelefonico" class="form-control" />
+                    <span asp-validation-for="NumeroTelefonico" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="ID_Provincia" class="control-label"></label>
-                <input asp-for="ID_Provincia" class="form-control" />
-                <span asp-validation-for="ID_Provincia" class="text-danger"></span>
+        </div>
+        <div class="row align-items-end">
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="Apellido1" class="control-label"></label>
+                    <input asp-for="Apellido1" class="form-control" />
+                    <span asp-validation-for="Apellido1" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="ID_Canton" class="control-label"></label>
-                <input asp-for="ID_Canton" class="form-control" />
-                <span asp-validation-for="ID_Canton" class="text-danger"></span>
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="Apellido2" class="control-label"></label>
+                    <input asp-for="Apellido2" class="form-control" />
+                    <span asp-validation-for="Apellido2" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="ID_Distrito" class="control-label"></label>
-                <input asp-for="ID_Distrito" class="form-control" />
-                <span asp-validation-for="ID_Distrito" class="text-danger"></span>
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="CorreoElectronico" class="control-label"></label>
+                    <input asp-for="CorreoElectronico" class="form-control" />
+                    <span asp-validation-for="CorreoElectronico" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="SenasExactas" class="control-label"></label>
-                <input asp-for="SenasExactas" class="form-control" />
-                <span asp-validation-for="SenasExactas" class="text-danger"></span>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="ID_Provincia" class="control-label"></label>
+                    @Html.DropDownList("ID_Provincia", (SelectList)ViewBag.Pais, "Seleccione", new { @class = "form-control", id = "Lista_Provincia" })
+                    <span asp-validation-for="ID_Provincia" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="ID_Canton" class="control-label"></label>
+                    @Html.DropDownList("ID_Canton", (SelectList)ViewBag.Cantones, new { @class = "form-control", id = "Lista_Canton" })
+                    <span asp-validation-for="ID_Canton" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label asp-for="ID_Distrito" class="control-label"></label>
+                    @Html.DropDownList("ID_Distrito", (SelectList)ViewBag.Distritos, new { @class = "form-control", id = "Lista_Distrito" })
+                    <span asp-validation-for="ID_Distrito" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="SenasExactas" class="control-label"></label>
+            <input asp-for="SenasExactas" class="form-control" />
+            <span asp-validation-for="SenasExactas" class="text-danger"></span>
+
+        </div>
+        <div class="row align-items-end">
+            <div class="col-4">
+            </div>
+            <div class="col-4">
                 <label asp-for="Codigo_Postal" class="control-label"></label>
-                <input asp-for="Codigo_Postal" class="form-control" />
+                <input asp-for="Codigo_Postal" class="form-control" id="CodigoPostal" readonly />
                 <span asp-validation-for="Codigo_Postal" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="NumeroTelefonico" class="control-label"></label>
-                <input asp-for="NumeroTelefonico" class="form-control" />
-                <span asp-validation-for="NumeroTelefonico" class="text-danger"></span>
+            <div class="col-4">
             </div>
-            <div class="form-group">
-                <label asp-for="CorreoElectronico" class="control-label"></label>
-                <input asp-for="CorreoElectronico" class="form-control" />
-                <span asp-validation-for="CorreoElectronico" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
+    <div style="text-align:center;" class="form-group">
+        <br />
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>
+
+
+
+<script>
+    var ListaProvincia = document.getElementById("Lista_Provincia");
+    var ListaCanton = document.getElementById("Lista_Canton");
+    var ListaDistrito = document.getElementById("Lista_Distrito")
+    var CodigoPostal = document.getElementById("CodigoPostal");
+    var ListaSexo = document.getElementById("Lista_Sexo");
+
+    ListaSexo.value;
+
+    ListaProvincia.addEventListener("change", RecargarCanton)
+    ListaCanton.addEventListener("change", RecargarDistrito)
+    ListaDistrito.addEventListener("change", RecargarCodigoPostal)
+
+    RecargarCanton();
+    RecargarDistrito();
+    RecargarCodigoPostal();
+
+    function RecargarCanton()
+    {
+        fetch("@Url.Content("~/Ubicacion/RecargarCanton")" + "?ID_Provincia=" + ListaProvincia.value)
+            .then(function (result)
+            {
+                if (result.ok)
+                {
+                    return result.json();
+                }
+            })
+            .then(function (NuevosCantones)
+            {
+                console.log(NuevosCantones);
+
+                ListaCanton.innerHTML = "";
+                CodigoPostal.innerHTML = "";
+                CodigoPostal.value = "";
+                NuevosCantones.forEach(function (element)
+                    {
+                    let opciones = document.createElement("option")
+                    opciones.appendChild(document.createTextNode(element.nombre_Canton));
+                    opciones.value = element.iD_Canton;
+                    ListaCanton.appendChild(opciones);
+                })
+                RecargarDistrito();
+                RecargarCodigoPostal();
+            })
+    }
+
+    function RecargarDistrito()
+    {
+        var Ubicacion = ListaCanton.value + "/" + ListaProvincia.value  ;
+        fetch("@Url.Content("~/Ubicacion/RecargarDistrito")" + "?Ubicacion=" + Ubicacion)
+            .then(function (result)
+            {
+                if (result.ok)
+                {
+                    return result.json();
+                }
+            })
+            .then(function (NuevosDistritos)
+            {
+                console.log(NuevosDistritos);
+                ListaDistrito.innerHTML = "";
+                CodigoPostal.innerHTML = "";
+                CodigoPostal.value = "";
+                NuevosDistritos.forEach(function (element)
+                    {
+                    let opciones = document.createElement("option")
+                    opciones.appendChild(document.createTextNode(element.nombre));
+                    opciones.value = element.iD_Distrito;
+                    ListaDistrito.appendChild(opciones);
+                })
+                RecargarCodigoPostal();
+            })
+    }
+    function RecargarCodigoPostal()
+    {
+        console.log(ListaCanton.value.length);
+        if (ListaProvincia.value != 0 && ListaCanton.value ==0 && ListaDistrito.value == 0 ) { CodigoPostal.value = ListaProvincia.value; }
+        else if (ListaProvincia.value != 0 && ListaCanton.value != 0 && ListaDistrito.value == 0)
+        {
+            if (ListaCanton.value.length == 2) {
+                CodigoPostal.value = ListaProvincia.value + ListaCanton.value;
+            } else {
+                CodigoPostal.value = ListaProvincia.value + "0" + ListaCanton.value;
+            }
+        }
+        else if (ListaProvincia.value != 0 && ListaCanton.value != 0 && ListaDistrito.value != 0)
+        {
+            if (ListaCanton.value.length != 2 && ListaDistrito.value.length != 2) {
+                CodigoPostal.value = ListaProvincia.value + "0" + ListaCanton.value + "0" + ListaDistrito.value;
+
+            } else {
+                CodigoPostal.value = ListaProvincia.value + ListaCanton.value + ListaDistrito.value;
+            }
+
+        }
+    }
+
+</script>
 
 <div>
     <a asp-action="Index">Back to List</a>

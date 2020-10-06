@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Proyecto_Analisis_Final_20202.BL;
 using Proyecto_Analisis_Final_20202.Models;
 
@@ -73,6 +74,10 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
 
         public ActionResult AgregarPersona()
         {
+            ViewBag.Pais = new SelectList(RepositorioFacturacion.ListadoDeProvincias(), "ID_Provincia", "Nombre_Provincia");
+            ViewBag.Cantones = new SelectList(RepositorioFacturacion.ListadoDeCantones(0), "ID_Canton", "ID_Provincia", "Nombre_Canton");
+            ViewBag.Distritos = new SelectList(RepositorioFacturacion.ListadoDeDistritos(0, 0), "ID_Distrito", "ID_Canton", "ID_Provincia", "Nombre");
+            ViewBag.Sexo = new SelectList(RepositorioFacturacion.ListadoDeSexos(), "ID_Sexo", "Nombre_Sexo");
             return View();
         }
 
@@ -81,6 +86,10 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AgregarPersona(Persona persona)
         {
+            ViewBag.Pais = new SelectList(RepositorioFacturacion.ListadoDeProvincias(), "ID_Provincia", "Nombre_Provincia");
+            ViewBag.Cantones = new SelectList(RepositorioFacturacion.ListadoDeCantones(0), "ID_Canton", "ID_Provincia", "Nombre_Canton");
+            ViewBag.Distritos = new SelectList(RepositorioFacturacion.ListadoDeDistritos(0, 0), "ID_Distrito", "ID_Canton", "ID_Provincia", "Nombre");
+            ViewBag.Sexo = new SelectList(RepositorioFacturacion.ListadoDeSexos(), "ID_Sexo", "Nombre_Sexo");
             try
             {
                 if (ModelState.IsValid)
@@ -95,6 +104,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
             }
             catch
             {
+
                 return View();
             }
         }

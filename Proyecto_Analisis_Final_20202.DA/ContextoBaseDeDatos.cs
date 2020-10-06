@@ -20,7 +20,12 @@ namespace Proyecto_Analisis_Final_20202.DA
 
             public DbSet<Provincia> Provincia { get; set; }
 
-            public DbSet<Sexo> Sexo { get; set; }
+        public DbSet<Telefono> Telefono { get; set; }
+
+        public DbSet<Correo_Electronico> Correo_Electronico { get; set; }
+
+
+        public DbSet<Sexo> Sexo { get; set; }
 
         public DbSet<Inventario> Inventario { get; set; }
         public ContextoBaseDeDatos(DbContextOptions<ContextoBaseDeDatos> opciones) : base(opciones)

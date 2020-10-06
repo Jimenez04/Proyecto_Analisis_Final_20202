@@ -2,15 +2,18 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Proyecto_Analisis_Final_20202.Models
 {
-    class Correo_Electronico
+    public class Correo_Electronico
     {
         // No se que hacer porque solo hay una para los 2
         [DisplayName("Cedula")]
-        public string Cedula_Cedula_Juridica { get; set; }
+        [ForeignKey("Persona")]
+        [Key]
+        public string Cedula { get; set; }
 
 
         [DisplayName ("Correo eslectrónico")] 
