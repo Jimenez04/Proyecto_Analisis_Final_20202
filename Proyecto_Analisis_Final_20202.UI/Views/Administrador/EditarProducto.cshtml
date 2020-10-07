@@ -15,11 +15,6 @@
         <form asp-action="EditarProducto">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Codigo_Prodcuto" class="control-label"></label>
-                <input asp-for="Codigo_Prodcuto" class="form-control" />
-                <span asp-validation-for="Codigo_Prodcuto" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Nombre" class="control-label"></label>
                 <input asp-for="Nombre" class="form-control" />
                 <span asp-validation-for="Nombre" class="text-danger"></span>
@@ -39,23 +34,15 @@
                 <input asp-for="Descripcion" class="form-control" />
                 <span asp-validation-for="Descripcion" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="ID_Categoria" class="control-label"></label>
-                <input asp-for="ID_Categoria" class="form-control" />
-                <span asp-validation-for="ID_Categoria" class="text-danger"></span>
-            </div>
+
             <div class="form-group">
                 <label asp-for="Cantidad_Disponible" class="control-label"></label>
                 <input asp-for="Cantidad_Disponible" class="form-control" />
                 <span asp-validation-for="Cantidad_Disponible" class="text-danger"></span>
             </div>
+         
             <div class="form-group">
-                <label asp-for="ID_Estado" class="control-label"></label>
-                <input asp-for="ID_Estado" class="form-control" />
-                <span asp-validation-for="ID_Estado" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input  type="submit" value="Crear" class="btn btn-primary" />
+                <input  type="submit" value="Actualizar" class="btn btn-primary" />
             </div>
         </form>
     </div>

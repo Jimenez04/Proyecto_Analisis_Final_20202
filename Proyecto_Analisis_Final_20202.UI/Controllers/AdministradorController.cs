@@ -216,8 +216,6 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
 
                 return View();
             }
-
-            return View();
         }
 
         public ActionResult EditarEmpresa()

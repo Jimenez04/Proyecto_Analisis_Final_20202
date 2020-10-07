@@ -11,7 +11,7 @@ namespace Proyecto_Analisis_Final_20202.Models
     { 
         [Key]
         //[Required(ErrorMessage = "El codigo de producto es requerido")]
-       // [DisplayName("Código de Producto ")]
+        [DisplayName("Código de Producto ")]
        // [MaxLength(25, ErrorMessage = "El tamaño máximo del codigo de producto es de 25 caracteres")]
         public String Codigo_Prodcuto { get; set; }
 
@@ -36,6 +36,7 @@ namespace Proyecto_Analisis_Final_20202.Models
         [MaxLength(25, ErrorMessage = "El tamaño máximo de la descripción es de 25 caracteres")]
         public String Descripcion { get; set; }
 
+        [DisplayName("Categoria")]
         public int ID_Categoria { get; set; }
 
 
@@ -43,6 +44,7 @@ namespace Proyecto_Analisis_Final_20202.Models
         public int Cantidad_Disponible { get; set; }
 
         [ForeignKey("Estado")]
+        [DisplayName("Estado")]
         public EstadoInventario ID_Estado { get; set; }
     }
 }
