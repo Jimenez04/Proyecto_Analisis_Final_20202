@@ -72,7 +72,8 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
                         return RedirectToAction(nameof(ListarInventario));
 
                     }
-                    else {
+                    else
+                    {
 
                         ModelState.AddModelError("Codigo_Prodcuto", "El código de producto ingresado ya  existe en nuestro sistema");
 
@@ -144,7 +145,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
 
         public ActionResult EditarProducto(String Codigo_Prodcuto)
         {
-     
+
 
             Inventario producto = RepositorioFacturacion.ObternerPorCodigo(Codigo_Prodcuto);
             return View(producto);
@@ -155,7 +156,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditarProducto(Inventario producto)
         {
-            
+
 
             try
             {
@@ -224,7 +225,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
             ViewBag.Pais = new SelectList(RepositorioFacturacion.ListadoDeProvincias(), "ID_Provincia", "Nombre_Provincia");
             ViewBag.Cantones = new SelectList(RepositorioFacturacion.ListadoDeCantones(0), "ID_Canton", "ID_Provincia", "Nombre_Canton");
             ViewBag.Distritos = new SelectList(RepositorioFacturacion.ListadoDeDistritos(0, 0), "ID_Distrito", "ID_Canton", "ID_Provincia", "Nombre");
-           
+
             Empresa empresa = RepositorioFacturacion.ObtenerEmpresa();
             return View(empresa);
         }
@@ -256,13 +257,29 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
                 return View();
             }
 
-            return View();
+           
+        }
+
+        // GET: AdministradorController/Create
+        public ActionResult EliminarProducto(string Codigo_Prodcuto)
+        {
+
+            try
+            {              
+                 
+                    RepositorioFacturacion.FueraServicio(Codigo_Prodcuto);
+                    return RedirectToAction(nameof(ListarInventario));
+                  
+            }
+            catch (Exception ex)
+
+            {
+
+                return RedirectToAction(nameof(ListarInventario));
+            }
         }
 
 
 
-       
-       
-
-    }
+    }    
 }

@@ -75,6 +75,7 @@
                 </td>
                 <td>
                     @Html.ActionLink("Editar", "EditarProducto", new { Codigo_Prodcuto = item.Codigo_Prodcuto })
+                    @Html.ActionLink("Eliminar", "EliminarProducto", new { Codigo_Prodcuto = item.Codigo_Prodcuto })
                 </td>
             </tr>
         }

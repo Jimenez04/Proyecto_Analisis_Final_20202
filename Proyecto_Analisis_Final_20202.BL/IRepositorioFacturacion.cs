@@ -30,6 +30,11 @@ namespace Proyecto_Analisis_Final_20202.BL
 
         public Inventario ObternerPorCodigo(String codigo);
 
+        //Para Inventario
+        public void SinExistencias(string codigo);
+
+        public void FueraServicio(string Codigo_Prodcuto);
+
         public Persona ObtenerPersonaPorCedula(String Cedula);
 
         public void EditarProducto(Inventario producto);

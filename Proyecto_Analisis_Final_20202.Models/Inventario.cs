@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Proyecto_Analisis_Final_20202.Models
@@ -41,6 +42,7 @@ namespace Proyecto_Analisis_Final_20202.Models
         [DisplayName("Cantidad Disponible")]
         public int Cantidad_Disponible { get; set; }
 
+        [ForeignKey("Estado")]
         public int ID_Estado { get; set; }
     }
 }
