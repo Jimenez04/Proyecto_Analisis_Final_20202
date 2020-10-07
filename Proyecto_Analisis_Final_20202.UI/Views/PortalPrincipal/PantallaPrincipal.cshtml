@@ -4,7 +4,7 @@
     ViewData["Title"] = "PantallaPrincipal";
 }
 
-<link href="~/css/FondoPantalla.css" rel="stylesheet" />
+<link href="~/css/Principal.css" rel="stylesheet" />
 
 <hr />
 <div class="row">
@@ -16,7 +16,7 @@
 
     </div>
 
-    <cente class="col-4" id="VentanaRegistrar">
+    <cente  style=" font-family:'Radley'" class="col-4" id="VentanaRegistrar">
         <center><h2>Registrar</h2></center>
 
         <form asp-action="PantallaPrincipal">
@@ -30,10 +30,6 @@
                 <span asp-validation-for="NombreCompleto" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input asp-for="NombreOrganizacion" class="form-control" placeholder="Nombre Organización" style="text-align:center" />
-                <span asp-validation-for="NombreOrganizacion" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <input asp-for="NumeroTelefonico" class="form-control" placeholder="Teléfono" style="text-align:center" />
                 <span asp-validation-for="NumeroTelefonico" class="text-danger"></span>
             </div>
@@ -43,7 +39,7 @@
             </div>
             <center>
                 <div class="form-group align-items-center">
-                    <input type="submit" value="Create" class="btn btn-primary" />
+                    <input type="submit" value="Crear" class="btn btn-primary" />
                 </div>
             </center>
 
@@ -51,5 +47,5 @@
         </form>
 </div>
 
-</div>
+
 

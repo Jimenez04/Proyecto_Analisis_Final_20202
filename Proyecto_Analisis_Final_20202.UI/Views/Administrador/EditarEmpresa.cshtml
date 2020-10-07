@@ -2,16 +2,18 @@
 
 @{
     ViewData["Title"] = "EditarEmpresa";
-  
+
 }
+
 
 <link href="~/css/FondoPantalla.css" rel="stylesheet" />
 <br/>
-<h1 style="text-align:center; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif">Datos de la Empresa</h1>
 
+<h1 style="text-align:center; font-family:'Radley'" >Datos de la Empresa</h1>
 <hr />
+
 <form asp-action="EditarEmpresa">
-    <div class="container">
+    <div class="container" style="text-align:center; font-family:'Radley'">
         <div class="row align-items-start">
             <div class="col">
                 <div class="form-group">
@@ -20,14 +22,6 @@
                     <span asp-validation-for="Cedula_Juridica" class="text-danger"></span>
                 </div>
             </div>
-            <div class="col">
-
-            </div>
-            <div class="col">
-                
-            </div>
-        </div>
-        <div class="row align-items-center">
             <div class="col">
                 <div class="form-group">
                     <label asp-for="Nombre" class="control-label"></label>
@@ -42,22 +36,8 @@
                     <span asp-validation-for="Razon_Social" class="text-danger"></span>
                 </div>
             </div>
-            <div class="col">
-                
-            </div>
         </div>
-        <div class="row align-items-end">
-            <div class="col">
-                
-            </div>
-            <div class="col">
-                
-            </div>
-            <div class="col">
-                
-            </div>
-        </div>
-        <div class="row">
+        <div class="row align-items-center">
             <div class="col">
                 <div class="form-group">
                     <label asp-for="ID_Provincia" class="control-label"></label>
@@ -80,6 +60,28 @@
                 </div>
             </div>
         </div>
+        <div class="row align-items-end">
+            <div class="col">
+
+            </div>
+            <div class="col">
+
+            </div>
+            <div class="col">
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+               
+            </div>
+            <div class="col">
+                
+            </div>
+            <div class="col">
+               
+            </div>
+        </div>
 
         <div class="row align-items-end">
             <div class="col-4">
@@ -95,9 +97,9 @@
             </div>
         </div>
     </div>
-    <div style="text-align:center;" class="form-group">
+    <div style="text-align:center ;  font-family:'Radley' " class="form-group">
         <br />
-        <input type="submit" value="Create" class="btn btn-primary" />
+        <input  type="submit" value=" Actualizar " class="btn btn-success" />
     </div>
 </form>
 

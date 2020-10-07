@@ -5,6 +5,7 @@
   
 }
 
+
 #VentanaRegistrar {
     width: 500px;
     height: 500px;
@@ -208,8 +209,18 @@
 #AlinearInventario {
     position: absolute;
     top: 10px;
-    left: 580px;
+    right: 750px;
 }
 
+#AlinearRegistrar {
+    position: absolute;
+    top: 10px;
+    right: 620px;
+}
 
+#AlinearPersonas {
+    position: absolute;
+    top: 10px;
+    right: 900px;
+}
 

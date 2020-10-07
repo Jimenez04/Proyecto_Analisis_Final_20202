@@ -88,12 +88,14 @@ namespace Proyecto_Analisis_Final_20202.UI.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
-                     var user = await _userManager.FindByNameAsync(Input.UserName);
+                    var user = await _userManager.FindByNameAsync(Input.UserName);
                     await _emailSender.SendEmailAsync(user.Email, "Inicio de sesión usuario " + user.UserName,
                    "Usted inició sesión el día " + DateTime.Now.ToString("dd/MM/yyyy") + " a las " + DateTime.Now.ToString("HH:mm"));
                     _logger.LogInformation("User logged in.");
 
-                    return RedirectToAction("VentanaPrincipal", "Usuario");
+                    return RedirectToAction("PantallaPrincipal", "PortalPrincipal");
+
+
                 }
                 if (result.RequiresTwoFactor)
                 {

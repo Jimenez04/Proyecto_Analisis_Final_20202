@@ -21,11 +21,7 @@ namespace Proyecto_Analisis_Final_20202.Models
         [MinLength(4, ErrorMessage = "El tamaño mínimo del nombre debe ser de: 4 caracteres")]
         public string NombreCompleto { get; set; }
 
-        [DisplayName("Nombre De La Organizacón")]
-        [Required(ErrorMessage = "Este campo es requerido")]
-        [MaxLength(25, ErrorMessage = "El tamaño máximo debe ser de 25 caracteres")]
-        [MinLength(4, ErrorMessage = "El tamaño mínimo debe ser de 4 caracteres")]
-        public string NombreOrganizacion { get; set; }
+        
 
         [DisplayName("Teléfono")]
         [Required(ErrorMessage = "El teléfono es requerido")]

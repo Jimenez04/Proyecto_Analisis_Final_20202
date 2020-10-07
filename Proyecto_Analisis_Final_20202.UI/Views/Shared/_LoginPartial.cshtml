@@ -15,15 +15,15 @@
 
 
 
-            <li class="nav navbar-nav navbar-left">
-                <a title="Inventario" href='/Identity/Account/Register'>
-                    <img src="~/Clientes.png" width="70" height="60" alt="Inventario" />
+            <li class="nav navbar-nav navbar-left" id="AlinearRegistrar">
+                <a title="Registrar Usuario" href='/Identity/Account/Register'>
+                    <img src="~/Clientes.png" width="70" height="60" alt="Registrar Usuario" />
                 </a>
             </li>
 
 
 
-            <li class="nav navbar-nav navbar-left">
+            <li class="nav navbar-nav navbar-left" id="AlinearPersona" >
                 <a title="Personas" href='/Administrador/ListarPersonas'>
                     <img src="~/Inventario.png" width="70" height="60" alt="Clientes" />
                 </a>
@@ -31,11 +31,7 @@
 
 
 
-            <li class="nav navbar-nav navbar-left">
-                <a title="Empresa" href='/Administrador/ListarEmpresa'>
-                    <img src="~/Factura.png" width="70" height="60" alt="Empresa" />
-                </a>
-            </li>
+            
 
         }
         else if (@User.IsInRole("Empleado"))
@@ -57,7 +53,7 @@
         </li>
         <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("PortalPrincipal", "PantallaPrincipal", new { area = "" })">
-                <button style="color: black; font-family:'Radley'; margin-left: 10px; ;font-size: 20px; font-weight:bold" type="submit" class="nav-link btn btn-link ">Salir</button>
+                <button style="color: black; font-family:'Radley'; margin-left: 10px; font-size: 20px; font-weight:bold" type="submit" class="nav-link btn btn-link ">Salir</button>
             </form>
         </li>
     }
@@ -65,14 +61,14 @@
     {
         <ul class="navbar-nav flex-grow-1">
             <li class="nav-item">
-                <a class="nav-link" style="color:white; font-size: 20px" asp-area="" asp-controller="PortalPrincipal" asp-action="PantallaPrincipal">Servicios</a>
+                <a class="nav-link" style="color:white; font-size: 20px; font-family:'Radley'" asp-area="" asp-controller="PortalPrincipal" asp-action="PantallaPrincipal">Servicios</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" style="color:white ; font-size: 20px" asp-area="" asp-controller="PortalPrincipal" asp-action="PantallaPrincipal">Contactenos</a>
+                <a class="nav-link" style="color:white ; font-size: 20px; font-family:'Radley'" asp-area="" asp-controller="PortalPrincipal" asp-action="PantallaPrincipal">Contactenos</a>
             </li>
         </ul>
         <li class="nav-item">
-            <a style="color: white; font-family:Calibri; font-size: 20px; font-weight:normal" href='/Identity/Account/Login' class="btn btn-success"> Iniciar Sesión</a>
+            <a style="color: white; font-family:'Radley'; font-size: 20px; font-weight:normal" href='/Identity/Account/Login' class="btn btn-success"> Iniciar Sesión</a>
         </li>
     }
 </ul>
