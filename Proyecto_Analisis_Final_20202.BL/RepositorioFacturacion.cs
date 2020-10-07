@@ -129,8 +129,8 @@ namespace Proyecto_Analisis_Final_20202.BL
 
         public void AgregarInventario(Inventario inventario)
         {
-            inventario.ID_Estado = 1;
-            //inventario.ID_Estado = EstadoInventario.Disponible;
+            //inventario.ID_Estado = 1;
+            inventario.ID_Estado = EstadoInventario.Disponible;
             inventario.ID_Categoria = 1;
 
             ElContextoDeBaseDeDatos.Inventario.Add(inventario);
@@ -249,7 +249,7 @@ namespace Proyecto_Analisis_Final_20202.BL
         {
             Inventario ArticuloFueraDeServicio;
             ArticuloFueraDeServicio = ObternerPorCodigo(Codigo_Prodcuto);
-            ArticuloFueraDeServicio.ID_Estado = 3;
+            ArticuloFueraDeServicio.ID_Estado = EstadoInventario.Fuera_de_Inventario;
             ElContextoDeBaseDeDatos.Inventario.Update(ArticuloFueraDeServicio);
             ElContextoDeBaseDeDatos.SaveChanges();
         }

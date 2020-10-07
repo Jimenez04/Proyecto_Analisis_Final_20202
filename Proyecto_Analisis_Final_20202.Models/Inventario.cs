@@ -43,6 +43,6 @@ namespace Proyecto_Analisis_Final_20202.Models
         public int Cantidad_Disponible { get; set; }
 
         [ForeignKey("Estado")]
-        public int ID_Estado { get; set; }
+        public EstadoInventario ID_Estado { get; set; }
     }
 }
