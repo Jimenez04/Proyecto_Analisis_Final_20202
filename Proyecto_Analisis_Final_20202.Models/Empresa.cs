@@ -19,7 +19,7 @@ namespace Proyecto_Analisis_Final_20202.Models
 
 
         [Required(ErrorMessage = "El nombre de la empresa es requerido")]
-        [DisplayName("Nombre de la empresa")]
+        [DisplayName("Nombre")]
         [MinLength(4, ErrorMessage = "El tamaño mínimo para el nombre de la empresa es de 4 caracteres")]
         [MaxLength(25, ErrorMessage = "El tamaño máximo del nombre de la empresa  es de 25 caracteres")]
         public String  Nombre { get; set; }

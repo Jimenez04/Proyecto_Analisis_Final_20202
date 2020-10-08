@@ -3,57 +3,91 @@
 @{
     ViewData["Title"] = "AgregarInventario";
 }
+
+
 <link href="~/css/FondoPantalla.css" rel="stylesheet" />
 <br />
-<h1  style="text-align:center; font-family:'Radley'">Agregar Inventario</h1>
+<h1 style="text-align:center; font-family:'Radley'">Agregar Inventario</h1>
 
 
-<hr />
-<div class="row" style=" font-family:'Radley' ">
-    <div class="col-md-4">
-        <form asp-action="AgregarInventario">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Codigo_Prodcuto" class="control-label"></label>
-                <input asp-for="Codigo_Prodcuto" class="form-control" />
-                <span asp-validation-for="Codigo_Prodcuto" class="text-danger"></span>
+<hr /> 
+<form asp-action="AgregarInventario">
+    <div class="row" style=" font-family:'Radley' ">
+
+        <div class="container">
+
+            <div class="row align-items-start">
+                <div class="col">
+                    <div class="form-group">
+                        <center><label asp-for="Codigo_Prodcuto" class="control-label"></label></center>
+                        <input asp-for="Codigo_Prodcuto" class="form-control" />
+                        <span asp-validation-for="Codigo_Prodcuto" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <center> <label asp-for="Cantidad_Disponible" class="control-label"></label></center>
+                        <input asp-for="Cantidad_Disponible" class="form-control" />
+                        <span asp-validation-for="Cantidad_Disponible" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col">
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Nombre" class="control-label"></label>
-                <input asp-for="Nombre" class="form-control" />
-                <span asp-validation-for="Nombre" class="text-danger"></span>
+
+
+            <div class="row align-items-center">
+                <div class="col">
+                    <div class="form-group">
+                        <center><label asp-for="Nombre" class="control-label"></label></center>
+                        <input asp-for="Nombre" class="form-control" />
+                        <span asp-validation-for="Nombre" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <center> <label asp-for="PrecionDeCompra" class="control-label"></label></center>
+                        <input asp-for="PrecionDeCompra" class="form-control" />
+                        <span asp-validation-for="PrecionDeCompra" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <center><label asp-for="PrecionDeVenta" class="control-label"></label></center>
+                        <input asp-for="PrecionDeVenta" class="form-control" />
+                        <span asp-validation-for="PrecionDeVenta" class="text-danger"></span>
+                    </div>
+                </div>
             </div>
+
             <div class="form-group">
-                <label asp-for="Precio_Venta" class="control-label"></label>
-                <input asp-for="Precio_Venta" class="form-control" />
-                <span asp-validation-for="Precio_Venta" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Precio_Compra" class="control-label"></label>
-                <input asp-for="Precio_Compra" class="form-control" />
-                <span asp-validation-for="Precio_Compra" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Descripcion" class="control-label"></label>
+                <center><label asp-for="Descripcion" class="control-label"></label></center>
                 <input asp-for="Descripcion" class="form-control" />
                 <span asp-validation-for="Descripcion" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Cantidad_Disponible" class="control-label"></label>
-                <input asp-for="Cantidad_Disponible" class="form-control" />
-                <span asp-validation-for="Cantidad_Disponible" class="text-danger"></span>
+            <div class="row align-items-center">
+                <div class="col">
+                    <br />
+                    <a asp-action="ListarInventario" style="text-align:center; font-family:'Radley'; width: 100px ; height:45px" class="btn btn-primary">Volver</a>
+
+                </div>
+                <div class="col" style="text-align:center">
+                    <br />
+                    <input style="text-align:center; font-family:'Radley';  width: 100px ; height:45px" type="submit" value="Crear" class="btn btn-success" />
+
+
+                </div>
+                <div class="col">
+
+                </div>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Crear" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
+
     </div>
-</div>
 
-<div>
-    <a asp-action="ListarInventario" style=" font-family:'Radley'">Volver</a>
-</div>
+    </form>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }

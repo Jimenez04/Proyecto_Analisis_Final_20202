@@ -57,7 +57,7 @@ namespace Proyecto_Analisis_Final_20202.BL
         {
             Empresa NuevaEmpresa = new Empresa();
             NuevaEmpresa.Cedula_Juridica = nuevaCuentaEmpresarial.Cedula;
-            NuevaEmpresa.Nombre = nuevaCuentaEmpresarial.NombreOrganizacion;
+            //NuevaEmpresa.Nombre = nuevaCuentaEmpresarial.NombreOrganizacion;
            // EnvioDeDatosParaLoginCorreo(usuario_Empresa.Clave, usuario_Empresa.Nombre_Usuario, nuevaCuentaEmpresarial.CorreoElectronico);
             //InicioSecion(usuario_Empresa.Clave, usuario_Empresa.Nombre_Usuario);
 
@@ -124,12 +124,16 @@ namespace Proyecto_Analisis_Final_20202.BL
         {
             Inventario producto;
             producto = ElContextoDeBaseDeDatos.Inventario.Find(codigo);
+            producto.PrecionDeCompra = producto.Precio_Compra.ToString();
+            producto.PrecionDeVenta = producto.Precio_Venta.ToString();
             return producto;
         }
 
         public void AgregarInventario(Inventario inventario)
         {
             //inventario.ID_Estado = 1;
+            inventario.Precio_Compra = double.Parse(inventario.PrecionDeCompra);
+            inventario.Precio_Venta = double.Parse(inventario.PrecionDeVenta);
             inventario.ID_Estado = EstadoInventario.Disponible;
             inventario.ID_Categoria = 1;
 
@@ -139,6 +143,18 @@ namespace Proyecto_Analisis_Final_20202.BL
 
         public void EditarProducto(Inventario producto)
         {
+            
+            producto.Precio_Compra = double.Parse(producto.PrecionDeCompra);
+            producto.Precio_Venta = double.Parse(producto.PrecionDeVenta);
+
+            if (producto.Cantidad_Disponible >0 )
+            {
+                producto.ID_Estado = EstadoInventario.Disponible;
+            }else 
+            {
+            producto.ID_Estado = EstadoInventario.Fuera_de_Inventario;
+            }
+
             ElContextoDeBaseDeDatos.Inventario.Update(producto);
             ElContextoDeBaseDeDatos.SaveChanges();
         }
@@ -236,22 +252,37 @@ namespace Proyecto_Analisis_Final_20202.BL
         }
 
         //Para Inventario
-        public void SinExistencias(string codigo)
-        {   
-            Inventario ArticuloSinExistencia;
-            ArticuloSinExistencia = ObternerPorCodigo(codigo);
-            //ArticuloSinExistencia.ID_Estado = EstadoInventario.Fuera_de_Inventario;
-            ElContextoDeBaseDeDatos.Inventario.Update(ArticuloSinExistencia);
-            ElContextoDeBaseDeDatos.SaveChanges();
-        }
+        
 
         public void FueraServicio(string Codigo_Prodcuto)
         {
             Inventario ArticuloFueraDeServicio;
             ArticuloFueraDeServicio = ObternerPorCodigo(Codigo_Prodcuto);
             ArticuloFueraDeServicio.ID_Estado = EstadoInventario.Fuera_de_Inventario;
+            ArticuloFueraDeServicio.Cantidad_Disponible = 0;
             ElContextoDeBaseDeDatos.Inventario.Update(ArticuloFueraDeServicio);
             ElContextoDeBaseDeDatos.SaveChanges();
+        }
+
+        public List<Inventario> ObtenerProductosSinExistencia()
+        {
+            return (from c in ElContextoDeBaseDeDatos.Inventario
+             where c.ID_Estado == EstadoInventario.Sin_existencias
+            select c).ToList();
+        }
+
+        public List<Inventario> ObtenerProductosFueraDeServicio()
+        {
+            return (from c in ElContextoDeBaseDeDatos.Inventario
+                    where c.ID_Estado == EstadoInventario.Fuera_de_Inventario
+                    select c).ToList();
+        }
+
+        public List<Inventario> ObtenerProductosDisponibles()
+        {
+            return (from c in ElContextoDeBaseDeDatos.Inventario
+                    where c.ID_Estado == EstadoInventario.Disponible
+                    select c).ToList();
         }
     }
 }

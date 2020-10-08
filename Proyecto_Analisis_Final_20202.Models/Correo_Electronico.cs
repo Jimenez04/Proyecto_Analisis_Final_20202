@@ -16,7 +16,7 @@ namespace Proyecto_Analisis_Final_20202.Models
         public string Cedula { get; set; }
 
 
-        [DisplayName ("Correo eslectrónico")] 
+        [DisplayName ("Correo Electrónico")] 
         [Required (ErrorMessage ="El correo electrónico es requerido")]
         public string Correo { get; set; }
     }

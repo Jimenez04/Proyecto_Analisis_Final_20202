@@ -4,15 +4,20 @@
     ViewData["Title"] = "ListarPersonas";
 }
 <br />
-<h1 style=" font-family:'Radley' ">Listar Personas</h1>
+<h1 style="text-align:center; font-weight:bold; font-family: 'Radley';font-size:40px  ">Clientes</h1>
 
     <link href="~/css/FondoPantalla.css" rel="stylesheet" />
     <br />
 
     <p>
-        <a asp-action="AgregarPersona" style=" font-family:'Radley' ">Agregar</a>
+        <a title="AgregarPersona" asp-action="AgregarPersona" style="font-family: 'Radley'; color:black; font-size:16px ">
+            <img src="~/Agregar.png" width="40" height="40" alt="AgregarPersona" />
+            Agregar
+        </a>
     </p>
-    <table class="table" style=" font-family:'Radley' " >
+
+
+    <table class="table" style=" text-align: center; font-family:'Radley'" >
         <thead>
             <tr>
                 <th>
@@ -39,30 +44,32 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr style=" font-family:'Radley' ">
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Cedula)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Nombre1)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Nombre2)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Apellido1)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Apellido2)
-                    </td>
+            <tr style=" font-family:'Radley' ">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cedula)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre2)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Apellido1)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Apellido2)
+                </td>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Correo.Correo)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Editar", "EditarPersona", new { Cedula=item.Cedula })
-                    </td>
-                </tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Correo.Correo)
+                </td>
+                <td>
+                    @Html.ActionLink("", "EditarPersona", new { Cedula = item.Cedula }, new { @style = "background:url('/EditarPersona.png') no-repeat center right; display:block; height: 35px; width: 35px" })
+
+                </td>
+            </tr>
             }
         </tbody>
     </table>
+

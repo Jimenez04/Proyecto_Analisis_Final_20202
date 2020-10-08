@@ -1,26 +1,15 @@
 ﻿@model IEnumerable<Proyecto_Analisis_Final_20202.Models.Inventario>
 
 @{
-    ViewData["Title"] = "ListarInventario";
+    ViewData["Title"] = "ListarProductosFueraDeServicio";
 }
 
-<br />
-
-<h1 style="text-align:center; font-weight:bold; font-family: 'Radley';font-size:40px">Inventario</h1>
-
-<link href="~/css/FondoPantalla.css" rel="stylesheet" />
-<br />
+<h1>ListarProductosFueraDeServicio</h1>
 
 <p>
-    <a title="AgregarInventario" asp-action="AgregarInventario" style="font-family: 'Radley'; color:black; font-size:16px ">
-        <img src="~/Agregar.png" width="40" height="40" alt="AgregarInventario" />
-        Agregar
-    </a>
+    <a asp-action="Create">Create New</a>
 </p>
-
-
-
-<table class="table" style=" text-align: center;font-family:'Radley' ">
+<table class="table">
     <thead>
         <tr>
             <th>
@@ -30,13 +19,22 @@
                 @Html.DisplayNameFor(model => model.Nombre)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Precio_Compra)
+                @Html.DisplayNameFor(model => model.PrecionDeVenta)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Precio_Venta)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.PrecionDeCompra)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Precio_Compra)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Descripcion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ID_Categoria)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Cantidad_Disponible)
@@ -44,14 +42,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.ID_Estado)
             </th>
-            <th> </th> 
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-        <tr style=" font-family:'Radley'">
+@foreach (var item in Model) {
+        <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Codigo_Prodcuto)
             </td>
@@ -59,15 +55,23 @@
                 @Html.DisplayFor(modelItem => item.Nombre)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Precio_Compra)
+                @Html.DisplayFor(modelItem => item.PrecionDeVenta)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Precio_Venta)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.PrecionDeCompra)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Precio_Compra)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Descripcion)
             </td>
-
+            <td>
+                @Html.DisplayFor(modelItem => item.ID_Categoria)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Cantidad_Disponible)
             </td>
@@ -75,13 +79,10 @@
                 @Html.DisplayFor(modelItem => item.ID_Estado)
             </td>
             <td>
-                @Html.ActionLink("", "EditarProducto", new { Codigo_Prodcuto = item.Codigo_Prodcuto }, new { @style = "background:url('/EditarInventario.png') no-repeat; display:block; height: 35px; width: 35px" })
-            </td>
-            <td>
-                @Html.ActionLink("", "EliminarProducto", new { Codigo_Prodcuto = item.Codigo_Prodcuto }, new { @style = "background:url('/cancelar.png') no-repeat ; display:block; height: 36px; width: 36px" })
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+               
             </td>
         </tr>
-        }
+}
     </tbody>
 </table>
-

@@ -31,7 +31,7 @@ namespace Proyecto_Analisis_Final_20202.BL
         public Inventario ObternerPorCodigo(String codigo);
 
         //Para Inventario
-        public void SinExistencias(string codigo);
+        
 
         public void FueraServicio(string Codigo_Prodcuto);
 
@@ -49,7 +49,9 @@ namespace Proyecto_Analisis_Final_20202.BL
 
         public void EditarEmpresa(Empresa empresa);
 
-
+        public List<Inventario> ObtenerProductosSinExistencia ();
+        public List<Inventario> ObtenerProductosFueraDeServicio();
+        public List<Inventario> ObtenerProductosDisponibles();
         public Boolean ProductoExiste(Inventario producto);
 
         public void AgregarInventario(Inventario inventario);

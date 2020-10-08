@@ -30,6 +30,27 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
             return View();
         }
 
+        public ActionResult ListarProductosDisponibles()
+        {
+            List<Inventario> LaListaDisponible;
+            LaListaDisponible = RepositorioFacturacion.ObtenerProductosDisponibles();
+            return View(LaListaDisponible);
+        }
+
+        public ActionResult ListarProductosFueraDeServicio()
+        {
+            List<Inventario> LaListaFueraDeServicio;
+            LaListaFueraDeServicio = RepositorioFacturacion.ObtenerProductosFueraDeServicio();
+            return View(LaListaFueraDeServicio);
+        }
+
+        public ActionResult ListarProductosSinExistencia()
+        {
+            List<Inventario> LaListaSinExistencia;
+            LaListaSinExistencia = RepositorioFacturacion.ObtenerProductosSinExistencia();
+            return View(LaListaSinExistencia);
+        }
+
         public ActionResult ListarInventario()
         {
             List<Inventario> LaLista;
@@ -75,7 +96,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
                     else
                     {
 
-                        ModelState.AddModelError("Codigo_Prodcuto", "El código de producto ingresado ya  existe en nuestro sistema");
+                        ModelState.AddModelError("Codigo_Prodcuto", "El código ingresado  ya  existe");
 
                         return View();
                     }

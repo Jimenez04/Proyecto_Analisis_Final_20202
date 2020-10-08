@@ -8,7 +8,7 @@
 <br>
 <div class="row">
 
-    <div class="col-5" id="VentanaRegistrar">
+    <div class="col-5" id="VentanaNuevoUsuario">
         <div class="panel panel-login" style="    border-radius: 22px;">
             <form id="account" method="post">
                 <Center style=" font-family:'Radley'">
@@ -55,7 +55,7 @@
                     <center>
                         <button id="BotonCrear" type="submit" class="btn btn-success" style="font-family: 'Radley' ; width:200px; align-content:center">Crear</button>
                     </center>
-                    <a id="BotonVolver" style="color: white; font-family:'Radley'; font-size: 15px; font-weight:normal" href='/PortalPrincipal/PantallaPrincipal' class="btn btn-success"> Volver</a>
+                    <a id="BotonVolver" style="color: white; font-family:'Radley'; font-size: 15px; font-weight:normal"  asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage" class="btn btn-success"> Volver</a>
                 </div>
             </form>
         </div>

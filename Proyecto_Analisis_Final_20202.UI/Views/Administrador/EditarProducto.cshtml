@@ -15,19 +15,28 @@
         <form asp-action="EditarProducto">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
+                <input type="hidden" asp-for="Codigo_Prodcuto" />
+            </div>
+            <div class="form-group">
+                <input type="hidden" asp-for="ID_Categoria" />
+            </div>
+            <div class="form-group">
+                <input type="hidden" asp-for="ID_Estado" />
+            </div>
+            <div class="form-group">
                 <label asp-for="Nombre" class="control-label"></label>
                 <input asp-for="Nombre" class="form-control" />
                 <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Precio_Venta" class="control-label"></label>
-                <input asp-for="Precio_Venta" class="form-control" />
-                <span asp-validation-for="Precio_Venta" class="text-danger"></span>
+                <label asp-for="PrecionDeVenta" class="control-label"></label>
+                <input asp-for="PrecionDeVenta" class="form-control" />
+                <span asp-validation-for="PrecionDeVenta" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Precio_Compra" class="control-label"></label>
-                <input asp-for="Precio_Compra" class="form-control" />
-                <span asp-validation-for="Precio_Compra" class="text-danger"></span>
+                <label asp-for="PrecionDeCompra" class="control-label"></label>
+                <input asp-for="PrecionDeCompra" class="form-control" />
+                <span asp-validation-for="PrecionDeCompra" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Descripcion" class="control-label"></label>
@@ -40,9 +49,9 @@
                 <input asp-for="Cantidad_Disponible" class="form-control" />
                 <span asp-validation-for="Cantidad_Disponible" class="text-danger"></span>
             </div>
-         
+
             <div class="form-group">
-                <input  type="submit" value="Actualizar" class="btn btn-primary" />
+                <input type="submit" value="Actualizar" class="btn btn-primary" />
             </div>
         </form>
     </div>

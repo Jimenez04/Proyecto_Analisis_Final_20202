@@ -8,6 +8,15 @@
 
 #VentanaRegistrar {
     width: 500px;
+    height: 400px;
+    border: 3px solid white;
+    border-radius: 22px;
+    padding: 9px;
+    top: 50px;
+}
+
+#VentanaNuevoUsuario {
+    width: 500px;
     height: 500px;
     border: 3px solid white;
     border-radius: 22px;
@@ -223,4 +232,12 @@
     top: 10px;
     right: 900px;
 }
+
+#Editar {
+    background-image: url(~/EditarPersona.png);
+    position: absolute;
+    top: 10px;
+    right: 900px;
+}
+
 
