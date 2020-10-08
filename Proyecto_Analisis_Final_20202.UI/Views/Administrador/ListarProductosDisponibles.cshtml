@@ -4,12 +4,13 @@
     ViewData["Title"] = "ListarProductosDisponibles";
 }
 
-<h1>ListarProductosDisponibles</h1>
+<br />
+<h1 style="text-align:center; font-weight:bold; font-family: 'Radley';font-size:40px ">Productos Disponibles</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+<link href="~/css/FondoPantalla.css" rel="stylesheet" />
+<br />
+
+<table class="table"  style=" text-align: center; font-family:'Radley'">
     <thead>
         <tr>
             <th>
@@ -19,67 +20,51 @@
                 @Html.DisplayNameFor(model => model.Nombre)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PrecionDeVenta)
+                @Html.DisplayNameFor(model => model.Precio_Compra)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Precio_Venta)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PrecionDeCompra)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Precio_Compra)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Descripcion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ID_Categoria)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Cantidad_Disponible)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ID_Estado)
-            </th>
+            </th>          
+            <th> </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
+        @foreach (var item in Model)
+        {
+         <tr style=" font-family:'Radley'">
+            <th>
                 @Html.DisplayFor(modelItem => item.Codigo_Prodcuto)
-            </td>
-            <td>
+            </th>
+            <th>
                 @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PrecionDeVenta)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Precio_Venta)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PrecionDeCompra)
-            </td>
-            <td>
+            </th>
+            <th>
                 @Html.DisplayFor(modelItem => item.Precio_Compra)
-            </td>
-            <td>
+            </th>
+            <th>
+                @Html.DisplayFor(modelItem => item.Precio_Venta)
+            </th>
+            <th>
                 @Html.DisplayFor(modelItem => item.Descripcion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ID_Categoria)
-            </td>
-            <td>
+            </th>
+            <th>
                 @Html.DisplayFor(modelItem => item.Cantidad_Disponible)
-            </td>
-            <td>
+            </th>
+            <th>
                 @Html.DisplayFor(modelItem => item.ID_Estado)
-            </td>
-            
-        </tr>
-}
+            </th>
+
+         </tr>
+        }
     </tbody>
 </table>

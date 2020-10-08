@@ -28,6 +28,7 @@ namespace Proyecto_Analisis_Final_20202.Models
         [NotMapped]
        public string PrecionDeVenta { get; set; }
 
+        [DisplayName("Precio Venta")]
         public Double Precio_Venta { get; set; }
 
 
@@ -37,8 +38,9 @@ namespace Proyecto_Analisis_Final_20202.Models
         [RegularExpression(@"^(\d+\,\d{1,2})$", ErrorMessage = "Por favor ingrese 2 decimales")]
        
         [NotMapped]
-      public string PrecionDeCompra { get; set; }
+        public string PrecionDeCompra { get; set; }
 
+        [DisplayName("Precio Compra")]
         public Double Precio_Compra { get; set; }
 
 
