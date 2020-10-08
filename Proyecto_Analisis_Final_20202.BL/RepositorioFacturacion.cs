@@ -25,8 +25,8 @@ namespace Proyecto_Analisis_Final_20202.BL
         public List<Distrito> ListadoDeDistritos(int ID_Provincia, int ID_Canton)
         {
             return (from c in ElContextoDeBaseDeDatos.Distrito
-                    where (c.ID_Canton == ID_Provincia)
-                    && (c.ID_Provincia == ID_Canton)
+                    where (c.ID_Canton == ID_Canton)
+                    && (c.ID_Provincia == ID_Provincia)
                     select c).ToList();
         }
 
@@ -236,19 +236,10 @@ namespace Proyecto_Analisis_Final_20202.BL
             return ElContextoDeBaseDeDatos.Empresa.Find("1234567890");
         }
 
-        public List<Empresa> ListarEmpresa()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Empresa ObtenerEmpresa(string Cedula_Juridica)
-        {
-            throw new NotImplementedException();
-        }
-
         public void EditarEmpresa(Empresa empresa)
         {
-            throw new NotImplementedException();
+            ElContextoDeBaseDeDatos.Empresa.Update(empresa);
+            ElContextoDeBaseDeDatos.SaveChanges();
         }
 
         //Para Inventario

@@ -23,65 +23,43 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
         }
 
 
-        // GET: AdministradorController
         public ActionResult ListarUsuarios()
         {
             return View();
         }
 
-        public ActionResult ListarEmpresa()
-        {
-            List<Empresa> LaLista;
-            LaLista = RepositorioFacturacion.ListarEmpresa();
-            return View(LaLista);
-        }
-
-        
-
         public ActionResult EditarEmpresa()
         {
-            ViewBag.Pais = new SelectList(RepositorioFacturacion.ListadoDeProvincias(), "ID_Provincia", "Nombre_Provincia");
-            ViewBag.Cantones = new SelectList(RepositorioFacturacion.ListadoDeCantones(0), "ID_Canton", "ID_Provincia", "Nombre_Canton");
-            ViewBag.Distritos = new SelectList(RepositorioFacturacion.ListadoDeDistritos(0, 0), "ID_Distrito", "ID_Canton", "ID_Provincia", "Nombre");
-
             Empresa empresa = RepositorioFacturacion.ObtenerEmpresa();
+            ViewBag.Pais = new SelectList(RepositorioFacturacion.ListadoDeProvincias(), "ID_Provincia", "Nombre_Provincia");
+            ViewBag.Cantones = new SelectList(RepositorioFacturacion.ListadoDeCantones((int)empresa.ID_Provincia), "ID_Canton", "ID_Provincia", "Nombre_Canton");
+            ViewBag.Distritos = new SelectList(RepositorioFacturacion.ListadoDeDistritos((int)empresa.ID_Provincia, (int)empresa.ID_Canton), "ID_Distrito", "ID_Canton", "ID_Provincia", "Nombre");
             return View(empresa);
         }
 
-        // POST: AdministradorController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditarEmpresa(Empresa empresa)
         {
             ViewBag.Pais = new SelectList(RepositorioFacturacion.ListadoDeProvincias(), "ID_Provincia", "Nombre_Provincia");
-            ViewBag.Cantones = new SelectList(RepositorioFacturacion.ListadoDeCantones(0), "ID_Canton", "ID_Provincia", "Nombre_Canton");
-            ViewBag.Distritos = new SelectList(RepositorioFacturacion.ListadoDeDistritos(0, 0), "ID_Distrito", "ID_Canton", "ID_Provincia", "Nombre");
-
+            ViewBag.Cantones = new SelectList(RepositorioFacturacion.ListadoDeCantones((int)empresa.ID_Provincia), "ID_Canton", "ID_Provincia", "Nombre_Canton");
+            ViewBag.Distritos = new SelectList(RepositorioFacturacion.ListadoDeDistritos((int)empresa.ID_Provincia, (int)empresa.ID_Canton), "ID_Distrito", "ID_Canton", "ID_Provincia", "Nombre");
             try
             {
                 if (ModelState.IsValid)
                 {
                     RepositorioFacturacion.EditarEmpresa(empresa);
-                    return RedirectToAction(nameof(ListarEmpresa));
+                    return RedirectToAction("ListarPersonas", "Persona");
                 }
                 else
                 {
                     return View();
                 }
             }
-            catch
+            catch (Exception ex)
             {
-
                 return View();
             }
-
-           
         }
-
-        // GET: AdministradorController/Create
-      
-
-
-
     }    
 }

@@ -183,7 +183,7 @@
 
     function RecargarDistrito()
     {
-        var Ubicacion = ListaCanton.value + "/" + ListaProvincia.value  ;
+        var Ubicacion = ListaProvincia.value + "/" +  ListaCanton.value;
         fetch("@Url.Content("~/Ubicacion/RecargarDistrito")" + "?Ubicacion=" + Ubicacion)
             .then(function (result)
             {
