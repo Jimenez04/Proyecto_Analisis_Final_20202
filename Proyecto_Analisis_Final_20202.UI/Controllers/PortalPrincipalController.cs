@@ -30,13 +30,12 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
             _emailSender = emailSender;
         }
 
-      //  [Route("PortalPrincipalController/PantallaPrincipal")]
-      [AllowAnonymous]
+        [AllowAnonymous]
         public ActionResult PantallaPrincipal()
         {
             if (User.Identity.IsAuthenticated && User.IsInRole("Administrador"))
             {
-                Response.Redirect("/Administrador/ListarPersonas");
+                Response.Redirect("/Persona/ListarPersonas");
             }
             else if (User.Identity.IsAuthenticated && User.IsInRole("Empleado"))
             {
@@ -49,7 +48,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
         }
         [HttpPost]
         [AllowAnonymous]
-        //[Route("PortalPrincipal/PantallaPrincipal")]
+        [Route("PortalPrincipal/PantallaPrincipal")]
         public async Task<ActionResult> PantallaPrincipal(ModeloNuevaCuentaEmpresarial nuevaCuentaEmpresarial)
         {
             if (ModelState.IsValid) 

@@ -10,7 +10,7 @@
 <link href="~/css/FondoPantalla.css" rel="stylesheet" />
 <br />
 
-<table class="table" style=" text-align: center; font-family:'Radley'">
+<table class="table" style=" text-align: center;font-family:'Radley' ">
     <thead>
         <tr>
             <th>
@@ -41,30 +41,35 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr style=" font-family:'Radley'">
-            <th>
-                @Html.DisplayFor(modelItem => item.Codigo_Prodcuto)
-            </th>
-            <th>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </th>
-            <th>
-                @Html.DisplayFor(modelItem => item.Precio_Compra)
-            </th>
-            <th>
-                @Html.DisplayFor(modelItem => item.Precio_Venta)
-            </th>
-            <th>
-                @Html.DisplayFor(modelItem => item.Descripcion)
-            </th>
-            <th>
-                @Html.DisplayFor(modelItem => item.Cantidad_Disponible)
-            </th>
-            <th>
-                @Html.DisplayFor(modelItem => item.ID_Estado)
-            </th>>
+            <tr style=" font-family:'Radley'">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Codigo_Prodcuto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Precio_Compra)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Precio_Venta)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
 
-        </tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cantidad_Disponible)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ID_Estado)
+                </td>
+                <td>
+                    @Html.ActionLink("", "EditarProducto", new { Codigo_Prodcuto = item.Codigo_Prodcuto }, new { @style = "background:url('/EditarInventario.png') no-repeat; display:block; height: 35px; width: 35px" })
+                </td>
+            </tr>
         }
     </tbody>
 </table>
+
+

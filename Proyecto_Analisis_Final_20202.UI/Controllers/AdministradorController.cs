@@ -13,7 +13,6 @@ using Proyecto_Analisis_Final_20202.Models;
 namespace Proyecto_Analisis_Final_20202.UI.Controllers
 {
     [Authorize]
-
     public class AdministradorController : Controller
     {
         private readonly IRepositorioFacturacion RepositorioFacturacion;
@@ -30,34 +29,6 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
             return View();
         }
 
-        public ActionResult ListarProductosDisponibles()
-        {
-            List<Inventario> LaListaDisponible;
-            LaListaDisponible = RepositorioFacturacion.ObtenerProductosDisponibles();
-            return View(LaListaDisponible);
-        }
-
-        public ActionResult ListarProductosFueraDeServicio()
-        {
-            List<Inventario> LaListaFueraDeServicio;
-            LaListaFueraDeServicio = RepositorioFacturacion.ObtenerProductosFueraDeServicio();
-            return View(LaListaFueraDeServicio);
-        }
-
-        public ActionResult ListarProductosSinExistencia()
-        {
-            List<Inventario> LaListaSinExistencia;
-            LaListaSinExistencia = RepositorioFacturacion.ObtenerProductosSinExistencia();
-            return View(LaListaSinExistencia);
-        }
-
-        public ActionResult ListarInventario()
-        {
-            List<Inventario> LaLista;
-            LaLista = RepositorioFacturacion.ListaInventario();
-            return View(LaLista);
-        }
-
         public ActionResult ListarEmpresa()
         {
             List<Empresa> LaLista;
@@ -65,179 +36,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
             return View(LaLista);
         }
 
-        public ActionResult ListarPersonas()
-        {
-            List<Persona> LaLista;
-            LaLista = RepositorioFacturacion.ListarPersonas();
-            return View(LaLista);
-        }
-
-        // GET: AdministradorController/Create
-        public ActionResult AgregarInventario()
-        {
-            return View();
-        }
-
-        // POST: AdministradorController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult AgregarInventario(Inventario inventario)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    if (!RepositorioFacturacion.ProductoExiste(inventario))
-                    {
-                        RepositorioFacturacion.AgregarInventario(inventario);
-                        return RedirectToAction(nameof(ListarInventario));
-
-                    }
-                    else
-                    {
-
-                        ModelState.AddModelError("Codigo_Prodcuto", "El código ingresado  ya  existe");
-
-                        return View();
-                    }
-                }
-                else
-                {
-                    return View();
-                }
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        public ActionResult AgregarPersona()
-        {
-            ViewBag.Pais = new SelectList(RepositorioFacturacion.ListadoDeProvincias(), "ID_Provincia", "Nombre_Provincia");
-            ViewBag.Cantones = new SelectList(RepositorioFacturacion.ListadoDeCantones(0), "ID_Canton", "ID_Provincia", "Nombre_Canton");
-            ViewBag.Distritos = new SelectList(RepositorioFacturacion.ListadoDeDistritos(0, 0), "ID_Distrito", "ID_Canton", "ID_Provincia", "Nombre");
-            ViewBag.Sexo = new SelectList(RepositorioFacturacion.ListadoDeSexos(), "ID_Sexo", "Nombre_Sexo");
-            return View();
-        }
-
-        // POST: AdministradorController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult AgregarPersona(Persona persona)
-        {
-            ViewBag.Pais = new SelectList(RepositorioFacturacion.ListadoDeProvincias(), "ID_Provincia", "Nombre_Provincia");
-            ViewBag.Cantones = new SelectList(RepositorioFacturacion.ListadoDeCantones(0), "ID_Canton", "ID_Provincia", "Nombre_Canton");
-            ViewBag.Distritos = new SelectList(RepositorioFacturacion.ListadoDeDistritos(0, 0), "ID_Distrito", "ID_Canton", "ID_Provincia", "Nombre");
-            ViewBag.Sexo = new SelectList(RepositorioFacturacion.ListadoDeSexos(), "ID_Sexo", "Nombre_Sexo");
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    if (!RepositorioFacturacion.PersonaExiste(persona))
-                    {
-                        RepositorioFacturacion.AgregarPersonas(persona);
-                        return RedirectToAction(nameof(ListarPersonas));
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("Cedula", "La cédula ingresada ya  existe en nuestro sistema");
-
-                        return View();
-                    }
-                }
-                else
-                {
-                    return View();
-                }
-            }
-            catch
-            {
-
-                return View();
-            }
-        }
-
-
-
-
-
-
-
-        public ActionResult EditarProducto(String Codigo_Prodcuto)
-        {
-
-
-            Inventario producto = RepositorioFacturacion.ObternerPorCodigo(Codigo_Prodcuto);
-            return View(producto);
-        }
-
-        // POST: AdministradorController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult EditarProducto(Inventario producto)
-        {
-
-
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    RepositorioFacturacion.EditarProducto(producto);
-                    return RedirectToAction(nameof(ListarInventario));
-
-                }
-                else
-                {
-                    return View();
-                }
-            }
-            catch
-            {
-
-                return View();
-            }
-
-            return View();
-        }
-
-        public ActionResult EditarPersona(String Cedula)
-        {
-            ViewBag.Pais = new SelectList(RepositorioFacturacion.ListadoDeProvincias(), "ID_Provincia", "Nombre_Provincia");
-            ViewBag.Cantones = new SelectList(RepositorioFacturacion.ListadoDeCantones(0), "ID_Canton", "ID_Provincia", "Nombre_Canton");
-            ViewBag.Distritos = new SelectList(RepositorioFacturacion.ListadoDeDistritos(0, 0), "ID_Distrito", "ID_Canton", "ID_Provincia", "Nombre");
-            ViewBag.Sexo = new SelectList(RepositorioFacturacion.ListadoDeSexos(), "ID_Sexo", "Nombre_Sexo");
-            Persona persona = RepositorioFacturacion.ObtenerPersonaPorCedula(Cedula);
-            return View(persona);
-        }
-
-        // POST: AdministradorController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult EditarPersona(Persona persona)
-        {
-            ViewBag.Pais = new SelectList(RepositorioFacturacion.ListadoDeProvincias(), "ID_Provincia", "Nombre_Provincia");
-            ViewBag.Cantones = new SelectList(RepositorioFacturacion.ListadoDeCantones(0), "ID_Canton", "ID_Provincia", "Nombre_Canton");
-            ViewBag.Distritos = new SelectList(RepositorioFacturacion.ListadoDeDistritos(0, 0), "ID_Distrito", "ID_Canton", "ID_Provincia", "Nombre");
-            ViewBag.Sexo = new SelectList(RepositorioFacturacion.ListadoDeSexos(), "ID_Sexo", "Nombre_Sexo");
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    RepositorioFacturacion.EditarPersona(persona);
-                    return RedirectToAction(nameof(ListarPersonas));
-                }
-                else
-                {
-                    return View();
-                }
-            }
-            catch
-            {
-
-                return View();
-            }
-        }
+        
 
         public ActionResult EditarEmpresa()
         {
@@ -280,23 +79,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
         }
 
         // GET: AdministradorController/Create
-        public ActionResult EliminarProducto(string Codigo_Prodcuto)
-        {
-
-            try
-            {              
-                 
-                    RepositorioFacturacion.FueraServicio(Codigo_Prodcuto);
-                    return RedirectToAction(nameof(ListarInventario));
-                  
-            }
-            catch (Exception ex)
-
-            {
-
-                return RedirectToAction(nameof(ListarInventario));
-            }
-        }
+      
 
 
 

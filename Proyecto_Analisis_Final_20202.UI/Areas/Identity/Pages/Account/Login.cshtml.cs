@@ -94,8 +94,6 @@ namespace Proyecto_Analisis_Final_20202.UI.Areas.Identity.Pages.Account
                     _logger.LogInformation("User logged in.");
 
                     return RedirectToAction("PantallaPrincipal", "PortalPrincipal");
-
-
                 }
                 if (result.RequiresTwoFactor)
                 {
