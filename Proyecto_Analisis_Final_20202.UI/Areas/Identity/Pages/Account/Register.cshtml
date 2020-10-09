@@ -8,54 +8,50 @@
 <br>
 <div class="row">
 
-    <div class="col-5" id="VentanaNuevoUsuario">
+    <div class="col-5" id="VentanaNuevoUsuario" style=" font-weight: bold;">
         <div class="panel panel-login" style="    border-radius: 22px;">
             <form id="account" method="post">
                 <Center style=" font-family:'Radley'">
-                    <h3>Nuevo Usuario</h3>
+                    <h3 style="font-weight:bold ">Nuevo Usuario</h3>
                 </Center>
-                <br>
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="col">
                     <div class="form-group" style=" font-family:'Radley'">
                         <label asp-for="Input.UserName"></label>
-                        <input asp-for="Input.UserName" class="form-control"id="IconoInicio" placeholder="ejemplo04" />
-                        <span asp-validation-for="Input.UserName" class="text-danger" id="text5"></span>
+                        <input asp-for="Input.UserName" class="form-control" placeholder="ejemplo04" />
+                        <span asp-validation-for="Input.UserName" class="text-danger" ></span>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group" style=" font-family:'Radley'">
                         <label asp-for="Input.Email"></label>
-                        <input asp-for="Input.Email" class="form-control" id="IconoInicio" placeholder="ejemplo04@gmail.com" />
-                        <span asp-validation-for="Input.Email" class="text-danger" id="text6"></span>
+                        <input asp-for="Input.Email" class="form-control" placeholder="ejemplo04@gmail.com" />
+                        <span asp-validation-for="Input.Email" class="text-danger" ></span>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group" style=" font-family:'Radley' ">
                         <label asp-for="Input.Password"></label>
-                        <input asp-for="Input.Password" class="form-control" id="IconoInicio" />
-                        <span asp-validation-for="Input.Password" class="text-danger" id="text7"></span>
+                        <input asp-for="Input.Password" class="form-control"  />
+                        <span asp-validation-for="Input.Password" class="text-danger" ></span>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group" style=" font-family:'Radley' ">
                         <label asp-for="Input.ConfirmPassword"></label>
-                        <input asp-for="Input.ConfirmPassword" class="form-control"id="IconoInicio"  />
-                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger" id="text8"></span>
+                        <input asp-for="Input.ConfirmPassword" class="form-control"  />
+                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                     </div>
                 </div>
 
-                <img src="~/IconoLabelInicio.png" width="30" height="30" id="inicio" style="background:white" />
-                <img src="~/Correo.png" width="30" height="30" id="correo" style="background:white" />
-                <img src="~/Candado.png" width="26" height="26" id="candado1" style="background:white" />
-                <img src="~/Candado.png" width="26" height="26" id="candado2" style="background:white" />
+                
 
 
                 <div class="col">
                     <center>
                         <button id="BotonCrear" type="submit" class="btn btn-success" style="font-family: 'Radley' ; width:200px; align-content:center">Crear</button>
                     </center>
-                    <a id="BotonVolver" style="color: white; font-family:'Radley'; font-size: 15px; font-weight:normal"  asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage" class="btn btn-success"> Volver</a>
+                    <a id="BotonVolver" style="color: white; font-family:'Radley'; font-size: 15px; font-weight:normal"  asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage" class="btn btn-primary"> Volver</a>
                 </div>
             </form>
         </div>

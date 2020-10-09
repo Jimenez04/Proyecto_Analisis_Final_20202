@@ -10,7 +10,7 @@ namespace Proyecto_Analisis_Final_20202.Models
     public class Inventario
     {
         [Key]
-        [Required(ErrorMessage = "El codigo de producto es requerido")]
+        [Required(ErrorMessage = "El código de producto es requerido")]
         [DisplayName("Código")]
         [MaxLength(25, ErrorMessage = "El tamaño máximo del codigo de producto es de 25 caracteres")]
         public String Codigo_Prodcuto { get; set; }
@@ -53,8 +53,8 @@ namespace Proyecto_Analisis_Final_20202.Models
         public int ID_Categoria { get; set; }
 
         [Required(ErrorMessage = "La cantidad es requerida")]
-        [DisplayName("Cantidad Disponible")]
-        [RegularExpression("(^[0-9]+$)", ErrorMessage = "Solo se permiten números")]
+        [DisplayName("Cantidad")]
+        [RegularExpression("(^[0-9]+$)", ErrorMessage = "Solo se permiten números positivos")]
         public int Cantidad_Disponible { get; set; }
 
         [ForeignKey("Estado")]

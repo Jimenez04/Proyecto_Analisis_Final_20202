@@ -131,7 +131,6 @@ namespace Proyecto_Analisis_Final_20202.BL
 
         public void AgregarInventario(Inventario inventario)
         {
-            //inventario.ID_Estado = 1;
             inventario.Precio_Compra = double.Parse(inventario.PrecionDeCompra);
             inventario.Precio_Venta = double.Parse(inventario.PrecionDeVenta);
             inventario.ID_Estado = EstadoInventario.Disponible;
@@ -143,18 +142,16 @@ namespace Proyecto_Analisis_Final_20202.BL
 
         public void EditarProducto(Inventario producto)
         {
-            
             producto.Precio_Compra = double.Parse(producto.PrecionDeCompra);
             producto.Precio_Venta = double.Parse(producto.PrecionDeVenta);
 
-            if (producto.Cantidad_Disponible >0 )
+            if (producto.Cantidad_Disponible > 0 )
             {
                 producto.ID_Estado = EstadoInventario.Disponible;
-            }else 
+            }else if (producto.Cantidad_Disponible == 0 && producto.ID_Estado == EstadoInventario.Disponible)
             {
-            producto.ID_Estado = EstadoInventario.Fuera_de_Inventario;
+            producto.ID_Estado = EstadoInventario.Sin_existencias;
             }
-
             ElContextoDeBaseDeDatos.Inventario.Update(producto);
             ElContextoDeBaseDeDatos.SaveChanges();
         }
@@ -249,7 +246,7 @@ namespace Proyecto_Analisis_Final_20202.BL
         {
             Inventario ArticuloFueraDeServicio;
             ArticuloFueraDeServicio = ObternerPorCodigo(Codigo_Prodcuto);
-            ArticuloFueraDeServicio.ID_Estado = EstadoInventario.Fuera_de_Inventario;
+            ArticuloFueraDeServicio.ID_Estado = EstadoInventario.Sin_existencias;
             ArticuloFueraDeServicio.Cantidad_Disponible = 0;
             ElContextoDeBaseDeDatos.Inventario.Update(ArticuloFueraDeServicio);
             ElContextoDeBaseDeDatos.SaveChanges();
@@ -260,13 +257,6 @@ namespace Proyecto_Analisis_Final_20202.BL
             return (from c in ElContextoDeBaseDeDatos.Inventario
              where c.ID_Estado == EstadoInventario.Sin_existencias
             select c).ToList();
-        }
-
-        public List<Inventario> ObtenerProductosFueraDeServicio()
-        {
-            return (from c in ElContextoDeBaseDeDatos.Inventario
-                    where c.ID_Estado == EstadoInventario.Fuera_de_Inventario
-                    select c).ToList();
         }
 
         public List<Inventario> ObtenerProductosDisponibles()

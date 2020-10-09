@@ -10,7 +10,7 @@
 
 <hr />
 <form asp-action="EditarPersona">
-    <div class="container" style="font-family:'Radley'">
+    <div class="container" style="font-family:'Radley' ; font-weight: bold ">
         <div class="row align-items-start"   style="text-align:center">
             <div class="col">
                 <div class="form-group">
@@ -125,7 +125,7 @@
             </div>
             <div class="col-4" style="text-align:center">
                 <br />
-                <input type="submit" value="Actualizar" class="btn btn-primary" />
+                <input type="submit" value="Actualizar" class="btn btn-success" />
             </div>
             <div class="col-4">
             </div>
@@ -148,10 +148,67 @@
     ListaCanton.addEventListener("change", RecargarDistrito)
     ListaDistrito.addEventListener("change", RecargarCodigoPostal)
 
-    RecargarCanton();
-    RecargarDistrito();
+    PrimeraVez();
     RecargarCodigoPostal();
+     function PrimeraVez()
+    {
+               fetch("@Url.Content("~/Ubicacion/RecargarCanton")" + "?ID_Provincia=" + ListaProvincia.value)
+            .then(function (result)
+            {
+                if (result.ok)
+                {
+                    return result.json();
+                }
+            })
+            .then(function (NuevosCantones)
+            {
+                console.log(NuevosCantones);
+                var Opcion = ListaCanton.value;
+                ListaCanton.innerHTML = "";
 
+                console.log("Valor" + Opcion);
+
+                CodigoPostal.innerHTML = "";
+                CodigoPostal.value = "";
+                NuevosCantones.forEach(function (element)
+                    {
+                    let opciones = document.createElement("option")
+                    opciones.appendChild(document.createTextNode(element.nombre_Canton));
+                    opciones.value = element.iD_Canton;
+                    ListaCanton.appendChild(opciones);
+
+                })
+                document.getElementById("Lista_Canton").selectedIndex = Opcion-1;
+                RecargarCodigoPostal();
+            })
+        var Ubicacion = ListaProvincia.value + "/" + ListaCanton.value;
+        fetch("@Url.Content("~/Ubicacion/RecargarDistrito")" + "?Ubicacion=" + Ubicacion)
+            .then(function (result)
+            {
+                if (result.ok)
+                {
+                    return result.json();
+                }
+            })
+            .then(function (NuevosDistritos)
+            {
+                console.log(NuevosDistritos);
+                var Opcion = ListaDistrito.value;
+                ListaDistrito.innerHTML = "";
+                ListaDistrito.value = Opcion;
+                CodigoPostal.innerHTML = "";
+                CodigoPostal.value = "";
+                NuevosDistritos.forEach(function (element)
+                    {
+                    let opciones = document.createElement("option")
+                    opciones.appendChild(document.createTextNode(element.nombre));
+                    opciones.value = element.iD_Distrito;
+                    ListaDistrito.appendChild(opciones);
+                })
+                document.getElementById("Lista_Distrito").selectedIndex = Opcion - 1;
+                RecargarCodigoPostal();
+            })
+    }
     function RecargarCanton()
     {
         fetch("@Url.Content("~/Ubicacion/RecargarCanton")" + "?ID_Provincia=" + ListaProvincia.value)

@@ -29,15 +29,6 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
         }
 
         [Authorize(Roles = "Administrador, Empleado")]
-        [Route("Inventario/ListarProductosFueraDeServicio")]
-        public ActionResult ListarProductosFueraDeServicio()
-        {
-            List<Inventario> LaListaFueraDeServicio;
-            LaListaFueraDeServicio = RepositorioFacturacion.ObtenerProductosFueraDeServicio();
-            return View(LaListaFueraDeServicio);
-        }
-
-        [Authorize(Roles = "Administrador, Empleado")]
         [Route("Inventario/ListarProductosSinExistencia")]
         public ActionResult ListarProductosSinExistencia()
         {
@@ -57,8 +48,9 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
 
         [Authorize(Roles = "Administrador")]
         [Route("Inventario/AgregarInventario")]
-        public ActionResult AgregarInventario()
+        public ActionResult AgregarInventario(String Accion)
         {
+            ViewBag.Accion = Accion;
             return View();
         }
 
@@ -94,8 +86,39 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
             }
         }
         [Authorize(Roles = "Administrador")]
+        [Route("Inventario/AgregarInventarioDisponible")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AgregarInventarioDisponible(Inventario inventario)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (!RepositorioFacturacion.ProductoExiste(inventario))
+                    {
+                        RepositorioFacturacion.AgregarInventario(inventario);
+                        return RedirectToAction(nameof(ListarProductosDisponibles));
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Codigo_Prodcuto", "El código ingresado  ya  existe");
+                        return View();
+                    }
+                }
+                else
+                {
+                    return View();
+                }
+            }
+            catch
+            {
+                return View();
+            }
+        }
+        [Authorize(Roles = "Administrador")]
         [Route("Inventario/EditarProducto")]
-        public ActionResult EditarProducto(String Codigo_Prodcuto)
+        public ActionResult EditarProducto(String Codigo_Prodcuto, String Accion)
         {
             Inventario producto = RepositorioFacturacion.ObternerPorCodigo(Codigo_Prodcuto);
             return View(producto);
@@ -124,15 +147,85 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
                 return View();
             }
         }
+        //
+        [Authorize(Roles = "Administrador")]
+        [Route("Inventario/EditarProductoDisponible")]
+        public ActionResult EditarProductoDisponible(String Codigo_Prodcuto)
+        {
+            Inventario producto = RepositorioFacturacion.ObternerPorCodigo(Codigo_Prodcuto);
+            return View(producto);
+        }
+
+        [Authorize(Roles = "Administrador")]
+        [HttpPost]
+        [Route("Inventario/EditarProductoDisponible")]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditarProductoDisponible(Inventario producto)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    RepositorioFacturacion.EditarProducto(producto);
+                    return RedirectToAction(nameof(ListarProductosDisponibles));
+                }
+                else
+                {
+                    return View();
+                }
+            }
+            catch
+            {
+                return View();
+            }
+        }
+        //
+        [Authorize(Roles = "Administrador")]
+        [Route("Inventario/EditarProductoFueraDeInventario")]
+        public ActionResult EditarProductoFueraDeInventario(String Codigo_Prodcuto, String Accion)
+        {
+            Inventario producto = RepositorioFacturacion.ObternerPorCodigo(Codigo_Prodcuto);
+            return View(producto);
+        }
+
+        [Authorize(Roles = "Administrador")]
+        [HttpPost]
+        [Route("Inventario/EditarProductoFueraDeInventario")]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditarProductoFueraDeInventario(Inventario producto)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    RepositorioFacturacion.EditarProducto(producto);
+                    return RedirectToAction(nameof(ListarProductosSinExistencia));
+                }
+                else
+                {
+                    return View();
+                }
+            }
+            catch
+            {
+                return View();
+            }
+        }
 
         [Authorize(Roles = "Administrador")]
         [Route("Inventario/EliminarProducto")]
-        public ActionResult EliminarProducto(string Codigo_Prodcuto)
+        public ActionResult EliminarProducto(string Codigo_Prodcuto, string Accion)
         {
             try
             {
                 RepositorioFacturacion.FueraServicio(Codigo_Prodcuto);
-                return RedirectToAction(nameof(ListarInventario));
+                if (Accion.Equals("Total")) 
+                {
+                    return RedirectToAction(nameof(ListarInventario));
+                }else
+                {
+                    return RedirectToAction(nameof(ListarProductosDisponibles));
+                }
 
             }
             catch (Exception ex)

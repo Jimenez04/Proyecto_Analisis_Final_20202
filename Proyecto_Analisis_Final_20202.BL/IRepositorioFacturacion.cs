@@ -46,7 +46,6 @@ namespace Proyecto_Analisis_Final_20202.BL
         public void EditarEmpresa(Empresa empresa);
 
         public List<Inventario> ObtenerProductosSinExistencia ();
-        public List<Inventario> ObtenerProductosFueraDeServicio();
         public List<Inventario> ObtenerProductosDisponibles();
         public Boolean ProductoExiste(Inventario producto);
 

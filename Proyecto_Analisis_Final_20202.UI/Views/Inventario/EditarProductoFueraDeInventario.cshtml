@@ -1,0 +1,73 @@
+﻿@model Proyecto_Analisis_Final_20202.Models.Inventario
+
+@{
+    ViewData["Title"] = "EditarProductoFueraDeInventario";
+}
+
+<link href="~/css/FondoPantalla.css" rel="stylesheet" />
+<br />
+
+<h1 style="text-align:center; font-family:'Radley' ; font-weight:bold"> Datos del Producto</h1>
+
+<hr /> 
+<div class="row" style=" font-family: 'Radley' ; font-weight:bold" >
+    <div class="col-md-4">
+    </div>
+    <div class="col-4">
+        <form asp-action="EditarProductoFueraDeInventario">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <input type="hidden" asp-for="Codigo_Prodcuto" />
+            </div>
+            <div class="form-group">
+                <input type="hidden" asp-for="ID_Categoria" />
+            </div>
+            <div class="form-group">
+                <input type="hidden" asp-for="ID_Estado" />
+            </div>
+            <div class="form-group">
+                <input type="hidden" asp-for="Nombre" />
+            </div>
+            <div class="form-group">
+                <input type="hidden" asp-for="Descripcion" />
+            </div>
+            <div class="form-group " style="text-align:center">
+                <label asp-for="PrecionDeVenta" class="control-label"></label>
+                <input asp-for="PrecionDeVenta" class="form-control" />
+                <span asp-validation-for="PrecionDeVenta" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="text-align:center">
+                <label asp-for="PrecionDeCompra" class="control-label"></label>
+                <input asp-for="PrecionDeCompra" class="form-control" />
+                <span asp-validation-for="PrecionDeCompra" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="text-align:center">
+                <label asp-for="Cantidad_Disponible" class="control-label"></label>
+                <input asp-for="Cantidad_Disponible" class="form-control" />
+                <span asp-validation-for="Cantidad_Disponible" class="text-danger"></span>
+            </div>
+
+            <div class="row align-items-end">
+                <div class="col-4">
+                    <a asp-action="ListarProductosSinExistencia" style=" font-family:'Radley'" class="btn btn-primary">Volver</a>
+                </div>
+                <div class="col-4" style="text-align:center">
+                    <br />
+                    <input type="submit" value="Actualizar" class="btn btn-success" />
+                </div>
+                <div class="col-4">
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+    <div class="col-4">
+
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -73,11 +73,11 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
         [Route("Persona/EditarPersona")]
         public ActionResult EditarPersona(String Cedula)
         {
-            ViewBag.Pais = new SelectList(RepositorioFacturacion.ListadoDeProvincias(), "ID_Provincia", "Nombre_Provincia");
-            ViewBag.Cantones = new SelectList(RepositorioFacturacion.ListadoDeCantones(0), "ID_Canton", "ID_Provincia", "Nombre_Canton");
-            ViewBag.Distritos = new SelectList(RepositorioFacturacion.ListadoDeDistritos(0, 0), "ID_Distrito", "ID_Canton", "ID_Provincia", "Nombre");
-            ViewBag.Sexo = new SelectList(RepositorioFacturacion.ListadoDeSexos(), "ID_Sexo", "Nombre_Sexo");
             Persona persona = RepositorioFacturacion.ObtenerPersonaPorCedula(Cedula);
+            ViewBag.Pais = new SelectList(RepositorioFacturacion.ListadoDeProvincias(), "ID_Provincia", "Nombre_Provincia");
+            ViewBag.Cantones = new SelectList(RepositorioFacturacion.ListadoDeCantones((int)persona.ID_Provincia), "ID_Canton", "ID_Provincia", "Nombre_Canton");
+            ViewBag.Distritos = new SelectList(RepositorioFacturacion.ListadoDeDistritos((int)persona.ID_Provincia, (int)persona.ID_Canton), "ID_Distrito", "ID_Canton", "ID_Provincia", "Nombre");
+            ViewBag.Sexo = new SelectList(RepositorioFacturacion.ListadoDeSexos(), "ID_Sexo", "Nombre_Sexo");
             return View(persona);
         }
 

@@ -10,11 +10,7 @@ namespace Proyecto_Analisis_Final_20202.Models
     {
         Disponible = 1,
 
-        [Display(Name = "Sin existencias")]
+        [Display(Name = "Fuera de servicio")]
         Sin_existencias = 2,
-
-        [Display(Name = "Fuera de inventario")]
-        Fuera_de_Inventario =3 
-
     }
 }

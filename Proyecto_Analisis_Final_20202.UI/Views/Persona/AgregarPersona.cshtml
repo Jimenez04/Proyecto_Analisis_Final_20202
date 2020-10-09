@@ -6,11 +6,11 @@
 
 <link href="~/css/FondoPantalla.css" rel="stylesheet" />
 <br/>
-<h1 style="text-align:center; font-family:'Radley'">Datos Cliente</h1>
+<h1 style="text-align:center; font-family:'Radley' ; font-weight:bold">Datos Cliente</h1>
 
 <hr />
 <form asp-action="AgregarPersona">
-    <div class="container" style=" font-family: 'Radley' ">
+    <div class="container" style=" font-family: 'Radley'; font-weight: bold ">
         <div class="row align-items-start"  style="text-align: center">
             <div class="col">
                 <div class="form-group">
@@ -35,21 +35,21 @@
             <div class="col">
                 <div class="form-group">
                     <label asp-for="Nombre1" class="control-label"></label>
-                    <input asp-for="Nombre1" class="form-control" />
+                    <input asp-for="Nombre1" class="form-control" placeholder="Juan"/>
                     <span asp-validation-for="Nombre1" class="text-danger"></span>
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
                     <label asp-for="Nombre2" class="control-label"></label>
-                    <input asp-for="Nombre2" class="form-control" />
+                    <input asp-for="Nombre2" class="form-control" placeholder="José" />
                     <span asp-validation-for="Nombre2" class="text-danger"></span>
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
                     <label asp-for="telefono.Numero" class="control-label"></label>
-                    <input asp-for="telefono.Numero" class="form-control" />
+                    <input asp-for="telefono.Numero" class="form-control" placeholder="83973964"/>
                     <span asp-validation-for="telefono.Numero" class="text-danger"></span>
                 </div>
             </div>
@@ -58,21 +58,21 @@
             <div class="col">
                 <div class="form-group">
                     <label asp-for="Apellido1" class="control-label"></label>
-                    <input asp-for="Apellido1" class="form-control" />
+                    <input asp-for="Apellido1" class="form-control" placeholder="Calderón" />
                     <span asp-validation-for="Apellido1" class="text-danger"></span>
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
                     <label asp-for="Apellido2" class="control-label"></label>
-                    <input asp-for="Apellido2" class="form-control" />
+                    <input asp-for="Apellido2" class="form-control" placeholder="Velásquez" />
                     <span asp-validation-for="Apellido2" class="text-danger"></span>
                 </div>
             </div>
             <div class="col">
                 <div class="form-group">
                     <label asp-for="Correo.Correo" class="control-label"></label>
-                    <input asp-for="Correo.Correo" class="form-control" />
+                    <input asp-for="Correo.Correo" class="form-control" placeholder="juanjojo1231@hotmail.es"/>
                     <span asp-validation-for="Correo.Correo" class="text-danger"></span>
                 </div>
             </div>
@@ -125,7 +125,7 @@
             </div>
             <div class="col-4" style="text-align:center" >
                 <br />
-                <input  type="submit" value="Crear" class="btn btn-primary" />
+                <input  type="submit" value="Crear" class="btn btn-success" />
             </div>
             <div class="col-4">
             </div>

@@ -17,11 +17,11 @@
 
 #VentanaNuevoUsuario {
     width: 500px;
-    height: 500px;
+    height: 540px;
     border: 3px solid white;
     border-radius: 22px;
     padding: 9px;
-    top: 50px;
+    top: 0px;
 }
 
 

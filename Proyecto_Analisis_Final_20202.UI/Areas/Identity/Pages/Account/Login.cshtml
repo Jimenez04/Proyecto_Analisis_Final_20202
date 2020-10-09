@@ -17,25 +17,18 @@
         <form id="account" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group" style=" font-family:'Radley' ">
-                <input asp-for="Input.UserName" class="form-control" id="IconoInicio"placeholder="Nombre de usuario" />
-                <span asp-validation-for="Input.UserName" class="text-danger" id="text1"></span>
+                <input asp-for="Input.UserName" class="form-control" placeholder="Nombre de usuario" />
+                <span asp-validation-for="Input.UserName" class="text-danger"></span>
             </div>
 
             <div class="form-group" style=" font-family:'Radley' ">
-                <input asp-for="Input.Password" class="form-control" id="CampoCandado" placeholder="Contraseña" />
-                <span asp-validation-for="Input.Password" class="text-danger" id="text3"></span>
+                <input asp-for="Input.Password" class="form-control" placeholder="Contraseña" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
-            <center>
-                <div id="cabecera" class="form-group" style=" font-family:'Radley'">
-                    <button type="submit" class="btn btn-primary">Ingresar</button>
-                </div>
-
-                <img src="~/IconoLabelInicio.png" width="35" height="35" id="IconoLabel" style="background:white" />
-                <img src="~/Candado.png" width="26" height="26" id="IconoCandado" style="background:white" />
-
-
-            </center>
-            <a style="color: white; font-family:'Radley'; font-size: 15px; font-weight:normal" href='/PortalPrincipal/PantallaPrincipal' class="btn btn-success"> Volver</a>
+            <div class="form-group">
+                    <a style="color: white; font-family:'Radley'; font-size: 15px; font-weight:normal" href='/PortalPrincipal/PantallaPrincipal' class="btn btn-primary"> Volver</a>
+                    <button style="color: white; font-family:'Radley'; font-size: 15px; font-weight:normal;" type="submit" class="btn btn-success">Ingresar</button>
+            </div>
         </form>
     </div>
 

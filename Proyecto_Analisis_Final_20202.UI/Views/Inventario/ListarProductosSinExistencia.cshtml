@@ -5,7 +5,7 @@
 }
 
 <br />
-<h1 style="text-align:center; font-weight:bold; font-family: 'Radley';font-size:40px ">Productos Sin Existencias</h1>
+<h1 style="text-align:center; font-weight:bold; font-family: 'Radley';font-size:40px ">Productos Fuera de Servicio</h1>
 
 <link href="~/css/FondoPantalla.css" rel="stylesheet" />
 <br />
@@ -65,7 +65,7 @@
                     @Html.DisplayFor(modelItem => item.ID_Estado)
                 </td>
                 <td>
-                    @Html.ActionLink("", "EditarProducto", new { Codigo_Prodcuto = item.Codigo_Prodcuto }, new { @style = "background:url('/EditarInventario.png') no-repeat; display:block; height: 35px; width: 35px" })
+                    @Html.ActionLink("", "EditarProductoFueraDeInventario", new { Codigo_Prodcuto = item.Codigo_Prodcuto }, new { @style = "background:url('/EditarInventario.png') no-repeat; display:block; height: 35px; width: 35px" })
                 </td>
             </tr>
         }

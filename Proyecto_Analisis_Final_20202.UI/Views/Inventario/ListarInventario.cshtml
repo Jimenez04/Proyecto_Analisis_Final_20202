@@ -12,7 +12,7 @@
 <br />
 
 <p>
-    <a title="AgregarInventario" asp-action="AgregarInventario" style="font-family: 'Radley'; color:black; font-size:16px ">
+    <a title="AgregarInventario"   href="AgregarInventario?Accion=Total" style="font-family: 'Radley'; color:black; font-size:16px ">
         <img src="~/Agregar.png" width="40" height="40" alt="AgregarInventario" />
         Agregar
     </a>
@@ -78,7 +78,7 @@
                 @Html.ActionLink("", "EditarProducto", new { Codigo_Prodcuto = item.Codigo_Prodcuto }, new { @style = "background:url('/EditarInventario.png') no-repeat; display:block; height: 35px; width: 35px" })
             </td>
             <td>
-                @Html.ActionLink("", "EliminarProducto", new { Codigo_Prodcuto = item.Codigo_Prodcuto }, new { @style = "background:url('/cancelar.png') no-repeat ; display:block; height: 36px; width: 36px" })
+                @Html.ActionLink("", "EliminarProducto", new { Codigo_Prodcuto = item.Codigo_Prodcuto, Accion = "Total" }, new { @style = "background:url('/cancelar.png') no-repeat ; display:block; height: 36px; width: 36px" })
             </td>
         </tr>
         }
