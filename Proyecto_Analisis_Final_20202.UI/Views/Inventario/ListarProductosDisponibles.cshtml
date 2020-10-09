@@ -10,12 +10,20 @@
 <link href="~/css/FondoPantalla.css" rel="stylesheet" />
 <br />
 
+@if (User.IsInRole("Administrador"))
+{
 <p>
     <a title="AgregarInventario" href="AgregarInventario?Accion=Disponibles" style="font-family: 'Radley'; color:black; font-size:16px ">
         <img src="~/Agregar.png" width="40" height="40" alt="AgregarInventario" />
         Agregar
     </a>
 </p>
+}
+else
+{
+}
+
+
 
 <table class="table" style=" text-align: center;font-family:'Radley' ">
     <thead>
@@ -41,43 +49,55 @@
             <th>
                 @Html.DisplayNameFor(model => model.ID_Estado)
             </th>
-            <th> </th>
-            <th></th>
+            @if (User.IsInRole("Administrador"))
+            {
+                <th> </th>
+                <th></th>
+            }
+            else
+            {
+            }
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr style=" font-family:'Radley'">
-                <td>
-                    @Html.DisplayFor(modelItem => item.Codigo_Prodcuto)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nombre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Precio_Compra)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Precio_Venta)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Descripcion)
-                </td>
+        <tr style=" font-family:'Radley'">
+            <td>
+                @Html.DisplayFor(modelItem => item.Codigo_Prodcuto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Precio_Compra)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Precio_Venta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Cantidad_Disponible)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ID_Estado)
-                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cantidad_Disponible)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ID_Estado)
+            </td>
+            @if (User.IsInRole("Administrador"))
+            {
                 <td>
                     @Html.ActionLink("", "EditarProductoDisponible", new { Codigo_Prodcuto = item.Codigo_Prodcuto }, new { @style = "background:url('/EditarInventario.png') no-repeat; display:block; height: 35px; width: 35px" })
                 </td>
                 <td>
                     @Html.ActionLink("", "EliminarProducto", new { Codigo_Prodcuto = item.Codigo_Prodcuto, Accion = "Disponibles" }, new { @style = "background:url('/cancelar.png') no-repeat ; display:block; height: 36px; width: 36px" })
                 </td>
-            </tr>
+            }
+            else
+            {
+            }
+        </tr>
         }
     </tbody>
 </table>

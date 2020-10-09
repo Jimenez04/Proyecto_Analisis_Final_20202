@@ -46,7 +46,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Areas.Identity.Pages.Account.Manage
 
             [DataType(DataType.Password)]
             [Display(Name = "Confirme su contraseña")]
-            [Compare("NewPassword", ErrorMessage = "Las contraseñas no coinciden")]
+            [Compare("NewPassword", ErrorMessage = "Nuevas Contraseñas no Coinciden")]
             public string ConfirmPassword { get; set; }
         }
 

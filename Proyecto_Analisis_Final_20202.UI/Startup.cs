@@ -12,6 +12,7 @@ using Proyecto_Analisis_Final_20202.DA;
 using Proyecto_Analisis_Final_20202.BL;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Proyecto_Analisis_Final_20202.Models;
 
 namespace Proyecto_Analisis_Final_20202.UI
 {
@@ -41,7 +42,7 @@ namespace Proyecto_Analisis_Final_20202.UI
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
-            }).AddRoles<IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+            }).AddRoles<IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddErrorDescriber<MensajesEspanol>();
 
             services.AddMvc(options =>
             {

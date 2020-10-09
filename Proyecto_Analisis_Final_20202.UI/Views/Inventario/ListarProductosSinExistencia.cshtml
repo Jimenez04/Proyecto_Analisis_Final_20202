@@ -34,40 +34,53 @@
             <th>
                 @Html.DisplayNameFor(model => model.ID_Estado)
             </th>
-            <th> </th>
-            <th></th>
+            @if (User.IsInRole("Administrador"))
+            {
+        <th> </th>
+            }
+            else
+            {
+            }
+            
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr style=" font-family:'Radley'">
-                <td>
-                    @Html.DisplayFor(modelItem => item.Codigo_Prodcuto)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nombre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Precio_Compra)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Precio_Venta)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Descripcion)
-                </td>
+        <tr style=" font-family:'Radley'">
+            <td>
+                @Html.DisplayFor(modelItem => item.Codigo_Prodcuto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Precio_Compra)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Precio_Venta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
 
-                <td>
-                    @Html.DisplayFor(modelItem => item.Cantidad_Disponible)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ID_Estado)
-                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cantidad_Disponible)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ID_Estado)
+            </td>
+            @if (User.IsInRole("Administrador"))
+            {
                 <td>
                     @Html.ActionLink("", "EditarProductoFueraDeInventario", new { Codigo_Prodcuto = item.Codigo_Prodcuto }, new { @style = "background:url('/EditarInventario.png') no-repeat; display:block; height: 35px; width: 35px" })
                 </td>
-            </tr>
+            }
+            else
+            {
+            }
+
+        </tr>
         }
     </tbody>
 </table>
