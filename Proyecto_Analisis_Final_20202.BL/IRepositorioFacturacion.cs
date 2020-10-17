@@ -55,5 +55,11 @@ namespace Proyecto_Analisis_Final_20202.BL
 
         public void AgregarPersonas(Persona persona);
 
+        // Prueba del XML  
+        public Factura BuscarFactura(String consecutivo);
+
+        public Cliente ObtenerCliente_porConsecutivo(string consecutivo);
+
+        public List<DetalleFactura> ElDetalleDeFactura(string consecutivo);
     }
 }

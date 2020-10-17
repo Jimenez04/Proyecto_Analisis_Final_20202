@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using System.Xml;
+using System.IO;
 
 namespace Proyecto_Analisis_Final_20202.BL
 {
@@ -19,7 +21,7 @@ namespace Proyecto_Analisis_Final_20202.BL
         {
             return (from c in ElContextoDeBaseDeDatos.Canton
                     where (c.ID_Provincia == ID_Provincia)
-                    select c).ToList(); 
+                    select c).ToList();
         }
 
         public List<Distrito> ListadoDeDistritos(int ID_Provincia, int ID_Canton)
@@ -41,9 +43,9 @@ namespace Proyecto_Analisis_Final_20202.BL
         }
         public bool VerificaciondeExistenciaEmpresa(string Cedula_Judica)
         {
-          Empresa empresa = new Empresa();
+            Empresa empresa = new Empresa();
             empresa = ElContextoDeBaseDeDatos.Empresa.Find(Cedula_Judica);
-           
+
             if (empresa != null)
             {
                 return true;
@@ -58,7 +60,7 @@ namespace Proyecto_Analisis_Final_20202.BL
             Empresa NuevaEmpresa = new Empresa();
             NuevaEmpresa.Cedula_Juridica = nuevaCuentaEmpresarial.Cedula;
             //NuevaEmpresa.Nombre = nuevaCuentaEmpresarial.NombreOrganizacion;
-           // EnvioDeDatosParaLoginCorreo(usuario_Empresa.Clave, usuario_Empresa.Nombre_Usuario, nuevaCuentaEmpresarial.CorreoElectronico);
+            // EnvioDeDatosParaLoginCorreo(usuario_Empresa.Clave, usuario_Empresa.Nombre_Usuario, nuevaCuentaEmpresarial.CorreoElectronico);
             //InicioSecion(usuario_Empresa.Clave, usuario_Empresa.Nombre_Usuario);
 
             //-------  Datos de Invento Ficticios----------------- 
@@ -145,12 +147,12 @@ namespace Proyecto_Analisis_Final_20202.BL
             producto.Precio_Compra = double.Parse(producto.PrecionDeCompra);
             producto.Precio_Venta = double.Parse(producto.PrecionDeVenta);
 
-            if (producto.Cantidad_Disponible > 0 )
+            if (producto.Cantidad_Disponible > 0)
             {
                 producto.ID_Estado = EstadoInventario.Disponible;
-            }else if (producto.Cantidad_Disponible == 0 && producto.ID_Estado == EstadoInventario.Disponible)
+            } else if (producto.Cantidad_Disponible == 0 && producto.ID_Estado == EstadoInventario.Disponible)
             {
-            producto.ID_Estado = EstadoInventario.Sin_existencias;
+                producto.ID_Estado = EstadoInventario.Sin_existencias;
             }
             ElContextoDeBaseDeDatos.Inventario.Update(producto);
             ElContextoDeBaseDeDatos.SaveChanges();
@@ -172,16 +174,21 @@ namespace Proyecto_Analisis_Final_20202.BL
             persona.telefono.Cedula = persona.Cedula;
             persona.Correo.Cedula = persona.Cedula;
 
+
             ElContextoDeBaseDeDatos.Persona.Add(persona);
+
             ElContextoDeBaseDeDatos.SaveChanges();
+
             ElContextoDeBaseDeDatos.Telefono.Add(persona.telefono);
             ElContextoDeBaseDeDatos.Correo_Electronico.Add(persona.Correo);
+
             ElContextoDeBaseDeDatos.SaveChanges();
+          
         }
 
         public bool PersonaExiste(Persona persona)
         {
-            
+
             var existencia = ElContextoDeBaseDeDatos.Persona.Find(persona.Cedula);
 
             if (existencia != null) {
@@ -192,10 +199,10 @@ namespace Proyecto_Analisis_Final_20202.BL
             {
                 return false;
 
-            }                 
+            }
         }
 
-        public bool ProductoExiste( Inventario producto)
+        public bool ProductoExiste(Inventario producto)
         {
 
             var existencia = ElContextoDeBaseDeDatos.Inventario.Find(producto.Codigo_Prodcuto);
@@ -226,9 +233,11 @@ namespace Proyecto_Analisis_Final_20202.BL
         {
             ElContextoDeBaseDeDatos.Persona.Update(persona);
             ElContextoDeBaseDeDatos.SaveChanges();
+
+            GenerarXMLDeFactura(BuscarFactura("1000000000000000000000000000000000000000000000001"));
         }
 
-        public Empresa ObtenerEmpresa() 
+        public Empresa ObtenerEmpresa()
         {
             return ElContextoDeBaseDeDatos.Empresa.Find("1234567890");
         }
@@ -240,7 +249,7 @@ namespace Proyecto_Analisis_Final_20202.BL
         }
 
         //Para Inventario
-        
+
 
         public void FueraServicio(string Codigo_Prodcuto)
         {
@@ -255,8 +264,8 @@ namespace Proyecto_Analisis_Final_20202.BL
         public List<Inventario> ObtenerProductosSinExistencia()
         {
             return (from c in ElContextoDeBaseDeDatos.Inventario
-             where c.ID_Estado == EstadoInventario.Sin_existencias
-            select c).ToList();
+                    where c.ID_Estado == EstadoInventario.Sin_existencias
+                    select c).ToList();
         }
 
         public List<Inventario> ObtenerProductosDisponibles()
@@ -265,5 +274,139 @@ namespace Proyecto_Analisis_Final_20202.BL
                     where c.ID_Estado == EstadoInventario.Disponible
                     select c).ToList();
         }
+        public Cliente ObtenerCliente_porConsecutivo(string consecutivo)
+        {
+            return (from c in ElContextoDeBaseDeDatos.Cliente
+                   where c.Consecutivo == consecutivo 
+                   select c).First();
+        }
+
+        public List<DetalleFactura> ElDetalleDeFactura(string consecutivo)
+        {
+            return (from c in ElContextoDeBaseDeDatos.DetalleFactura
+                    where c.Consecutivo == consecutivo
+                    select c).ToList();
+        }
+
+        public Factura BuscarFactura(string consecutivo)
+        {
+            return (from c in ElContextoDeBaseDeDatos.Factura
+                    where c.Consecutivo == consecutivo
+                    select c).First();
+        }
+
+        // Metodo de creación del XML 
+        public String GenerarXMLDeFactura(Factura factura)
+        {
+            Cliente cliente = ObtenerCliente_porConsecutivo(factura.Consecutivo);
+
+            Persona persona = ObtenerPersonaPorCedula(cliente.Cedula);
+
+            Empresa empresa = ObtenerEmpresa();
+
+            List <DetalleFactura> detalleFactura = ElDetalleDeFactura(factura.Consecutivo); 
+
+            
+
+
+
+            // Esto es una prueba humilde del XML 
+            List<DetalleFactura> DT = new List< DetalleFactura>();
+            
+
+
+
+            XmlDocument doc = new XmlDocument();
+            XmlDeclaration xmlDeclaration = doc.CreateXmlDeclaration("1.0", "UTF-8", null);
+            XmlElement root = doc.DocumentElement;
+            doc.InsertBefore(xmlDeclaration, root);
+
+            XmlElement seccionpersona = doc.CreateElement(string.Empty, "Facturacion", string.Empty);
+            doc.AppendChild(seccionpersona);
+
+            // Fecha 
+            // Datos de la empresa
+            //Consecutivo 
+            // MedioPago 
+            // Unidad de medida
+            //Subtotal
+            //MontoTotal
+            //Impuesto
+            //Detalle
+
+            XmlElement subseccionpersona = doc.CreateElement(string.Empty, "Persona", string.Empty);
+            seccionpersona.AppendChild(subseccionpersona);
+
+
+            XmlElement nombrepersona = doc.CreateElement(string.Empty, "Nombre", string.Empty);
+            XmlText textnombrepersona = doc.CreateTextNode(persona.Nombre1);
+            nombrepersona.AppendChild(textnombrepersona);
+            subseccionpersona.AppendChild(nombrepersona);
+
+            XmlElement Apellido1 = doc.CreateElement(string.Empty, "Apellido1", string.Empty);
+            XmlText textapellido1 = doc.CreateTextNode(persona.Apellido1);
+            Apellido1.AppendChild(textapellido1);
+            subseccionpersona.AppendChild(Apellido1);
+
+            XmlElement Apellido2 = doc.CreateElement(string.Empty, "Apellido2", string.Empty);
+            XmlText textapellido2 = doc.CreateTextNode(persona.Apellido2);
+            Apellido2.AppendChild(textapellido2);
+            subseccionpersona.AppendChild(Apellido2);
+             
+           String correodestino = (from c in ElContextoDeBaseDeDatos.Correo_Electronico
+                          where c.Cedula == persona.Cedula
+                          select c.Correo).ToString();
+
+            XmlElement correopersona = doc.CreateElement(string.Empty, "Destinatario", string.Empty);
+            XmlText textcorreopersona = doc.CreateTextNode(persona.Correo.Correo);
+            correopersona.AppendChild(textcorreopersona);
+            subseccionpersona.AppendChild(correopersona);
+
+
+            // Nueva sección de productos 
+            XmlElement productos = doc.CreateElement(string.Empty, "Productos", string.Empty);
+            seccionpersona.AppendChild(productos);
+
+            XmlElement subseccionproductos = doc.CreateElement(string.Empty, "Producto", string.Empty);
+            productos.AppendChild(subseccionproductos);
+            /**
+             foreach (var item in DT)
+             {
+                 XmlElement subseccionproductos = doc.CreateElement(string.Empty, "Producto", string.Empty);
+                 productos.AppendChild(subseccionproductos);
+
+                 XmlElement codigoproducto = doc.CreateElement(string.Empty, "CodigoProducto", string.Empty);
+                 XmlText textcodigoproducto = doc.CreateTextNode(item.Codigo_Producto);
+                 codigoproducto.AppendChild(textcodigoproducto);
+                 productos.AppendChild(codigoproducto);
+
+
+                 XmlElement nombreproducto = doc.CreateElement(string.Empty, "NombreProducto", string.Empty);
+                 XmlText textonombre = doc.CreateTextNode(item.Codigo_Producto);
+                 nombreproducto.AppendChild(textonombre);
+                 productos.AppendChild(nombreproducto);
+
+                 XmlElement cantidad = doc.CreateElement(string.Empty, "Cantidad", string.Empty);
+                 XmlText textocantidad = doc.CreateTextNode(item.Cantidad.ToString());
+                 cantidad.AppendChild(textocantidad);
+                 productos.AppendChild(cantidad);
+
+                 XmlElement precio = doc.CreateElement(string.Empty, "Precio", string.Empty);
+                 XmlText textoprecio = doc.CreateTextNode(item.Precio_Unidad.ToString());
+                 precio.AppendChild(textoprecio);
+                 productos.AppendChild(precio); 
+
+             }
+            **/
+
+            doc.Save("C:/Users/josue/Desktop/FC/" + persona.Cedula+".xml"); // Modificar esta ruta si se va a usar 
+              String total = doc.OuterXml;
+
+            return total;
+
+
+        }
+
+        
     }
 }

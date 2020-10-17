@@ -16,9 +16,15 @@ namespace Proyecto_Analisis_Final_20202.DA
 
             public DbSet<Distrito> Distrito { get; set; }
 
-            public DbSet<Canton> Canton { get; set; }
+            public DbSet<Canton> Canton { get; set; } 
 
-            public DbSet<Provincia> Provincia { get; set; }
+          public DbSet<Cliente> Cliente { get; set; }
+
+        public DbSet<DetalleFactura> DetalleFactura { get; set; }
+
+        public DbSet<Factura> Factura { get; set; }
+
+        public DbSet<Provincia> Provincia { get; set; }
 
         public DbSet<Telefono> Telefono { get; set; }
 

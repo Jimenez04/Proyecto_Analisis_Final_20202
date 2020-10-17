@@ -7,8 +7,12 @@ using System.Text;
 
 namespace Proyecto_Analisis_Final_20202.Models
 {
-    class Cliente
-    { 
+    public class Cliente
+    {
+        [Key]
+        public int ID { get; set; }
+
+
         [ForeignKey ("Persona")] 
         [Required(ErrorMessage ="La cedula es requerida")]
         [DisplayName ("Cedula")]
