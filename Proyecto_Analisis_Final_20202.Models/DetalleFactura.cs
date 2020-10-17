@@ -9,6 +9,9 @@ namespace Proyecto_Analisis_Final_20202.Models
 {
     public class DetalleFactura
     {
+        [Key]
+        public int ID { get; set; }
+
         [ForeignKey("Empresa")]
         [RegularExpression("(^[0-9]+$)", ErrorMessage = "Solo se permiten números")]
         [DisplayName("Consecutivo")]

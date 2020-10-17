@@ -13,7 +13,7 @@ namespace Proyecto_Analisis_Final_20202.Models
         [Required(ErrorMessage = "El código de producto es requerido")]
         [DisplayName("Código")]
         [MaxLength(25, ErrorMessage = "El tamaño máximo del codigo de producto es de 25 caracteres")]
-        public String Codigo_Prodcuto { get; set; }
+        public String Codigo_Producto { get; set; }
 
         [Required(ErrorMessage = "El nombre del producto es requerido")]
         [DisplayName("Nombre")]

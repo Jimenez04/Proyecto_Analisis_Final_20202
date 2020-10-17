@@ -183,8 +183,9 @@
             $("#SubTotalProducto").val(subtotalsuma - (subtotalsuma * (Descuento/100)));
             $("#ImpuestoProducto").val("13");
             var Total = $("#SubTotalProducto").val();
-            var Impuesto = $("#ImpuestoProducto").val();
-            $("#TotalProducto").val(Total + (Total * (Impuesto / 100)));
+            var suma = Total + (Total * (13 / 100));
+            $("#TotalProducto").val(suma);
+            console.log(suma);
         }
 
         function EliminarFila() {
@@ -213,7 +214,7 @@
             {
                 console.log(Producto);
                 $("#CantidadDisponible").val(Producto.cantidad_Disponible);
-                $("#CodigoProducto").val(Producto.codigo_Prodcuto);
+                $("#CodigoProducto").val(Producto.codigo_Producto);
                 $("#Descripcion").val(Producto.descripcion);
                 $("#NombreProducto").val(Producto.nombre);
                 $("#PrecioProducto").val(Producto.precio_Venta);
