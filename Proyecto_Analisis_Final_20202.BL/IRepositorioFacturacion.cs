@@ -9,6 +9,7 @@ namespace Proyecto_Analisis_Final_20202.BL
     {
         public Boolean VerificaciondeExistenciaEmpresa(string cedulaJudica);
 
+        public List<DetalleFactura> Carrito(String codigo);
         public Empresa ObtenerEmpresa();
         public List<Sexo> ListadoDeSexos();
 
