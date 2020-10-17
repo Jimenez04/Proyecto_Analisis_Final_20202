@@ -126,9 +126,23 @@ namespace Proyecto_Analisis_Final_20202.BL
         {
             Inventario producto;
             producto = ElContextoDeBaseDeDatos.Inventario.Find(codigo);
-            producto.PrecionDeCompra = producto.Precio_Compra.ToString();
-            producto.PrecionDeVenta = producto.Precio_Venta.ToString();
+            if (producto != null)
+            {
+                producto.PrecionDeCompra = producto.Precio_Compra.ToString();
+                producto.PrecionDeVenta = producto.Precio_Venta.ToString();
+            }
             return producto;
+        }
+
+        public List<DetalleFactura> Carrito(String codigo)
+        {
+            Inventario producto;
+            producto = ElContextoDeBaseDeDatos.Inventario.Find(codigo);
+            DetalleFactura DTT = new DetalleFactura();
+            DTT.Codigo_Producto = producto.Codigo_Producto;
+            DTT.Nombre_Articulo = producto.Nombre;
+           
+            return null;
         }
 
         public void AgregarInventario(Inventario inventario)
@@ -205,7 +219,7 @@ namespace Proyecto_Analisis_Final_20202.BL
         public bool ProductoExiste(Inventario producto)
         {
 
-            var existencia = ElContextoDeBaseDeDatos.Inventario.Find(producto.Codigo_Prodcuto);
+            var existencia = ElContextoDeBaseDeDatos.Inventario.Find(producto.Codigo_Producto);
 
             if (existencia != null)
             {

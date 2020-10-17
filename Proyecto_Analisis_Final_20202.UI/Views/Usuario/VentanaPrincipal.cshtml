@@ -1,160 +1,266 @@
-﻿@model IEnumerable<Proyecto_Analisis_Final_20202.Models.DetalleFactura>
+﻿<div>
+    @model IEnumerable<Proyecto_Analisis_Final_20202.Models.DetalleFactura>
 
-@{
-    ViewData["Title"] = "VentanaPrincipal";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    @{
+        ViewData["Title"] = "VentanaPrincipal";
+        Layout = "~/Views/Shared/_Layout.cshtml";
 
-}
-<br />
-<h4 style=" font-family:'Radley' ">Sistema de facturacion</h4>
+    }
 
-<link href="~/css/FondoPantalla.css" rel="stylesheet" />
-<br />
+    <br />
+    <h4 style=" font-family:'Radley' ">Sistema de facturacion</h4>
 
-<div class="row" style=" font-family:'Radley' ">
-    <div class="col-md-1"><input id="CampoNuevoArticulo" type="text" placeholder="Código" /></div>
-    <div class="col-md-1"> </div>
-    <div class="col-md-1"><input style=" font-family:'Radley'; background-color:#0B73D5" type="submit" value="Agregar" /></div>
-    <div class="col-md-1"></div>
-    <div class="col-md-1"></div>
-    <div class="col-md-1"></div>
-    <div class="col-md-1"></div>
-    <div class="col-md-1"></div>
-    <div class="col-md-1"></div>
-    <div class="col-md-1"></div>
-    <div class="col-md-1"></div>
-    <div class="col-md-1"></div>
-</div>
-<br />
-<div class="row">
-    <div class="col-md-10">
-        <table-container style="max-width: 100%; overflow-y: scroll;">
-            <table class="table" >
-                <thead>
-                    <tr style=" font-family:'Radley' ; text-align:center; background-color: lightblue;  font-size:medium; color:black;">
-                        <th>
-                            @Html.DisplayNameFor(model => model.Codigo_Producto)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Cantidad)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Nombre_Articulo)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Precio_Unidad)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.SubTotal)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Descuento)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Impuesto_Producto)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Total)
-                        </th>
+    <br />
 
+    <form action="javascript:VerificarArticulo()">
+        <div class="row" style=" font-family:'Radley' ">
+            <div class="col-md-1"><input id="CampoNuevoArticulo" type="text" placeholder="Código" name="CodigoArticulo" required autofocus /></div>
+            <div class="col-md-1"> </div>
+            <div class="col-md-1">
+                <input style=" font-family:'Radley'; background-color:#0B73D5" type="submit" value="Agregar" />
+            </div>
+            <div class="col-md-1">
+                <img src="~/icons8-eliminar-96 (1).png" width="30" height="30" id="eliminar" />
+            </div>
+            <div class="col-md-1">
+                <img src="~/lupa.png" width="30" height="30" id="lupa" />
+            </div>
+            <div class="col-md-1">
+                <img src="~/canasta.png" width="30" height="30" id="canasta" />
+            </div>
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-1"></div>
+            <div class="col-md-1"></div>
+            <div class="col-md-1"></div>
+            <div class="col-md-1"></div>
+        </div>
+    </form>
+
+
+        <div class="modal fade" id="VentanaProductos" tabindex="-1" role="dialog" aria-labelledby="Producto" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Producto</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <input type="hidden" id="CantidadDisponible">
+                        <input type="hidden" id="Descripcion">
+                        Código
+                        <input style="font-size:16px; font-weight:700;" class="form-control" type="text" id="CodigoProducto" readonly required />
+
+                        Nombre Producto <input style="font-size:16px; font-weight:700;" class="form-control" type="text" id="NombreProducto" readonly required />
+
+                        Precio
+                        <input style="font-size:16px; font-weight:700;" class="form-control" type="text" id="PrecioProducto" readonly required />
+
+                        Cantidad
+                        <input style="font-size:16px; font-weight:700;" onkeyup="ComprobarNumero(this)" class="form-control" type="number" min="1" pattern="^[0-9]+" id="CantidadProducto" required />
+                        <span id="ErrorCantidad"></span>
+                        <br />
+                        <hr />
+                        Descuento
+                        <input style="font-size:16px; font-weight:700;" class="form-control" onkeyup="ComprobarDescuento(this)" type="number" min="1" step="1" pattern="^[1-9]\d*$" id="DescuentoProducto" required />
+
+                        SubTotal
+                        <input style="font-size:16px; font-weight:700;" class="form-control" type="text" id="SubTotalProducto" readonly required />
+
+                        Impuesto
+                        <input style="font-size:16px; font-weight:700;" class="form-control" type="number" id="ImpuestoProducto" readonly value="13" required />
+
+                        Total
+                        <input style="font-size:16px; font-weight:700;" class="form-control" type="text" id="TotalProducto" readonly required />
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+
+                        <button type="button" class="btn btn-primary"  onclick="agregarProducto()" id="BotonContinuar">Agregar Producto</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+  
+    <div class="row">
+        <div class="col-md-12" style=" height: 350px; overflow: scroll; ">
+            <table id="detalle" class="lista table" border="1">
+                <thead style="font-size:12px;">
+                    <tr class="bg-success">
+                        <td>Detalle de la Compra</td>
+                    </tr>
+                    <tr class="bg-danger">
+                        <th>Código</th>
+                        <th>Cantidad</th>
+                        <th>Descripcion del Producto</th>
+                        <th>Precion Unidad</th>
+                        <th>SubTotal</th>
+                        <th>Descuento</th>
+                        <th>Impuesto</th>
+                        <th>Total</th>
                     </tr>
                 </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Codigo_Producto)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Nombre_Articulo)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Cantidad)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Precio_Unidad)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.SubTotal)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Descuento)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Impuesto_Producto)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Total)
-                            </td>
-                        </tr>
-                    }
-                </tbody>
+                <tbody></tbody>
+
             </table>
-        </table-container>
-      
+        </div>
+        <br />
+        <br />
     </div>
 
-    <br />
-    <br />
-
-    <div class="col-md-3">
-        <table class="table" style="border-collapse: separate; ">
-            <thead style=" font-family:'Radley' ; text-align:center; background-color: lightblue;  font-size:medium; color:black;">
-                <tr>
-                    <td>
-                        @Html.DisplayNameFor(model => model.SubTotal)
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        @Html.DisplayNameFor(model => model.Descuento)
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        @Html.DisplayNameFor(model => model.Impuesto_Producto)
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        @Html.DisplayNameFor(model => model.Total)
-                    </td>
-                </tr>
-
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.SubTotal)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Descuento)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Impuesto_Producto)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Total)
-                        </td>
+    <div class="row" style=" font-family:'Radley' ">
+        <div class="col-md-4"></div>
+        <div class="col-md-4"></div>
+        <div class="col-md-2">
+            <table id="Totales" class="lista table" border="1" style="overflow:scroll; height:500px;">
+                <thead style="font-size:18px;">
+                    <tr class="bg-danger">
+                        <th>SubTotal</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                    <tr class="bg-danger">
+                        <th>Descuento</th>
+                    </tr>
+                    <tr class="bg-danger">
+                        <th>Impuesto</th>
+                    </tr>
+                    <tr class="bg-danger">
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div class="col-md-2"></div>
     </div>
 
-    <img src="~/icons8-eliminar-96 (1).png" width="30" height="30" id="eliminar" />
-    <img src="~/lupa.png" width="30" height="30" id="lupa" />
-    <img src="~/canasta.png" width="30" height="30" id="canasta" />
+
+
+
+
+    <br />
+    <br />
+    <a style="color: white; font-family:'Radley'; background-color:#0B73D5 ; font-size: 15px; font-weight:normal" class="btn btn-success"> Continuar</a>
+
+
+    <script>
+         var Codigo = document.getElementById("CampoNuevoArticulo");
+
+        function ComprobarNumero(valor) {
+            $("#ErrorCantidad").html("");
+            document.getElementById("BotonContinuar").disabled = false;
+            if (valor.value <= 0 || valor.value == "-0" || valor.value == "-") {
+                valor.value = 1;
+            } else {
+                if (valor.value <= $("#CantidadDisponible").val()) {
+                    CalcularCambioCantidad();
+                } else
+                {
+                    document.getElementById("BotonContinuar").disabled = true;
+                    $("#ErrorCantidad").html("El limite de este producto es: " + $("#CantidadDisponible").val());
+                }
+            }
+        }
+
+
+        function ComprobarDescuento(valor) {
+            if (valor.value < 0 || valor.value == "-0" || valor.value == "-" || valor.value > 100) {
+                valor.value = 1;
+            } else {
+            CalcularCambioCantidad();
+            }
+        }
+
+        function CalcularCambioCantidad() {
+            var PrecioProducto = $("#PrecioProducto").val();
+            var CantidadProducto = $("#CantidadProducto").val();
+            var Descuento = $("#DescuentoProducto").val();
+            var subtotalsuma = PrecioProducto * CantidadProducto;
+            $("#SubTotalProducto").val(subtotalsuma - (subtotalsuma * (Descuento/100)));
+            $("#ImpuestoProducto").val("13");
+            var Total = $("#SubTotalProducto").val();
+            var suma = Total + (Total * (13 / 100));
+            $("#TotalProducto").val(suma);
+            console.log(suma);
+        }
+
+        function EliminarFila() {
+            alert("Hola");
+           
+                valor = $(this).parents("tr").find("td").eq(5).html();
+                $(this).parents("tr").fadeOut("normal", function () {
+                    $(this).remove();
+                });
+           
+        }
+
+     
+
+        function VerificarArticulo()
+        {
+        fetch("@Url.Content("~/Usuario/SeleccionarProducto")" + "?CodigoProducto=" + Codigo.value)
+            .then(function (result)
+            {
+                if (result.ok)
+                {
+                    return result.json();
+                }
+            })
+            .then(function (Producto)
+            {
+                console.log(Producto);
+                $("#CantidadDisponible").val(Producto.cantidad_Disponible);
+                $("#CodigoProducto").val(Producto.codigo_Producto);
+                $("#Descripcion").val(Producto.descripcion);
+                $("#NombreProducto").val(Producto.nombre);
+                $("#PrecioProducto").val(Producto.precio_Venta);
+                $("#CantidadProducto").val("1");
+                $("#DescuentoProducto").val("0");
+                var PrecioProducto = $("#PrecioProducto").val();
+                var CantidadProducto = $("#CantidadProducto").val();
+                $("#SubTotalProducto").val(PrecioProducto * CantidadProducto);
+                $("#ImpuestoProducto").val("13");
+                var Total = $("#SubTotalProducto").val();
+                $("#TotalProducto").val(Total + (Total * (13/100)));
+
+                $("#CampoNuevoArticulo").val("");
+                $('#VentanaProductos').modal('show'); 
+
+            })
+        }
+
+        function agregarProducto() {
+            cadena = "<tr>"
+            cadena = cadena + "<td>" + $("#CodigoProducto").val() + "</td>";
+            cadena = cadena + "<td>" + $("#CantidadProducto").val() + "</td>";
+            cadena = cadena + "<td>" + $("#Descripcion").val() + "</td>";
+            cadena = cadena + "<td>" + $("#PrecioProducto").val() + "</td>";
+            cadena = cadena + "<td>" +  $("#SubTotalProducto").val() + "</td>";
+            cadena = cadena + "<td>" + $("#DescuentoProducto").val() + "</td>";
+            cadena = cadena + "<td>" + $("#ImpuestoProducto").val() + "</td>";
+            cadena = cadena + "<td>" +  $("#TotalProducto").val() + "</td>";
+
+            cadena = cadena + '<td><input type="button" class="borrar" onclick="EliminarFila()" value="Eliminar" /></td>';
+            cadena = cadena + "<td><a class ='elimina'><button class='btn btn-danger' type='button'><span class='fa fa-remove'></span></button></a></td>";
+            $("#detalle tbody").append(cadena);
+            //sumar();
+            //fn_dar_eliminar();
+            //   limpiarCliente();
+            //   limpiar();
+            $("#CampoNuevoArticulo").val("");
+            $('#VentanaProductos').modal('hide');
+        }
+
+       
+
+    </script>
 
 </div>
-<br />
-<br />
 
-<a style="color: white; font-family:'Radley'; background-color:#0B73D5 ; font-size: 15px; font-weight:normal"  class="btn btn-success"> Continuar</a>
-
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

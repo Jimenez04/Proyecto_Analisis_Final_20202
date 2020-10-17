@@ -29,7 +29,7 @@ else
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Codigo_Prodcuto)
+                @Html.DisplayNameFor(model => model.Codigo_Producto)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Nombre)
@@ -64,7 +64,7 @@ else
         {
         <tr style=" font-family:'Radley'">
             <td>
-                @Html.DisplayFor(modelItem => item.Codigo_Prodcuto)
+                @Html.DisplayFor(modelItem => item.Codigo_Producto)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Nombre)
@@ -88,10 +88,10 @@ else
             @if (User.IsInRole("Administrador"))
             {
                 <td>
-                    @Html.ActionLink("", "EditarProductoDisponible", new { Codigo_Prodcuto = item.Codigo_Prodcuto }, new { @style = "background:url('/EditarInventario.png') no-repeat; display:block; height: 35px; width: 35px" })
+                    @Html.ActionLink("", "EditarProductoDisponible", new { Codigo_Prodcuto = item.Codigo_Producto }, new { @style = "background:url('/EditarInventario.png') no-repeat; display:block; height: 35px; width: 35px" })
                 </td>
                 <td>
-                    @Html.ActionLink("", "EliminarProducto", new { Codigo_Prodcuto = item.Codigo_Prodcuto, Accion = "Disponibles" }, new { @style = "background:url('/cancelar.png') no-repeat ; display:block; height: 36px; width: 36px" })
+                    @Html.ActionLink("", "EliminarProducto", new { Codigo_Prodcuto = item.Codigo_Producto, Accion = "Disponibles" }, new { @style = "background:url('/cancelar.png') no-repeat ; display:block; height: 36px; width: 36px" })
                 </td>
             }
             else
