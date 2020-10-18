@@ -29,5 +29,10 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
         {
             return Json(RepositorioFacturacion.ObternerPorCodigo(CodigoProducto));
         }
+
+        public JsonResult SeleccionarPersona(string cedulapersona)
+        {
+            return Json(RepositorioFacturacion.ObtenerPersonaPorCedula(cedulapersona));
+        }
     }
 }
