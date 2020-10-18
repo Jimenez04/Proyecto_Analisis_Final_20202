@@ -65,8 +65,9 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
                     return View();
                 }
             }
-            catch
-            {
+            catch(Exception e)
+            {  
+                
                 return View();
             }
         }
@@ -102,7 +103,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
                     return View();
                 }
             }
-            catch
+            catch (Exception e)
             {
                 return View();
             }

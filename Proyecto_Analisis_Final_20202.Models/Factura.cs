@@ -7,8 +7,9 @@ using System.Text;
 
 namespace Proyecto_Analisis_Final_20202.Models
 {
-    class Factura
+    public class Factura
     {
+        [Key]
         [DisplayName("Consecutivo")]
         public string Consecutivo { get; set; }
 
@@ -30,7 +31,7 @@ namespace Proyecto_Analisis_Final_20202.Models
 
 
         [ForeignKey("Metodo_Pago")]
-        public int ID_Metodo_Pago { get; set; }
+        public int ID_MetodoPago { get; set; }
 
 
         [Required(ErrorMessage = "El sub total es requerido")]
