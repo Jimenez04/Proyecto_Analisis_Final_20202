@@ -7,8 +7,10 @@
 
     }
     <br />
-    <h4 style=" font-family:'Radley' ">Sistema de facturacion</h4>
-
+    <center>
+        <h4 style=" font-family:'Radley';">Detalle de Factura</h4>
+    </center>
+   
     <div class="row" style=" font-family:'Radley' ">
 
         <div class="col-md-3">
@@ -21,34 +23,19 @@
         </div>
 
         <div class="col-md-1">
-
-            <img src="~/icons8-eliminar-96 (1).png" width="30" height="30" id="eliminar" />
         </div>
-
         <div class="col-md-1"></div>
-
-        <div class="col-md-1">
-            <img src="~/canasta.png" width="30" height="30" id="canasta" />
-        </div>
-
-        <div class="col-md-3">
-            <input id="CampoCedulaPersona" type="text" style="font-size:16px;" placeholder="Identificación Persona" autofocus />
-            <a onclick="AgregarPersona()">
-                <img src="~/lupa.png" width="30" height="30" id="lupa" />
-            </a>
-        </div>
-        <div class="col-md-1">4</div>
-        <div class="col-md-1">5</div>
-        <div class="col-md-1">6</div>
+        <div class="col-md-1"></div>
+        <div class="col-md-3"></div>
+        <div class="col-md-1"></div>
+        <div class="col-md-1"></div>
+        <div class="col-md-1"></div>
     </div>
 
     <div class="row">
-        <div class="col-md-12" style=" height: 350px; overflow: scroll; ">
+        <div class="col-md-12" style=" height: 330px; overflow: scroll; ">
             <table id="detalle" class="lista table" border="1">
                 <thead style="font-size:12px;">
-                    <tr class="bg-success">
-                        <td>Detalle de la Compra</td>
-                    </tr>
                     <tr class="bg-danger">
                         <th>Código</th>
                         <th>Cantidad</th>
@@ -68,35 +55,65 @@
 
 
     <div class="row" style=" font-family:'Radley' ">
+        <div class="col-md-8" style="border: 3px solid #FFF; border-color: black">
+            Datos de Cliente
+            <div class="row">
+                <div class="col-4"></div>
+                <div class="col-5">
+                    <input id="CampoCedulaPersona" type="text" style="font-size:16px;" placeholder="Identificación de Cliente" />
+                    <a onclick="AgregarPersona()">
+                        <img src="~/lupa.png" width="30" height="30" id="lupa" />
+                    </a>
+                </div>
+                <div class="col-3"></div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    Cédula
+                    <input id="CedulaCliente" type="text" style="font-size:16px;" readonly required>
+                </div>
+                <div class="col-4">
+                    Nombre
+                    <input id="NombreCliente" type="text" style="font-size:16px;" readonly required />
+                </div>
+                <div class="col-4">
+                    Apellido
+                    <input id="ApellidoCliente" type="text" style="font-size:16px;" readonly required />
+                </div>
+            </div>
+        </div>
         <div class="col-md-4">
             <table class="table">
                 <tr>
-                    <td style="float:left;font-size:20px;">SubTotal</td>
+                    <td style="float:left;font-size:15px;">SubTotal</td>
                     <th></th>
-                    <td><input style="font-size:20px; font-weight:700;" class="form-control" type="number" name="SubTotalFacura" id="SubTotalFacura" value="0" required readonly /></td>
+                    <td><input style="font-size:15px; font-weight:700;" class="form-control" type="number" name="SubTotalFacura" id="SubTotalFacura" value="0" required readonly /></td>
                 </tr>
                 <tr>
-                    <td style="float:left;font-size:20px;">Descuento</td>
+                    <td style="float:left;font-size:15px;">Descuento</td>
                     <th></th>
-                    <td><input style="font-size:20px; font-weight:700;" class="form-control" onkeyup="ComprobarDescuentoFacturaTotal(this)" type="number" name="DescuentoFactura" id="DescuentoFactura" value="0" required /></td>
+                    <td><input style="font-size:15px; font-weight:700;" class="form-control" onkeyup="ComprobarDescuentoFacturaTotal(this)" type="text" name="DescuentoFactura" id="DescuentoFactura" value="0" required /></td>
                 </tr>
                 <tr>
-                    <td style="float:left;font-size:20px;">Total</td>
+                    <td style="float:left;font-size:15px;">Total</td>
                     <th></th>
-                    <td><input style="font-size:20px; font-weight:700;" class="form-control" type="number" name="TotalFactura" id="TotalFactura" value="0" required readonly /></td>
+                    <td><input style="font-size:15px; font-weight:700;" class="form-control" type="number" name="TotalFactura" id="TotalFactura" value="0" required readonly /></td>
                 </tr>
+
             </table>
-
-
-        </div>
-        <div class="col-md-4">
-        </div>
-        <div class="col-md-4">
-            <a style="color: white; font-family:'Radley'; background-color:#0B73D5 ; font-size: 15px; font-weight:normal" class="btn btn-success"> Continuar</a>
         </div>
     </div>
-    https://localhost:44304/Copia.png
 
+    <div class="row">
+        <div class="col-4">
+        </div>
+        <div class="col-4">
+        </div>
+        <div class="col-4">
+            <button type="button" style="float:right" class="btn btn-primary" onclick="Facturar()" id="BotonContinuar">Continuar</button>
+        </div>
+    </div>
+    
     <div class="modal fade" id="VentanaProductos" tabindex="-1" role="dialog" aria-labelledby="Producto" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -119,12 +136,12 @@
                     <input style="font-size:16px; font-weight:700;" class="form-control" type="text" id="PrecioProducto" readonly required />
 
                     Cantidad
-                    <input style="font-size:16px; font-weight:700;" onkeyup="ComprobarNumero(this)" class="form-control" type="number" min="1" pattern="^[0-9]+" id="CantidadProducto" required />
+                    <input style="font-size:16px; font-weight:700;" onkeyup="ComprobarNumero(this)" class="form-control" type="text" min="1" pattern="^[0-9]+" id="CantidadProducto" required />
                     <span id="ErrorCantidad"></span>
                     <br />
                     <hr />
                     Descuento
-                    <input style="font-size:16px; font-weight:700;" class="form-control" onkeyup="ComprobarDescuento(this)" type="number" min="1" step="1" pattern="^[1-9]\d*$" id="DescuentoProducto" required />
+                    <input style="font-size:16px; font-weight:700;" class="form-control" onkeyup="ComprobarDescuento(this)" type="text" min="1" step="1" pattern="^[1-9]\d*$" id="DescuentoProducto" required />
 
                     SubTotal
                     <input style="font-size:16px; font-weight:700;" class="form-control" type="number" id="SubTotalProducto" readonly required />
@@ -168,6 +185,55 @@
 
     <script>
          var Codigo = document.getElementById("CampoNuevoArticulo");
+
+        function Facturar() {
+            alert("FacturA");
+                var ApruebadeError = 0;
+                var envio = "{";
+            $("#detalle tbody tr").each(function (index) {
+                    if (ApruebadeError == 0) {
+                        envio += "ListaProductos:[{Codigo_Producto:'" + $(this).find('td').eq(0).text() +
+                            "',Nombre_Articulo:'" + $(this).find('td').eq(2).text() +
+                            "',Cantidad:'" + $(this).find('td').eq(1).text() +
+                            "',Precio_Unidad:'" + $(this).find('td').eq(3).text() +
+                            "',SubTotal:'" + $(this).find('td').eq(4).text() +
+                            "',Descuento:'" + $(this).find('td').eq(5).text() +
+                            "',Impuesto_Producto:'" + $(this).find('td').eq(6).text() +
+                            "',Total:'" + $(this).find('td').eq(7).text() + "'}";
+                        alert($(this).find('td').eq(1).text());
+                        alert(index);
+                    } else {
+                        envio += ",{IdProducto:'" + $(this).find('td').eq(0).text() +
+                            "',Cantidad:'" + $(this).find('td').eq(2).text() +
+                            "',Descuento:'" + $(this).find('td').eq(4).text() +
+                            "',SubTotal:'" + $(this).find('td').eq(5).text() + "'}"
+                    }
+                    i = 1;
+                });
+                envio += "]}";
+            console.log(envio);
+                var json = eval("(" + envio + ')');
+            console.log(json);
+
+                //alertify.alert("INGRESE DATOS");
+            
+            alert("FacturA");
+                $.ajax({
+                    url: "Facturar",
+                    data: JSON.stringify(json),
+                    type: "POST",
+                    async: false,//this makes the ajax-call blocking
+                    contentType: 'application/json;charset=UTF-8',
+                    dataType: 'json',
+                    success: function (response) {
+                        alert("Entro");
+                        valid = response.valid;
+                    },
+                    error: function (error) {
+                        alert("No Entro");
+                    }
+                });
+        }
 
         function ComprobarNumero(valor) {
             $("#ErrorCantidad").html("");
@@ -319,7 +385,6 @@
                 cadena = cadena + "<td>" + $("#TotalProducto").val() + "</td>";
 
                 cadena = cadena + '<td><input type="button" class="borrar" onclick="EliminarFila()" value="Eliminar" /></td>';
-                cadena = cadena + "<td><a class ='elimina'><button class='btn btn-danger' type='button'><span class='fa fa-remove'></span></button></a></td>";
                 $("#detalle tbody").append(cadena);
                 //sumar();
                 //fn_dar_eliminar();

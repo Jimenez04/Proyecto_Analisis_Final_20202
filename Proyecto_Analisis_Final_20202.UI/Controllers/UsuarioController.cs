@@ -34,5 +34,16 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
         {
             return Json(RepositorioFacturacion.ObtenerPersonaPorCedula(cedulapersona));
         }
+
+        [HttpPost]
+        public ActionResult Facturar(List<DetalleFactura> ListaProductos)
+        {
+            foreach (var data in ListaProductos)
+            {
+                string idProducto = data.Codigo_Producto.ToString();
+            }
+            //Posible error los data de la clase
+            return View();
+        }
     }
 }
