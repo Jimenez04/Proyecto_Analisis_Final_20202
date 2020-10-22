@@ -10,7 +10,7 @@
     <center>
         <h4 style=" font-family:'Radley';">Detalle de Factura</h4>
     </center>
-   
+
     <div class="row" style=" font-family:'Radley' ">
 
         <div class="col-md-3">
@@ -68,15 +68,15 @@
                 <div class="col-3"></div>
             </div>
             <div class="row">
-                <div class="col-4">
+                <div class="col">
                     Cédula
                     <input id="CedulaCliente" type="text" style="font-size:16px;" readonly required>
                 </div>
-                <div class="col-4">
+                <div class="col">
                     Nombre
                     <input id="NombreCliente" type="text" style="font-size:16px;" readonly required />
                 </div>
-                <div class="col-4">
+                <div class="col">
                     Apellido
                     <input id="ApellidoCliente" type="text" style="font-size:16px;" readonly required />
                 </div>
@@ -113,7 +113,7 @@
             <button type="button" style="float:right" class="btn btn-primary" onclick="Facturar()" id="BotonContinuar">Continuar</button>
         </div>
     </div>
-    
+
     <div class="modal fade" id="VentanaProductos" tabindex="-1" role="dialog" aria-labelledby="Producto" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -187,52 +187,45 @@
          var Codigo = document.getElementById("CampoNuevoArticulo");
 
         function Facturar() {
-            alert("FacturA");
-                var ApruebadeError = 0;
-                var envio = "{";
+            var Listaproductos = new Array();
+           
             $("#detalle tbody tr").each(function (index) {
-                    if (ApruebadeError == 0) {
-                        envio += "ListaProductos:[{Codigo_Producto:'" + $(this).find('td').eq(0).text() +
-                            "',Nombre_Articulo:'" + $(this).find('td').eq(2).text() +
-                            "',Cantidad:'" + $(this).find('td').eq(1).text() +
-                            "',Precio_Unidad:'" + $(this).find('td').eq(3).text() +
-                            "',SubTotal:'" + $(this).find('td').eq(4).text() +
-                            "',Descuento:'" + $(this).find('td').eq(5).text() +
-                            "',Impuesto_Producto:'" + $(this).find('td').eq(6).text() +
-                            "',Total:'" + $(this).find('td').eq(7).text() + "'}";
-                        alert($(this).find('td').eq(1).text());
-                        alert(index);
-                    } else {
-                        envio += ",{IdProducto:'" + $(this).find('td').eq(0).text() +
-                            "',Cantidad:'" + $(this).find('td').eq(2).text() +
-                            "',Descuento:'" + $(this).find('td').eq(4).text() +
-                            "',SubTotal:'" + $(this).find('td').eq(5).text() + "'}"
-                    }
-                    i = 1;
-                });
-                envio += "]}";
-            console.log(envio);
-                var json = eval("(" + envio + ')');
-            console.log(json);
+                var Producto = {};
+                Producto.codigo_Producto = $(this).find('td').eq(0).text();
+                Producto.cantidad = $(this).find('td').eq(1).text();
+                Producto.nombre_Articulo = $(this).find('td').eq(2).text();
+                Producto.precio_Unidad = $(this).find('td').eq(3).text();
+                Producto.subTotal = $(this).find('td').eq(4).text();
+                Producto.descuento = $(this).find('td').eq(5).text();
+                Producto.impuesto_Producto = $(this).find('td').eq(6).text();
+                Producto.total = $(this).find('td').eq(7).text();
+                Listaproductos.push(Producto);
+                alert(index);
+            });
+            console.log(Listaproductos);
 
-                //alertify.alert("INGRESE DATOS");
-            
-            alert("FacturA");
-                $.ajax({
-                    url: "Facturar",
-                    data: JSON.stringify(json),
-                    type: "POST",
-                    async: false,//this makes the ajax-call blocking
-                    contentType: 'application/json;charset=UTF-8',
-                    dataType: 'json',
-                    success: function (response) {
-                        alert("Entro");
-                        valid = response.valid;
-                    },
-                    error: function (error) {
-                        alert("No Entro");
-                    }
-                });
+            $.ajax({
+                type: "POST",
+                url: "Facturaracion",
+                data: {
+                    SubTotal: $("#SubTotalFacura").val(),
+                    Descuento: $("#DescuentoFactura").val(),
+                    Total: $("#TotalFactura").val(),
+                    IdentificacionCliente: $("#CampoCedulaPersona").val(), 
+                    ListaProductos: Listaproductos
+                },
+                
+                success: function (mensaje) {
+                    //alert(mensaje);
+                    //$("#idproducto").val(mensaje.Nombre);
+                    $(mensaje).each(function (index, item) {
+                        //recibir datos json
+
+                    });
+                }
+            });
+           
+
         }
 
         function ComprobarNumero(valor) {

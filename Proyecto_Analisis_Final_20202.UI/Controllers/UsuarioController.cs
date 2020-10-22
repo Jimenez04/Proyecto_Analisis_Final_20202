@@ -36,14 +36,10 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Facturar(List<DetalleFactura> ListaProductos)
+        public ActionResult Facturaracion(double SubTotal, int Descuento, double Total,  string IdentificacionCliente, List<DetalleFactura> ListaProductos)
         {
-            foreach (var data in ListaProductos)
-            {
-                string idProducto = data.Codigo_Producto.ToString();
-            }
-            //Posible error los data de la clase
-            return View();
+            int a = Descuento;
+            return Json("Hola");
         }
     }
 }
