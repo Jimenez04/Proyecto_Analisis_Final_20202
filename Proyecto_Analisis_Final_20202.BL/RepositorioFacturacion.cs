@@ -150,13 +150,9 @@ namespace Proyecto_Analisis_Final_20202.BL
             return producto;
         }
 
-        public List<DetalleFactura> Carrito(String codigo)
+        public List<DetalleFactura> Facturar(double Subtotal, int Descuento, double Total, String IdentificacionCliente, List<DetalleFactura> ListaProductos)
         {
-            Inventario producto;
-            producto = ElContextoDeBaseDeDatos.Inventario.Find(codigo);
-            DetalleFactura DTT = new DetalleFactura();
-            DTT.Codigo_Producto = producto.Codigo_Producto;
-            DTT.Nombre_Articulo = producto.Nombre;
+          
 
             return null;
         }
