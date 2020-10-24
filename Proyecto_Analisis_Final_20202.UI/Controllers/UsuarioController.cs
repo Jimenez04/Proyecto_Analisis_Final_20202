@@ -38,7 +38,15 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
         [HttpPost]
         public ActionResult Facturaracion(double SubTotal, int Descuento, double Total,  string IdentificacionCliente, List<DetalleFactura> ListaProductos)
         {
-            return Json("Hola");
+            try
+            {
+                RepositorioFacturacion.Facturar(SubTotal, Descuento, Total, IdentificacionCliente, ListaProductos);
+                return Json("La compra se ha efectuado con exito");
+            }
+            catch (Exception e)
+            {
+                return Json("Error inesperado, verifique los datos");
+            }
         }
     }
 }

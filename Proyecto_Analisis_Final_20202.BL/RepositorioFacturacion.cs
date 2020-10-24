@@ -150,11 +150,41 @@ namespace Proyecto_Analisis_Final_20202.BL
             return producto;
         }
 
-        public List<DetalleFactura> Facturar(double Subtotal, int Descuento, double Total, String IdentificacionCliente, List<DetalleFactura> ListaProductos)
+        public int Facturar(double Subtotal, int Descuento, double Total, String IdentificacionCliente, List<DetalleFactura> ListaProductos)
         {
-          
+            Factura nuevafactura = new Factura();
+            Cliente clientedefactura = new Cliente();
 
-            return null;
+            clientedefactura.Consecutivo = nuevafactura.Consecutivo = GenerarConsecutivo();
+            nuevafactura.Cedula_Juridica = ObtenerEmpresa().Cedula_Juridica;
+            nuevafactura.ID_Condicion = 1;
+            nuevafactura.Plazo_Credito = 0;
+            nuevafactura.ID_MetodoPago = 1;
+            nuevafactura.SubTotal = Subtotal;
+            nuevafactura.Descuento = Descuento;
+            nuevafactura.IVA = 13;
+            nuevafactura.Total = Total;
+            nuevafactura.Fecha_Emision = DateTime.Now;
+            nuevafactura.Clave = GenerarClave(nuevafactura.Consecutivo, nuevafactura.Cedula_Juridica);
+            nuevafactura.Codigo_Actividad = 1;
+
+            ElContextoDeBaseDeDatos.Factura.Add(nuevafactura);
+            ElContextoDeBaseDeDatos.SaveChanges();
+            foreach (var Productos in ListaProductos)
+            {
+                Productos.Consecutivo = nuevafactura.Consecutivo;
+                ElContextoDeBaseDeDatos.DetalleFactura.Add(Productos);
+                ElContextoDeBaseDeDatos.SaveChanges();
+            }
+
+            clientedefactura.Cedula = IdentificacionCliente;
+            clientedefactura.Descuento = 0;
+            ElContextoDeBaseDeDatos.Cliente.Add(clientedefactura);
+            ElContextoDeBaseDeDatos.SaveChanges();
+
+
+
+           return 1;
         }
 
         public void AgregarInventario(Inventario inventario)
@@ -722,7 +752,6 @@ namespace Proyecto_Analisis_Final_20202.BL
 
         private String CodigoSituacion()
         {
-
             return "1";
         }
 

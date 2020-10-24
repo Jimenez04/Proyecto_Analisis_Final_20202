@@ -21,9 +21,10 @@ namespace Proyecto_Analisis_Final_20202.Models
       
         public double Precio_Unidad { get; set; }
        
+        [NotMapped]
         public string Nombre_Articulo { get; set; }
 
-      
+        [NotMapped]
         public string SubTotal { get; set; }
       
         public int Cantidad { get; set; }
