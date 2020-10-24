@@ -6,6 +6,20 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Xml;
 using System.IO;
+using System.Net.Mail;
+using System.Net;
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Kernel.Geom;
+using iText.Layout.Element;
+using iText.Layout.Properties;
+using iText.Layout.Borders;
+using iText.Kernel.Colors;
+using Org.BouncyCastle.Crypto.Tls;
+using System.Drawing;
+using iText.IO.Font;
+using iText.Kernel.Font;
+using iText.IO.Font.Constants;
 
 namespace Proyecto_Analisis_Final_20202.BL
 {
@@ -55,6 +69,8 @@ namespace Proyecto_Analisis_Final_20202.BL
                 return false;
             }
         }
+
+
         public bool CreacionDeCuentaEmpresarial(ModeloNuevaCuentaEmpresarial nuevaCuentaEmpresarial)
         {
             Empresa NuevaEmpresa = new Empresa();
@@ -141,7 +157,7 @@ namespace Proyecto_Analisis_Final_20202.BL
             DetalleFactura DTT = new DetalleFactura();
             DTT.Codigo_Producto = producto.Codigo_Producto;
             DTT.Nombre_Articulo = producto.Nombre;
-           
+
             return null;
         }
 
@@ -197,7 +213,7 @@ namespace Proyecto_Analisis_Final_20202.BL
             ElContextoDeBaseDeDatos.Correo_Electronico.Add(persona.Correo);
 
             ElContextoDeBaseDeDatos.SaveChanges();
-          
+
         }
 
         public bool PersonaExiste(Persona persona)
@@ -247,8 +263,8 @@ namespace Proyecto_Analisis_Final_20202.BL
         {
             ElContextoDeBaseDeDatos.Persona.Update(persona);
             ElContextoDeBaseDeDatos.SaveChanges();
-
-            GenerarXMLDeFactura(BuscarFactura("1000000000000000000000000000000000000000000000001"));
+            GenerarXMLDeFactura(BuscarFactura("00100001010000000001"));
+            GenerarPDF(BuscarFactura("00100001010000000001"));
         }
 
         public Empresa ObtenerEmpresa()
@@ -291,8 +307,8 @@ namespace Proyecto_Analisis_Final_20202.BL
         public Cliente ObtenerCliente_porConsecutivo(string consecutivo)
         {
             return (from c in ElContextoDeBaseDeDatos.Cliente
-                   where c.Consecutivo == consecutivo 
-                   select c).First();
+                    where c.Consecutivo == consecutivo
+                    select c).First();
         }
 
         public List<DetalleFactura> ElDetalleDeFactura(string consecutivo)
@@ -309,48 +325,132 @@ namespace Proyecto_Analisis_Final_20202.BL
                     select c).First();
         }
 
+        public Inventario ObtenerProductoPorCodigo(string codigo)
+        {
+            return (from c in ElContextoDeBaseDeDatos.Inventario
+                    where c.Codigo_Producto == codigo
+                    select c).First();
+        }
+
+
+        public List<Factura> ListarFacturas()
+        {
+            return ElContextoDeBaseDeDatos.Factura.ToList();
+        }
+
         // Metodo de creación del XML 
         public String GenerarXMLDeFactura(Factura factura)
         {
             Cliente cliente = ObtenerCliente_porConsecutivo(factura.Consecutivo);
-
             Persona persona = ObtenerPersonaPorCedula(cliente.Cedula);
-
             Empresa empresa = ObtenerEmpresa();
-
-            List <DetalleFactura> detalleFactura = ElDetalleDeFactura(factura.Consecutivo); 
-
-            
-
-
+            List<DetalleFactura> detalleFactura = ElDetalleDeFactura(factura.Consecutivo);
 
             // Esto es una prueba humilde del XML 
-            List<DetalleFactura> DT = new List< DetalleFactura>();
-            
-
-
 
             XmlDocument doc = new XmlDocument();
-            XmlDeclaration xmlDeclaration = doc.CreateXmlDeclaration("1.0", "UTF-8", null);
+            XmlDeclaration xmlDeclaration = doc.CreateXmlDeclaration("1.0", "UTF-8", null); //
             XmlElement root = doc.DocumentElement;
             doc.InsertBefore(xmlDeclaration, root);
 
-            XmlElement seccionpersona = doc.CreateElement(string.Empty, "Facturacion", string.Empty);
-            doc.AppendChild(seccionpersona);
+            // cuerpo principal
+            XmlElement seccionFacturacion = doc.CreateElement(string.Empty, "FacturaElectronica", string.Empty);
+            doc.AppendChild(seccionFacturacion);
 
-            // Fecha 
-            // Datos de la empresa
-            //Consecutivo 
-            // MedioPago 
-            // Unidad de medida
-            //Subtotal
-            //MontoTotal
-            //Impuesto
-            //Detalle
+            // Consecutivo
+            XmlElement subseccionconsecutivo = doc.CreateElement(string.Empty, "Consecutivo", string.Empty);
+            seccionFacturacion.AppendChild(subseccionconsecutivo);
 
-            XmlElement subseccionpersona = doc.CreateElement(string.Empty, "Persona", string.Empty);
-            seccionpersona.AppendChild(subseccionpersona);
+            XmlElement consecutivo = doc.CreateElement(string.Empty, "Consecutivo", string.Empty);
+            XmlText textconsecutivo = doc.CreateTextNode(factura.Consecutivo);
+            consecutivo.AppendChild(textconsecutivo);
+            subseccionconsecutivo.AppendChild(consecutivo);
 
+            // Fecha de emision
+            XmlElement subseccionrmision = doc.CreateElement(string.Empty, "FechaEmision", string.Empty);
+            seccionFacturacion.AppendChild(subseccionrmision);
+
+            XmlElement fechaemision = doc.CreateElement(string.Empty, "Fecha", string.Empty);
+            XmlText textfecha = doc.CreateTextNode(factura.Fecha_Emision.ToString());
+            fechaemision.AppendChild(textfecha);
+            subseccionrmision.AppendChild(fechaemision);
+
+            // Clave 
+            XmlElement subseccionclave = doc.CreateElement(string.Empty, "Clave", string.Empty);
+            seccionFacturacion.AppendChild(subseccionclave);
+
+            XmlElement clave = doc.CreateElement(string.Empty, "Clave", string.Empty);
+            XmlText textClave = doc.CreateTextNode("50Digitos");
+            clave.AppendChild(textClave);
+            subseccionclave.AppendChild(clave);
+
+            //  Datos de la Empresa
+            XmlElement subseccionempresa = doc.CreateElement(string.Empty, "DatosEmpresa", string.Empty);
+            seccionFacturacion.AppendChild(subseccionempresa);
+
+            XmlElement cedulajuridicaempresa = doc.CreateElement(string.Empty, "CedulaJuridica", string.Empty);
+            XmlText textcedulajuridicaemepresa = doc.CreateTextNode(empresa.Cedula_Juridica);
+            cedulajuridicaempresa.AppendChild(textcedulajuridicaemepresa);
+            subseccionempresa.AppendChild(cedulajuridicaempresa);
+
+            XmlElement nombreempresa = doc.CreateElement(string.Empty, "NombreEmpresa", string.Empty);
+            XmlText textnombreempresa = doc.CreateTextNode(empresa.Nombre);
+            nombreempresa.AppendChild(textnombreempresa);
+            subseccionempresa.AppendChild(nombreempresa);
+
+            XmlElement codigopais = doc.CreateElement(string.Empty, "Provincia", string.Empty);
+            XmlText textcodigopais = doc.CreateTextNode("506");
+            codigopais.AppendChild(textcodigopais);
+            subseccionempresa.AppendChild(codigopais);
+
+            XmlElement provinciaempresa = doc.CreateElement(string.Empty, "Provincia", string.Empty);
+            XmlText textprovinciaempresa = doc.CreateTextNode(empresa.ID_Provincia.ToString());
+            provinciaempresa.AppendChild(textprovinciaempresa);
+            subseccionempresa.AppendChild(provinciaempresa);
+
+            XmlElement cantonempresa = doc.CreateElement(string.Empty, "Canton", string.Empty);
+            XmlText textcantonempresa = doc.CreateTextNode(empresa.ID_Provincia.ToString());
+            cantonempresa.AppendChild(textcantonempresa);
+            subseccionempresa.AppendChild(cantonempresa);
+
+            XmlElement distritoempresa = doc.CreateElement(string.Empty, "Distrito", string.Empty);
+            XmlText textodistritoempresa = doc.CreateTextNode(empresa.ID_Distrito.ToString());
+            distritoempresa.AppendChild(textodistritoempresa);
+            subseccionempresa.AppendChild(distritoempresa);
+
+            XmlElement senasempresa = doc.CreateElement(string.Empty, "SenasExactas", string.Empty);
+            XmlText textsenasempresa = doc.CreateTextNode(empresa.Senas_Exactas);
+            senasempresa.AppendChild(textsenasempresa);
+            subseccionempresa.AppendChild(senasempresa);
+
+            XmlElement codigopostalempresa = doc.CreateElement(string.Empty, "SenasExactas", string.Empty);
+            XmlText textcodigopostalempresa = doc.CreateTextNode(empresa.Codigo_Postal);
+            codigopostalempresa.AppendChild(textcodigopostalempresa);
+            subseccionempresa.AppendChild(codigopostalempresa);
+
+            XmlElement correoempresarial = doc.CreateElement(string.Empty, "CorreoEmpresa", string.Empty);
+            XmlText textcorreoempresa = doc.CreateTextNode("facturacionjjyf@gmail.com");
+            correoempresarial.AppendChild(textcorreoempresa);
+            subseccionempresa.AppendChild(correoempresarial);
+
+            XmlElement razonsocial = doc.CreateElement(string.Empty, "CorreoEmpresa", string.Empty);
+            XmlText textrazonsocial = doc.CreateTextNode(empresa.Razon_Social);
+            razonsocial.AppendChild(textrazonsocial);
+            subseccionempresa.AppendChild(razonsocial);
+
+            // Persona
+            XmlElement subseccionpersona = doc.CreateElement(string.Empty, "Destinatario", string.Empty);
+            seccionFacturacion.AppendChild(subseccionpersona);
+
+            XmlElement cedulapersona = doc.CreateElement(string.Empty, "Identificacion", string.Empty);
+            XmlText textcedulapersona = doc.CreateTextNode(persona.Cedula);
+            cedulapersona.AppendChild(textcedulapersona);
+            subseccionpersona.AppendChild(cedulapersona);
+
+            XmlElement numeropersona = doc.CreateElement(string.Empty, "Numero", string.Empty);
+            XmlText textnumeropersona = doc.CreateTextNode(persona.telefono.Numero);
+            numeropersona.AppendChild(textnumeropersona);
+            subseccionpersona.AppendChild(numeropersona);
 
             XmlElement nombrepersona = doc.CreateElement(string.Empty, "Nombre", string.Empty);
             XmlText textnombrepersona = doc.CreateTextNode(persona.Nombre1);
@@ -366,10 +466,26 @@ namespace Proyecto_Analisis_Final_20202.BL
             XmlText textapellido2 = doc.CreateTextNode(persona.Apellido2);
             Apellido2.AppendChild(textapellido2);
             subseccionpersona.AppendChild(Apellido2);
-             
-           String correodestino = (from c in ElContextoDeBaseDeDatos.Correo_Electronico
-                          where c.Cedula == persona.Cedula
-                          select c.Correo).ToString();
+
+            XmlElement provinciapersona = doc.CreateElement(string.Empty, "Provincia", string.Empty);
+            XmlText textprovinciapersona = doc.CreateTextNode(persona.ID_Provincia.ToString());
+            provinciapersona.AppendChild(textprovinciapersona);
+            subseccionpersona.AppendChild(provinciapersona);
+
+            XmlElement cantonpersona = doc.CreateElement(string.Empty, "Canton", string.Empty);
+            XmlText textcantonpersona = doc.CreateTextNode(persona.ID_Canton.ToString());
+            cantonpersona.AppendChild(textcantonpersona);
+            subseccionpersona.AppendChild(cantonpersona);
+
+            XmlElement distritoperrsona = doc.CreateElement(string.Empty, "Distrito", string.Empty);
+            XmlText textdistritopersona = doc.CreateTextNode(persona.ID_Distrito.ToString());
+            distritoperrsona.AppendChild(textdistritopersona);
+            subseccionpersona.AppendChild(distritoperrsona);
+
+            XmlElement codigopostalpersona = doc.CreateElement(string.Empty, "CodigoPostal", string.Empty);
+            XmlText textcodigopostalpersona = doc.CreateTextNode(persona.Codigo_Postal.ToString());
+            codigopostalpersona.AppendChild(textcodigopostalpersona);
+            subseccionpersona.AppendChild(codigopostalpersona);
 
             XmlElement correopersona = doc.CreateElement(string.Empty, "Destinatario", string.Empty);
             XmlText textcorreopersona = doc.CreateTextNode(persona.Correo.Correo);
@@ -379,48 +495,450 @@ namespace Proyecto_Analisis_Final_20202.BL
 
             // Nueva sección de productos 
             XmlElement productos = doc.CreateElement(string.Empty, "Productos", string.Empty);
-            seccionpersona.AppendChild(productos);
+            seccionFacturacion.AppendChild(productos);
 
-            XmlElement subseccionproductos = doc.CreateElement(string.Empty, "Producto", string.Empty);
-            productos.AppendChild(subseccionproductos);
-            /**
-             foreach (var item in DT)
-             {
-                 XmlElement subseccionproductos = doc.CreateElement(string.Empty, "Producto", string.Empty);
-                 productos.AppendChild(subseccionproductos);
+            foreach (var item in detalleFactura)
+            {
 
-                 XmlElement codigoproducto = doc.CreateElement(string.Empty, "CodigoProducto", string.Empty);
-                 XmlText textcodigoproducto = doc.CreateTextNode(item.Codigo_Producto);
-                 codigoproducto.AppendChild(textcodigoproducto);
-                 productos.AppendChild(codigoproducto);
+                Inventario producto = ObtenerProductoPorCodigo(item.Codigo_Producto);
+
+                XmlElement subseccionproductos = doc.CreateElement(string.Empty, "Producto", string.Empty);
+                productos.AppendChild(subseccionproductos);
+
+                XmlElement codigoproducto = doc.CreateElement(string.Empty, "CodigoProducto", string.Empty);
+                XmlText textcodigoproducto = doc.CreateTextNode(item.Codigo_Producto);
+                codigoproducto.AppendChild(textcodigoproducto);
+                productos.AppendChild(codigoproducto);
+
+                XmlElement nombreproducto = doc.CreateElement(string.Empty, "NombreProducto", string.Empty);
+                XmlText textonombre = doc.CreateTextNode(producto.Nombre);
+                nombreproducto.AppendChild(textonombre);
+                productos.AppendChild(nombreproducto);
+
+                XmlElement cantidad = doc.CreateElement(string.Empty, "Cantidad", string.Empty);
+                XmlText textocantidad = doc.CreateTextNode(item.Cantidad.ToString());
+                cantidad.AppendChild(textocantidad);
+                productos.AppendChild(cantidad);
+
+                XmlElement precio = doc.CreateElement(string.Empty, "Precio", string.Empty);
+                XmlText textoprecio = doc.CreateTextNode(item.Precio_Unidad.ToString());
+                precio.AppendChild(textoprecio);
+                productos.AppendChild(precio);
+
+            }
+            // Medio de pago
+            XmlElement subseccionmediodepago = doc.CreateElement(string.Empty, "MedioPago", string.Empty);
+            seccionFacturacion.AppendChild(subseccionmediodepago);
+
+            XmlElement mediodepagof = doc.CreateElement(string.Empty, "Metodo", string.Empty);
+            XmlText textmediodepago = doc.CreateTextNode(factura.ID_MetodoPago.ToString());
+            mediodepagof.AppendChild(textmediodepago);
+            subseccionmediodepago.AppendChild(mediodepagof);
 
 
-                 XmlElement nombreproducto = doc.CreateElement(string.Empty, "NombreProducto", string.Empty);
-                 XmlText textonombre = doc.CreateTextNode(item.Codigo_Producto);
-                 nombreproducto.AppendChild(textonombre);
-                 productos.AppendChild(nombreproducto);
+            //Unidad de medida 
+            XmlElement subseccionunidad = doc.CreateElement(string.Empty, "UnidadMedida", string.Empty);
+            seccionFacturacion.AppendChild(subseccionunidad);
 
-                 XmlElement cantidad = doc.CreateElement(string.Empty, "Cantidad", string.Empty);
-                 XmlText textocantidad = doc.CreateTextNode(item.Cantidad.ToString());
-                 cantidad.AppendChild(textocantidad);
-                 productos.AppendChild(cantidad);
+            XmlElement unidaddemedida = doc.CreateElement(string.Empty, "Unidadmedida", string.Empty);
+            XmlText textunidaddemedida = doc.CreateTextNode("Venta de servicio"); //VentaServicios
+            unidaddemedida.AppendChild(textunidaddemedida);
+            subseccionunidad.AppendChild(unidaddemedida);
 
-                 XmlElement precio = doc.CreateElement(string.Empty, "Precio", string.Empty);
-                 XmlText textoprecio = doc.CreateTextNode(item.Precio_Unidad.ToString());
-                 precio.AppendChild(textoprecio);
-                 productos.AppendChild(precio); 
+            //Plazo 
+            XmlElement subseccionplazo = doc.CreateElement(string.Empty, "Plazo", string.Empty);
+            seccionFacturacion.AppendChild(subseccionplazo);
 
-             }
-            **/
+            XmlElement plazo = doc.CreateElement(string.Empty, "Plazo", string.Empty);
+            XmlText textplazo = doc.CreateTextNode("00");
+            plazo.AppendChild(textplazo);
+            subseccionplazo.AppendChild(plazo);
 
-            doc.Save("C:/Users/josue/Desktop/FC/" + persona.Cedula+".xml"); // Modificar esta ruta si se va a usar 
-              String total = doc.OuterXml;
+            // Condicion de Venta
+            XmlElement subseccioncondicion = doc.CreateElement(string.Empty, "CondicionVenta", string.Empty);
+            seccionFacturacion.AppendChild(subseccioncondicion);
 
+            XmlElement condicion = doc.CreateElement(string.Empty, "Condicion", string.Empty);
+            XmlText textcondicion = doc.CreateTextNode("02");
+            condicion.AppendChild(textcondicion);
+            subseccioncondicion.AppendChild(condicion);
+
+            //SubTotal
+            XmlElement subseccionsubtotal = doc.CreateElement(string.Empty, "SubTotal", string.Empty);
+            seccionFacturacion.AppendChild(subseccionsubtotal);
+
+            XmlElement Subtotal = doc.CreateElement(string.Empty, "Subtotal", string.Empty);
+            XmlText textSubtotal = doc.CreateTextNode(factura.SubTotal.ToString()); //VentaServicios
+            Subtotal.AppendChild(textSubtotal);
+            subseccionsubtotal.AppendChild(Subtotal);
+
+            //Moneda 
+            XmlElement subseccionmoneda = doc.CreateElement(string.Empty, "Moneda", string.Empty);
+            seccionFacturacion.AppendChild(subseccionmoneda);
+
+            XmlElement moneda = doc.CreateElement(string.Empty, "Moneda", string.Empty);
+            XmlText textmoneda = doc.CreateTextNode("CR Colónes"); //VentaServicios
+            moneda.AppendChild(textmoneda);
+            subseccionmoneda.AppendChild(moneda);
+
+            // Total
+            XmlElement subsecciontotal = doc.CreateElement(string.Empty, "Total", string.Empty);
+            seccionFacturacion.AppendChild(subsecciontotal);
+
+            XmlElement stotal = doc.CreateElement(string.Empty, "Total", string.Empty);
+            XmlText texttotal = doc.CreateTextNode(factura.Total.ToString()); //VentaServicios
+            stotal.AppendChild(texttotal);
+            subsecciontotal.AppendChild(stotal);
+
+            // Impuesto
+            XmlElement subseccionimpuesto = doc.CreateElement(string.Empty, "Impuesto", string.Empty);
+            seccionFacturacion.AppendChild(subseccionimpuesto);
+
+            XmlElement impuesto = doc.CreateElement(string.Empty, "Impuesto", string.Empty);
+            XmlText textimpuesto = doc.CreateTextNode("13"); //VentaServicios
+            impuesto.AppendChild(textimpuesto);
+            subseccionimpuesto.AppendChild(impuesto);
+            //
+            XmlElement subsecciondetalle = doc.CreateElement(string.Empty, "Detalle", string.Empty);
+            seccionFacturacion.AppendChild(subsecciondetalle);
+
+            XmlElement detalle = doc.CreateElement(string.Empty, "Detalle", string.Empty);
+            XmlText textdetalle = doc.CreateTextNode("Otros detalles"); //VentaServicios
+            detalle.AppendChild(textdetalle);
+            subsecciondetalle.AppendChild(detalle);
+
+            doc.Save("C:/Users/josue/Desktop/" + factura.Consecutivo + ".xml"); // Modificar esta ruta si se va a usar 
+            String total = doc.OuterXml;
+
+            //  Conversion a tipo archivo del XML
+            System.IO.MemoryStream ms = new System.IO.MemoryStream();
+            System.Xml.Serialization.XmlSerializer ser = new System.Xml.Serialization.XmlSerializer(typeof(XmlElement));
+            ser.Serialize(ms, doc);
+            ms.Position = 0;
+            var attachment = new System.Net.Mail.Attachment(ms, factura.Consecutivo + ".xml");
+
+            String Ver = GenerarClave(GenerarConsecutivo(), empresa.Cedula_Juridica);
+            GenerarClave(GenerarConsecutivo(), empresa.Cedula_Juridica);
+
+            //EnviarArchivosDeFactura(attachment, persona.Correo.Correo);
             return total;
+        }
 
+        public void EnviarArchivosDeFactura(Attachment archivoxml, string correodestinatario)
+        {
+
+            string CorreoEmisor = "facturacionjjyf@gmail.com";
+            string Contrasena = "facturacion01";
+
+
+            MailMessage CorreoElectronico = new MailMessage();
+
+            CorreoElectronico.Subject = "Prueba de envio XML";
+            CorreoElectronico.From = new MailAddress(CorreoEmisor);
+
+            CorreoElectronico.Body = "XML es el siguiente:";
+            CorreoElectronico.To.Add(new MailAddress("josue-1231@hotmail.es"));
+
+            CorreoElectronico.Attachments.Add(archivoxml);
+
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com";
+            smtp.Port = 587;
+            smtp.UseDefaultCredentials = false;
+            smtp.EnableSsl = true;
+            NetworkCredential nc = new NetworkCredential(CorreoEmisor, Contrasena);
+            smtp.Credentials = nc;
+            smtp.Send(CorreoElectronico);
 
         }
 
-        
+        public string GenerarConsecutivo()
+        {
+            try
+            {
+                long actuales = ListarFacturas().Count + 1;
+                String ConsecutivoDeFactura;
+
+                if (actuales < 9999999999)
+                {
+                    ConsecutivoDeFactura = LlenadoDeRestantesDeFactura(actuales.ToString());
+                }
+                else
+                {
+                    String nuevosciclos = "1";
+                    ConsecutivoDeFactura = LlenadoDeRestantesDeFactura(nuevosciclos.ToString());
+                }
+                return (CasaMatriz() + Terminales() + TipoDeDocumento() + ConsecutivoDeFactura);
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+        }
+        private string LlenadoDeRestantesDeFactura(String siguientefactura)
+        {
+            int digitosfaltantes = (10 - siguientefactura.Length);
+            string numerofactura = siguientefactura;
+
+            for (int i = 0; i < digitosfaltantes; i++)
+            {
+                numerofactura = String.Concat(0.ToString(), numerofactura);
+            }
+
+            return numerofactura;
+        }
+
+        private String CasaMatriz()
+        {
+            return "001";
+        }
+
+        private String Terminales()
+        {
+            return "00001";
+        }
+
+        private String TipoDeDocumento()
+        {
+            return "01";
+        }
+
+        public String GenerarClave(String consecutivo, String cedulaJuridica)
+        {
+            try
+            {
+                return ("506" + FechaActual() + "00" + cedulaJuridica + consecutivo + CodigoSituacion() + GenerarCodigoSeguridad());
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+
+        }
+
+        private String CodigoSituacion()
+        {
+
+            return "1";
+        }
+
+        private String GenerarCodigoSeguridad()
+        {
+            Random GeneradorRandom = new Random();
+            String caracteres = "1234567890";
+            int longitud = caracteres.Length;
+            int largocodigo = 8;
+            char caracter;
+            String CodigoSeguridad = "";
+            for (int i = 0; i < largocodigo; i++)
+            {
+                caracter = caracteres[GeneradorRandom.Next(longitud)];
+                CodigoSeguridad += caracter.ToString();
+            }
+            return CodigoSeguridad;
+        }
+        private String FechaActual()
+        {
+            return DateTime.Now.ToString("ddMMyy");
+        }
+
+        private void GenerarPDF(Factura factura)
+        {
+            List<DetalleFactura> detalleFactura = ElDetalleDeFactura(factura.Consecutivo);
+            Empresa empresa = ObtenerEmpresa();
+            Cliente cliente = ObtenerCliente_porConsecutivo(factura.Consecutivo);
+            Persona persona = ObtenerPersonaPorCedula(cliente.Cedula);
+
+            MemoryStream ms = new MemoryStream();
+
+            var lugar = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            var expportar = System.IO.Path.Combine(lugar, "Pruebas.pdf");
+            PdfWriter pwf = new PdfWriter(expportar); // Poner ms
+
+            PdfDocument pdfDocument = new PdfDocument(pwf);
+            Document doc = new Document(pdfDocument, PageSize.LETTER);
+            doc.SetMargins(10, 35, 70, 35);
+
+
+            Table TablaDatos1 = new Table(1).UseAllAvailableWidth();
+            Cell cellaDatos = new Cell().Add(new Paragraph(" Factura Electrónica").SetTextAlignment(TextAlignment.CENTER).SetFontColor(ColorConstants.WHITE).SetBorder(new SolidBorder(WebColors.GetRGBColor("#0B73D5"), 2)).SetBackgroundColor(WebColors.GetRGBColor("#0B73D5")));
+            TablaDatos1.AddCell(cellaDatos);
+
+            doc.Add(TablaDatos1);
+
+            Table table1 = new Table(6).UseAllAvailableWidth().SetStrokeColor(ColorConstants.BLUE); 
+
+           
+
+
+            Cell cell1 = new Cell(1, 3).Add(new Paragraph(empresa.Nombre +
+                "\nCedula Jurídica: " + empresa.Cedula_Juridica +
+                "\n Número: " + "(506) 85442065" +
+                "\n Correo: " + "facturacionjjyf@gmail.com" +
+                "\n Dirección: " + empresa.Senas_Exactas).SetFontSize(10).SetMarginLeft(342).SetFontColor(ColorConstants.BLACK).SetPaddingBottom(1).SetMarginTop(1)).SetFontSize(16)
+                .SetBorder(new SolidBorder(WebColors.GetRGBColor("#0B73D5"), 2));
+            table1.AddCell(cell1);
+            doc.Add(table1);
+
+
+
+
+
+            Table TablaDatos = new Table(6).UseAllAvailableWidth();
+
+
+            Cell nuevacell = new Cell()
+               .Add(new Paragraph("Consecutivo " + GenerarConsecutivo()))
+               .Add(new Paragraph("Clave: " + GenerarClave(GenerarConsecutivo(), empresa.Cedula_Juridica)).SetFontSize(9))
+               .Add(new Paragraph("\n" + " Receptor"))
+               .Add(new Paragraph( persona.Nombre1+ " "  + persona.Apellido2).SetFontSize(10))
+               .Add(new Paragraph(" Cedula: " + persona.Cedula).SetFontSize(10))
+               .Add(new Paragraph(" Correo: " + persona.Correo.Correo).SetFontSize(10))
+               .SetBorder(new SolidBorder(WebColors.GetRGBColor("#0B73D5"), 2))
+               .SetBorderRight(Border.NO_BORDER)
+                ; 
+               TablaDatos.AddCell(nuevacell);
+
+            Cell nuevacellda = new Cell()
+               .Add(new Paragraph("Fecha " + DateTime.Now.ToString("dd/MM/yyyy")).SetFontSize(10))
+               .Add(new Paragraph("\n Medio de pago " + "Efectivo").SetFontSize(10))
+               .Add(new Paragraph("Condición venta " + "Contado").SetFontSize(10))
+               .Add(new Paragraph("\n Teléfono" + "+(506)"+ persona.telefono.Numero).SetFontSize(10))
+               .Add(new Paragraph(" Cedula: " + persona.Cedula).SetFontSize(10))
+               .Add(new Paragraph("Dirección " + persona.SenasExactas).SetFontSize(10))
+               .SetBorder(new SolidBorder(WebColors.GetRGBColor("#0B73D5"), 2))
+               .SetBorderLeft(Border.NO_BORDER)
+               ;
+               TablaDatos.AddCell(nuevacellda);
+               
+               doc.Add(TablaDatos);
+
+
+            /**
+                 Cell celda1 = new Cell(1, 3).Add(new Paragraph(" Consecutivo: " + GenerarConsecutivo()).SetFontSize(10)).SetBorder(Border.NO_BORDER);
+                 TablaDatos.AddCell(celda1);
+
+                 Cell celda2 = new Cell(1, 6).Add(new Paragraph(" Fecha: " + DateTime.Now.ToString("dd/MM/yyyy")).SetFontSize(9)).SetBorder(Border.NO_BORDER);
+                 TablaDatos.AddCell(celda2);
+            
+
+
+                 Cell celda3 = new Cell(2, 3).Add(new Paragraph(" Clave Numerica: " + GenerarClave(GenerarConsecutivo(), empresa.Cedula_Juridica)).SetFontSize(9)).SetBorder(Border.NO_BORDER);
+                 TablaDatos.AddCell(celda3);
+            **/
+
+
+            /**  doc.Add(new Paragraph("Cedula Jurídica: " + empresa.Cedula_Juridica +
+                  "\n Número: " + "(506) 85442065" +
+                  "\n Correo: " + "facturacionjjyf@gmail.com" +
+                  "\n Dirección: " + empresa.Senas_Exactas).SetFontSize(10).SetMarginLeft(342).SetFontColor(ColorConstants.BLACK).SetPaddingBottom(1).SetMarginTop(1));
+           **/
+
+            //Parte de la tabla arriba donde está el texto de la tabla  
+
+
+            /** float[] tamanios = {}
+
+Table tabla = new Table(UnitValue.CreatePercentArray(tamanios));
+**/
+            // Tabla de los productos 
+
+
+            doc.Add(new Paragraph ());
+
+            float[] tamanios = { 60f, 60f, 60f, 60f };
+            Table _table = new Table (8).UseAllAvailableWidth();
+
+            Style EstilodeCeldasprimarias = new Style()
+              .SetTextAlignment(TextAlignment.CENTER)
+              .SetFontSize(11)
+              .SetBackgroundColor(WebColors.GetRGBColor("#0B73D5"))
+              .SetFontColor(ColorConstants.WHITE)
+              ;
+            Style EstilodeCeldas = new Style()
+            .SetTextAlignment(TextAlignment.CENTER)
+            .SetFontSize(10);
+
+            Cell _cell = new Cell(1, 2).Add(new Paragraph("Codigo")).SetBorderRight(Border.NO_BORDER).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(WebColors.GetRGBColor("#0B73D5"), 1));
+            _table.AddHeaderCell(_cell.AddStyle(EstilodeCeldasprimarias));
+
+            _cell = new Cell(1,2).Add(new Paragraph("Nombre")).SetBorderLeft(Border.NO_BORDER).SetBorderRight(Border.NO_BORDER).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(WebColors.GetRGBColor("#0B73D5"), 1));
+            _table.AddHeaderCell(_cell.AddStyle(EstilodeCeldasprimarias));
+
+            
+
+            _cell = new Cell(1,2).Add(new Paragraph("Cantidad")).SetBorderRight(Border.NO_BORDER).SetBorderLeft(Border.NO_BORDER).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(WebColors.GetRGBColor("#0B73D5"), 1));
+            _table.AddHeaderCell(_cell.AddStyle(EstilodeCeldasprimarias));
+
+           
+
+            _cell = new Cell(1,2).Add(new Paragraph("Precio")).SetBorderLeft(Border.NO_BORDER).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(WebColors.GetRGBColor("#0B73D5"), 1));
+            _table.AddHeaderCell(_cell.AddStyle(EstilodeCeldasprimarias)); 
+
+
+
+                foreach (var item in detalleFactura)
+                {
+                    Inventario producto = ObtenerProductoPorCodigo(item.Codigo_Producto);
+
+                    _cell = new Cell(1,2).Add(new Paragraph(item.Codigo_Producto)).SetBorderRight(Border.NO_BORDER).SetTextAlignment(TextAlignment.CENTER).SetBorderBottom(Border.NO_BORDER).SetBorder(new SolidBorder(ColorConstants.BLUE, 1));
+                    _table.AddCell(_cell.AddStyle(EstilodeCeldas));
+
+                    _cell = new Cell(1,2).Add(new Paragraph(producto.Nombre)).SetBorderRight(Border.NO_BORDER).SetBorderLeft(Border.NO_BORDER).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(ColorConstants.BLUE, 1));
+                    _table.AddCell(_cell.AddStyle(EstilodeCeldas));
+
+                   
+
+                     _cell = new Cell(1,2).Add(new Paragraph(item.Cantidad.ToString())).SetBorderRight(Border.NO_BORDER).SetBorderLeft(Border.NO_BORDER).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(ColorConstants.BLUE, 1));
+                    _table.AddCell(_cell.AddStyle(EstilodeCeldas));
+
+                    
+
+                _cell = new Cell(1,2).Add(new Paragraph(item.Precio_Unidad.ToString())).SetBorderLeft(Border.NO_BORDER).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(ColorConstants.BLUE, 1));
+                    _table.AddCell(_cell.AddStyle(EstilodeCeldas));
+                }
+            
+            doc.Add(_table);
+
+
+            doc.Close();
+            byte[] byteStream = ms.ToArray();
+            ms = new MemoryStream();
+            ms.Write(byteStream, 0, byteStream.Length);
+            ms.Position = 0;
+
+            
+            
+
+
+            var attachment = new System.Net.Mail.Attachment(ms, "hola.pdf" ); 
+
+            
+            /**
+            string CorreoEmisor = "facturacionjjyf@gmail.com";
+            string Contrasena = "facturacion01";
+
+
+            MailMessage CorreoElectronico = new MailMessage();
+
+            CorreoElectronico.Subject = "PDF";
+            CorreoElectronico.From = new MailAddress(CorreoEmisor);
+
+            CorreoElectronico.Body = "PDF:";
+            CorreoElectronico.To.Add(new MailAddress("Sandymarif1297@gamil.com"));
+
+            CorreoElectronico.Attachments.Add(attachment);
+
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.gmail.com";
+            smtp.Port = 587;
+            smtp.UseDefaultCredentials = false;
+            smtp.EnableSsl = true;
+            NetworkCredential nc = new NetworkCredential(CorreoEmisor, Contrasena);
+            smtp.Credentials = nc;
+            smtp.Send(CorreoElectronico);
+            **/
+        }
     }
 }

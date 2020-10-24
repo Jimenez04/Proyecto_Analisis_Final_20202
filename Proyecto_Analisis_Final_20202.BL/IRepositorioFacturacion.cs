@@ -13,6 +13,8 @@ namespace Proyecto_Analisis_Final_20202.BL
         public Empresa ObtenerEmpresa();
         public List<Sexo> ListadoDeSexos();
 
+        public List<Factura> ListarFacturas();
+
         public List<Provincia> ListadoDeProvincias();
 
         public List<Canton> ListadoDeCantones(int ID_Provincia);
@@ -32,6 +34,10 @@ namespace Proyecto_Analisis_Final_20202.BL
         public Inventario ObternerPorCodigo(String codigo);
 
         //Para Inventario
+
+        public Inventario ObtenerProductoPorCodigo(string codigo);
+
+        //public String  GenerarConsecutivo();
         
 
         public void FueraServicio(string Codigo_Prodcuto);

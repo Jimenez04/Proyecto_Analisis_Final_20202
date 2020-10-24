@@ -6,6 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="itext7" Version="7.1.12" />
+    <PackageReference Include="iTextSharp" Version="5.5.13.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Proyecto_Analisis_Final_20202.DA\Proyecto_Analisis_Final_20202.DA.csproj" />
     <ProjectReference Include="..\Proyecto_Analisis_Final_20202.Models\Proyecto_Analisis_Final_20202.Models.csproj" />
   </ItemGroup>
