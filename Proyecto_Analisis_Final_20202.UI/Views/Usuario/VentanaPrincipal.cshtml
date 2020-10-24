@@ -6,94 +6,36 @@
         Layout = "~/Views/Shared/_Layout.cshtml";
 
     }
-
     <br />
-    <h4 style=" font-family:'Radley' ">Sistema de facturacion</h4>
+    <center>
+        <h4 style=" font-family:'Radley';">Detalle de Factura</h4>
+    </center>
 
-    <br />
+    <div class="row" style=" font-family:'Radley' ">
 
-    <form action="javascript:VerificarArticulo()">
-        <div class="row" style=" font-family:'Radley' ">
-            <div class="col-md-1"><input id="CampoNuevoArticulo" type="text" placeholder="Código" name="CodigoArticulo" required autofocus /></div>
-            <div class="col-md-1"> </div>
-            <div class="col-md-1">
-                <input style=" font-family:'Radley'; background-color:#0B73D5" type="submit" value="Agregar" />
-            </div>
-            <div class="col-md-1">
-                <img src="~/icons8-eliminar-96 (1).png" width="30" height="30" id="eliminar" />
-            </div>
-            <div class="col-md-1">
-                <img src="~/lupa.png" width="30" height="30" id="lupa" />
-            </div>
-            <div class="col-md-1">
-                <img src="~/canasta.png" width="30" height="30" id="canasta" />
-            </div>
-            <div class="col-md-1">
-            </div>
-            <div class="col-md-1"></div>
-            <div class="col-md-1"></div>
-            <div class="col-md-1"></div>
-            <div class="col-md-1"></div>
-            <div class="col-md-1"></div>
+        <div class="col-md-3">
+            <form action="javascript:VerificarArticulo()">
+                <input id="CampoNuevoArticulo" type="text" style="font-size:16px;" placeholder="Código Producto" autofocus />
+                <a onclick="VerificarArticulo()">
+                    <img src="~/lupa.png" width="30" height="30" id="lupa" />
+                </a>
+            </form>
         </div>
-    </form>
 
-
-        <div class="modal fade" id="VentanaProductos" tabindex="-1" role="dialog" aria-labelledby="Producto" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Producto</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-
-                        <input type="hidden" id="CantidadDisponible">
-                        <input type="hidden" id="Descripcion">
-                        Código
-                        <input style="font-size:16px; font-weight:700;" class="form-control" type="text" id="CodigoProducto" readonly required />
-
-                        Nombre Producto <input style="font-size:16px; font-weight:700;" class="form-control" type="text" id="NombreProducto" readonly required />
-
-                        Precio
-                        <input style="font-size:16px; font-weight:700;" class="form-control" type="text" id="PrecioProducto" readonly required />
-
-                        Cantidad
-                        <input style="font-size:16px; font-weight:700;" onkeyup="ComprobarNumero(this)" class="form-control" type="number" min="1" pattern="^[0-9]+" id="CantidadProducto" required />
-                        <span id="ErrorCantidad"></span>
-                        <br />
-                        <hr />
-                        Descuento
-                        <input style="font-size:16px; font-weight:700;" class="form-control" onkeyup="ComprobarDescuento(this)" type="number" min="1" step="1" pattern="^[1-9]\d*$" id="DescuentoProducto" required />
-
-                        SubTotal
-                        <input style="font-size:16px; font-weight:700;" class="form-control" type="text" id="SubTotalProducto" readonly required />
-
-                        Impuesto
-                        <input style="font-size:16px; font-weight:700;" class="form-control" type="number" id="ImpuestoProducto" readonly value="13" required />
-
-                        Total
-                        <input style="font-size:16px; font-weight:700;" class="form-control" type="text" id="TotalProducto" readonly required />
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-
-                        <button type="button" class="btn btn-primary"  onclick="agregarProducto()" id="BotonContinuar">Agregar Producto</button>
-                    </div>
-                </div>
-            </div>
+        <div class="col-md-1">
         </div>
-  
+        <div class="col-md-1"></div>
+        <div class="col-md-1"></div>
+        <div class="col-md-3"></div>
+        <div class="col-md-1"></div>
+        <div class="col-md-1"></div>
+        <div class="col-md-1"></div>
+    </div>
+
     <div class="row">
-        <div class="col-md-12" style=" height: 350px; overflow: scroll; ">
+        <div class="col-md-12" style=" height: 330px; overflow: scroll; ">
             <table id="detalle" class="lista table" border="1">
                 <thead style="font-size:12px;">
-                    <tr class="bg-success">
-                        <td>Detalle de la Compra</td>
-                    </tr>
                     <tr class="bg-danger">
                         <th>Código</th>
                         <th>Cantidad</th>
@@ -103,60 +45,196 @@
                         <th>Descuento</th>
                         <th>Impuesto</th>
                         <th>Total</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody></tbody>
-
             </table>
         </div>
-        <br />
-        <br />
     </div>
+
 
     <div class="row" style=" font-family:'Radley' ">
-        <div class="col-md-4"></div>
-        <div class="col-md-4"></div>
-        <div class="col-md-2">
-            <table id="Totales" class="lista table" border="1" style="overflow:scroll; height:500px;">
-                <thead style="font-size:18px;">
-                    <tr class="bg-danger">
-                        <th>SubTotal</th>
-                    </tr>
-                    <tr class="bg-danger">
-                        <th>Descuento</th>
-                    </tr>
-                    <tr class="bg-danger">
-                        <th>Impuesto</th>
-                    </tr>
-                    <tr class="bg-danger">
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
+        <div class="col-md-8" style="border: 3px solid #FFF; border-color: black">
+            Datos de Cliente
+            <div class="row">
+                <div class="col-4"></div>
+                <div class="col-5">
+                    <input id="CampoCedulaPersona" type="text" style="font-size:16px;" placeholder="Identificación de Cliente" />
+                    <a onclick="AgregarPersona()">
+                        <img src="~/lupa.png" width="30" height="30" id="lupa" />
+                    </a>
+                </div>
+                <div class="col-3"></div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    Cédula
+                    <input id="CedulaCliente" type="text" style="font-size:16px;" readonly required>
+                </div>
+                <div class="col">
+                    Nombre
+                    <input id="NombreCliente" type="text" style="font-size:16px;" readonly required />
+                </div>
+                <div class="col">
+                    Apellido
+                    <input id="ApellidoCliente" type="text" style="font-size:16px;" readonly required />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <table class="table">
+                <tr>
+                    <td style="float:left;font-size:15px;">SubTotal</td>
+                    <th></th>
+                    <td><input style="font-size:15px; font-weight:700;" class="form-control" type="number" name="SubTotalFacura" id="SubTotalFacura" value="0" required readonly /></td>
+                </tr>
+                <tr>
+                    <td style="float:left;font-size:15px;">Descuento</td>
+                    <th></th>
+                    <td><input style="font-size:15px; font-weight:700;" class="form-control" onkeyup="ComprobarDescuentoFacturaTotal(this)" type="text" name="DescuentoFactura" id="DescuentoFactura" value="0" required /></td>
+                </tr>
+                <tr>
+                    <td style="float:left;font-size:15px;">Total</td>
+                    <th></th>
+                    <td><input style="font-size:15px; font-weight:700;" class="form-control" type="number" name="TotalFactura" id="TotalFactura" value="0" required readonly /></td>
+                </tr>
+
             </table>
         </div>
-        <div class="col-md-2"></div>
     </div>
 
+    <div class="row">
+        <div class="col-4">
+        </div>
+        <div class="col-4">
+        </div>
+        <div class="col-4">
+            <button type="button" style="float:right" class="btn btn-primary" onclick="Facturar()" id="BotonContinuar">Continuar</button>
+        </div>
+    </div>
 
+    <div class="modal fade" id="VentanaProductos" tabindex="-1" role="dialog" aria-labelledby="Producto" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Producto</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
 
+                    <input type="hidden" id="CantidadDisponible">
+                    <input type="hidden" id="Descripcion">
+                    Código
+                    <input style="font-size:16px; font-weight:700;" class="form-control" type="text" id="CodigoProducto" readonly required />
 
+                    Nombre Producto <input style="font-size:16px; font-weight:700;" class="form-control" type="text" id="NombreProducto" readonly required />
 
-    <br />
-    <br />
-    <a style="color: white; font-family:'Radley'; background-color:#0B73D5 ; font-size: 15px; font-weight:normal" class="btn btn-success"> Continuar</a>
+                    Precio
+                    <input style="font-size:16px; font-weight:700;" class="form-control" type="text" id="PrecioProducto" readonly required />
 
+                    Cantidad
+                    <input style="font-size:16px; font-weight:700;" onkeyup="ComprobarNumero(this)" class="form-control" type="text" min="1" pattern="^[0-9]+" id="CantidadProducto" required />
+                    <span id="ErrorCantidad"></span>
+                    <br />
+                    <hr />
+                    Descuento
+                    <input style="font-size:16px; font-weight:700;" class="form-control" onkeyup="ComprobarDescuento(this)" type="text" min="1" step="1" pattern="^[1-9]\d*$" id="DescuentoProducto" required />
+
+                    SubTotal
+                    <input style="font-size:16px; font-weight:700;" class="form-control" type="number" id="SubTotalProducto" readonly required />
+
+                    Impuesto
+                    <input style="font-size:16px; font-weight:700;" class="form-control" type="number" id="ImpuestoProducto" readonly value="13" required />
+
+                    Total
+                    <input style="font-size:16px; font-weight:700;" class="form-control" type="number" id="TotalProducto" readonly required />
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+
+                    <button type="button" class="btn btn-primary" onclick="agregarProducto()" id="BotonContinuar">Agregar Producto</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="ListaProductos" tabindex="-1" role="dialog" aria-labelledby="Producto" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Lista de Productos</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+
+                    <button type="button" class="btn btn-primary" onclick="agregarProducto()" id="BotonContinuar">Agregar Producto</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
          var Codigo = document.getElementById("CampoNuevoArticulo");
 
+        function Facturar() {
+            var Listaproductos = new Array();
+           
+            $("#detalle tbody tr").each(function (index) {
+                var Producto = {};
+                Producto.codigo_Producto = $(this).find('td').eq(0).text();
+                Producto.cantidad = $(this).find('td').eq(1).text();
+                Producto.nombre_Articulo = $(this).find('td').eq(2).text();
+                Producto.precio_Unidad = $(this).find('td').eq(3).text();
+                Producto.subTotal = $(this).find('td').eq(4).text();
+                Producto.descuento = $(this).find('td').eq(5).text();
+                Producto.impuesto_Producto = $(this).find('td').eq(6).text();
+                Producto.total = $(this).find('td').eq(7).text();
+                Listaproductos.push(Producto);
+                alert(index);
+            });
+            console.log(Listaproductos);
+
+            $.ajax({
+                type: "POST",
+                url: "Facturaracion",
+                data: {
+                    SubTotal: $("#SubTotalFacura").val(),
+                    Descuento: $("#DescuentoFactura").val(),
+                    Total: $("#TotalFactura").val(),
+                    IdentificacionCliente: $("#CampoCedulaPersona").val(), 
+                    ListaProductos: Listaproductos
+                },
+                
+                success: function (mensaje) {
+                    //alert(mensaje);
+                    //$("#idproducto").val(mensaje.Nombre);
+                    $(mensaje).each(function (index, item) {
+                        //recibir datos json
+
+                    });
+                }
+            });
+           
+
+        }
+
         function ComprobarNumero(valor) {
             $("#ErrorCantidad").html("");
             document.getElementById("BotonContinuar").disabled = false;
-            if (valor.value <= 0 || valor.value == "-0" || valor.value == "-") {
+            if (valor.value < 0 || valor.value == "-0" || valor.value == "-") {
                 valor.value = 1;
             } else {
-                if (valor.value <= $("#CantidadDisponible").val()) {
+                if (valor.value <= Number($("#CantidadDisponible").val())) {
                     CalcularCambioCantidad();
                 } else
                 {
@@ -165,7 +243,6 @@
                 }
             }
         }
-
 
         function ComprobarDescuento(valor) {
             if (valor.value < 0 || valor.value == "-0" || valor.value == "-" || valor.value > 100) {
@@ -183,79 +260,149 @@
             $("#SubTotalProducto").val(subtotalsuma - (subtotalsuma * (Descuento/100)));
             $("#ImpuestoProducto").val("13");
             var Total = $("#SubTotalProducto").val();
-            var suma = Total + (Total * (13 / 100));
-            $("#TotalProducto").val(suma);
-            console.log(suma);
+            $("#TotalProducto").val(Number(Total) + (Number(Total) * (13 / 100)));
+
+
+
+            console.log(Total);
         }
 
         function EliminarFila() {
             alert("Hola");
-           
+
                 valor = $(this).parents("tr").find("td").eq(5).html();
                 $(this).parents("tr").fadeOut("normal", function () {
                     $(this).remove();
                 });
-           
+
         }
 
-     
+
 
         function VerificarArticulo()
         {
-        fetch("@Url.Content("~/Usuario/SeleccionarProducto")" + "?CodigoProducto=" + Codigo.value)
-            .then(function (result)
+            if (Codigo.value.length != 0)
             {
-                if (result.ok)
+                    try {
+                        fetch("@Url.Content("~/Usuario/SeleccionarProducto")" + "?CodigoProducto=" + Codigo.value)
+                .then(function (result)
                 {
-                    return result.json();
-                }
-            })
-            .then(function (Producto)
+                    if (result.ok)
+                    {
+                        return result.json();
+                    }
+                })
+                .then(function (Producto)
+                {
+                    if (Producto != null) {
+                        console.log(Producto);
+                        $("#CantidadDisponible").val(Producto.cantidad_Disponible);
+                        $("#CodigoProducto").val(Producto.codigo_Producto);
+                        $("#Descripcion").val(Producto.descripcion);
+                        $("#NombreProducto").val(Producto.nombre);
+                        $("#PrecioProducto").val(Producto.precio_Venta);
+                        $("#CantidadProducto").val("1");
+                        $("#DescuentoProducto").val("0");
+                        var PrecioProducto = $("#PrecioProducto").val();
+                        var CantidadProducto = $("#CantidadProducto").val();
+                        $("#SubTotalProducto").val(PrecioProducto * CantidadProducto);
+                        $("#ImpuestoProducto").val("13");
+                        var Total = $("#SubTotalProducto").val();
+
+
+                        $("#TotalProducto").val(Number(Total) + (Number(Total) * (13 / 100)));
+
+                        $("#CampoNuevoArticulo").val("");
+                        $('#VentanaProductos').modal('show');
+                    } else {
+                        $("#CampoNuevoArticulo").val("");
+                        alert("El producto no fue encontrado");
+                    }
+                     })
+                    } catch (error) {
+                        $("#CampoNuevoArticulo").val("");
+                        alert("Verifique el código de producto");
+                    }
+            } else
             {
-                console.log(Producto);
-                $("#CantidadDisponible").val(Producto.cantidad_Disponible);
-                $("#CodigoProducto").val(Producto.codigo_Producto);
-                $("#Descripcion").val(Producto.descripcion);
-                $("#NombreProducto").val(Producto.nombre);
-                $("#PrecioProducto").val(Producto.precio_Venta);
-                $("#CantidadProducto").val("1");
-                $("#DescuentoProducto").val("0");
-                var PrecioProducto = $("#PrecioProducto").val();
-                var CantidadProducto = $("#CantidadProducto").val();
-                $("#SubTotalProducto").val(PrecioProducto * CantidadProducto);
-                $("#ImpuestoProducto").val("13");
-                var Total = $("#SubTotalProducto").val();
-                $("#TotalProducto").val(Total + (Total * (13/100)));
+                $('#ListaProductos').modal('show');
+            }
 
-                $("#CampoNuevoArticulo").val("");
-                $('#VentanaProductos').modal('show'); 
+        }
 
-            })
+        function AgregarPersona()
+        {
+            if (Codigo.value.length != 0)
+            {
+                    try {
+                        fetch("@Url.Content("~/Usuario/SeleccionarPersona")" + "?cedulapersona=" + Codigo.value)
+                .then(function (result)
+                {
+                    if (result.ok)
+                    {
+                        return result.json();
+                    }
+                })
+                .then(function (Producto)
+                {
+                    if (Producto != null) {
+
+
+                    } else {
+                        $("#CampoCedulaPersona").val("");
+                        alert("La persona no fue encontrada");
+                    }
+                     })
+                    } catch (error) {
+                        $("#CampoCedulaPersona").val("");
+                        alert("La persona no fue encontrada");
+                    }
+            } else
+            {
+                $('#ListaProductos').modal('show');
+            }
+
         }
 
         function agregarProducto() {
-            cadena = "<tr>"
-            cadena = cadena + "<td>" + $("#CodigoProducto").val() + "</td>";
-            cadena = cadena + "<td>" + $("#CantidadProducto").val() + "</td>";
-            cadena = cadena + "<td>" + $("#Descripcion").val() + "</td>";
-            cadena = cadena + "<td>" + $("#PrecioProducto").val() + "</td>";
-            cadena = cadena + "<td>" +  $("#SubTotalProducto").val() + "</td>";
-            cadena = cadena + "<td>" + $("#DescuentoProducto").val() + "</td>";
-            cadena = cadena + "<td>" + $("#ImpuestoProducto").val() + "</td>";
-            cadena = cadena + "<td>" +  $("#TotalProducto").val() + "</td>";
+            if ($("#CantidadProducto").val() > 0)
+            {
+                cadena = "<tr>"
+                cadena = cadena + "<td>" + $("#CodigoProducto").val() + "</td>";
+                cadena = cadena + "<td>" + $("#CantidadProducto").val() + "</td>";
+                cadena = cadena + "<td>" + $("#Descripcion").val() + "</td>";
+                cadena = cadena + "<td>" + $("#PrecioProducto").val() + "</td>";
+                cadena = cadena + "<td>" + $("#SubTotalProducto").val() + "</td>";
+                cadena = cadena + "<td>" + $("#DescuentoProducto").val() + "</td>";
+                cadena = cadena + "<td>" + $("#ImpuestoProducto").val() + "</td>";
+                cadena = cadena + "<td>" + $("#TotalProducto").val() + "</td>";
 
-            cadena = cadena + '<td><input type="button" class="borrar" onclick="EliminarFila()" value="Eliminar" /></td>';
-            cadena = cadena + "<td><a class ='elimina'><button class='btn btn-danger' type='button'><span class='fa fa-remove'></span></button></a></td>";
-            $("#detalle tbody").append(cadena);
-            //sumar();
-            //fn_dar_eliminar();
-            //   limpiarCliente();
-            //   limpiar();
-            $("#CampoNuevoArticulo").val("");
-            $('#VentanaProductos').modal('hide');
+                cadena = cadena + '<td><input type="button" class="borrar" onclick="EliminarFila()" value="Eliminar" /></td>';
+                $("#detalle tbody").append(cadena);
+                //sumar();
+                //fn_dar_eliminar();
+                //   limpiarCliente();
+                //   limpiar();
+                $("#CampoNuevoArticulo").val("");
+
+                $("#SubTotalFacura").val(Number($("#SubTotalFacura").val()) + Number($("#TotalProducto").val()));
+                var Totalfactura = Number($("#TotalFactura").val()) + Number($("#TotalProducto").val());
+                $("#TotalFactura").val(Totalfactura + (Totalfactura * ((Number($("#DescuentoFactura").val() / 100)))));
+
+                $('#VentanaProductos').modal('hide');
+            } else
+            {
+                alert("La cantidad no puede ser cero, verifique e intente de nuevo");
+            }
         }
 
-       
+        function ComprobarDescuentoFacturaTotal(valor) {
+            if (valor.value < 0 || valor.value == "-0" || valor.value == "-" || valor.value > 100) {
+                valor.value = 1;
+            } else {
+                $("#TotalFactura").val(Number($("#SubTotalFacura").val()) - (Number($("#SubTotalFacura").val()) * ((Number($("#DescuentoFactura").val() / 100)))));
+            }
+        }
 
     </script>
 
