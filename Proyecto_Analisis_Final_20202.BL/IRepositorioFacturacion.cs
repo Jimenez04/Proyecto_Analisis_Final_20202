@@ -9,9 +9,11 @@ namespace Proyecto_Analisis_Final_20202.BL
     {
         public Boolean VerificaciondeExistenciaEmpresa(string cedulaJudica);
 
-        public List<DetalleFactura> Carrito(String codigo);
+        public List<DetalleFactura> Facturar (double Subtotal, int Descuento , double Total, String IdentificacionCliente, List<DetalleFactura> ListaProductos);
         public Empresa ObtenerEmpresa();
         public List<Sexo> ListadoDeSexos();
+
+        public List<Factura> ListarFacturas();
 
         public List<Provincia> ListadoDeProvincias();
 
@@ -32,6 +34,10 @@ namespace Proyecto_Analisis_Final_20202.BL
         public Inventario ObternerPorCodigo(String codigo);
 
         //Para Inventario
+
+        public Inventario ObtenerProductoPorCodigo(string codigo);
+
+        //public String  GenerarConsecutivo();
         
 
         public void FueraServicio(string Codigo_Prodcuto);
