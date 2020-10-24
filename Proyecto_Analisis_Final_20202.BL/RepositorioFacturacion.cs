@@ -263,8 +263,7 @@ namespace Proyecto_Analisis_Final_20202.BL
         {
             ElContextoDeBaseDeDatos.Persona.Update(persona);
             ElContextoDeBaseDeDatos.SaveChanges();
-            GenerarXMLDeFactura(BuscarFactura("00100001010000000001"));
-            GenerarPDF(BuscarFactura("00100001010000000001"));
+           
         }
 
         public Empresa ObtenerEmpresa()
@@ -752,8 +751,10 @@ namespace Proyecto_Analisis_Final_20202.BL
 
             MemoryStream ms = new MemoryStream();
 
-            var lugar = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+           
+            var lugar = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); 
             var expportar = System.IO.Path.Combine(lugar, "Pruebas.pdf");
+
             PdfWriter pwf = new PdfWriter(expportar); // Poner ms
 
             PdfDocument pdfDocument = new PdfDocument(pwf);
