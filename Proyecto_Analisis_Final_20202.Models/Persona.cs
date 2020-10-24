@@ -79,7 +79,7 @@ namespace Proyecto_Analisis_Final_20202.Models
 
 
         [DisplayName("Código Postal")]
-        [Required(ErrorMessage = "El campo: señas exactas es requerido")]
+        [Required(ErrorMessage = "El código postal es requerido")]
         public string Codigo_Postal { get; set; }
 
         

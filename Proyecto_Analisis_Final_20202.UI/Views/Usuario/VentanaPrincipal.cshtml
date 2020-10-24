@@ -60,8 +60,8 @@
             <div class="row">
                 <div class="col-4"></div>
                 <div class="col-5">
-                    <input id="CampoCedulaPersona" type="text" style="font-size:16px;" placeholder="Identificación de Cliente" />
-                    <a onclick="AgregarPersona()">
+                    <input id="CampoCedulaPersonaBuscar" type="text" style="font-size:16px;" placeholder="Identificación de Cliente" />
+                    <a onclick="VerificarPersona()">
                         <img src="~/lupa.png" width="30" height="30" id="lupa" />
                     </a>
                 </div>
@@ -113,6 +113,45 @@
             <button type="button" style="float:right" class="btn btn-primary" onclick="Facturar()" id="BotonContinuar">Continuar</button>
         </div>
     </div>
+
+    <div class="modal fade" id="ListarPersona" tabindex="-1" role="dialog" aria-labelledby="Producto" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Datos Cliente</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Cédula
+                    <input style="font-size:16px; font-weight:700;" class="form-control" type="text" id="CedulaClientemodal" readonly required />
+
+                    Nombre
+                    <input style="font-size:16px; font-weight:700;" class="form-control" type="text" id="NombreClientemodal" readonly required />
+
+                    Apellido
+                    <input style="font-size:16px; font-weight:700;" class="form-control" type="text" id="ApellidoClientemodal" readonly required />
+
+                    Teléfono
+                    <input style="font-size:16px; font-weight:700;" class="form-control" type="text" id="telefonomodal" readonly required />
+
+                    Correo Electrónico
+                    <input style="font-size:16px; font-weight:700;" class="form-control" type="text" id="correomodal" readonly required />
+
+                    Código Postal
+                    <input style="font-size:16px; font-weight:700;" class="form-control" type="text" id="Codigo_Postalmodal" readonly required />
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+
+                    <button type="button" class="btn btn-primary" onclick="AgregarPersona()" id="BotonContinuar">Continuar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <div class="modal fade" id="VentanaProductos" tabindex="-1" role="dialog" aria-labelledby="Producto" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -172,59 +211,84 @@
                     </button>
                 </div>
                 <div class="modal-body">
-
+                    En Contrucción
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                    <button type="button" class="btn btn-primary" onclick="agregarProducto()" id="BotonContinuar">Agregar Producto</button>
+    <div class="modal fade" id="ListarTotalPersonas" tabindex="-1" role="dialog" aria-labelledby="Producto" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Lista de Personas</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    En Contrucción
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-         var Codigo = document.getElementById("CampoNuevoArticulo");
+        var Codigo = document.getElementById("CampoNuevoArticulo");
+
+        function campos_no_vacios(){
+
+        }
 
         function Facturar() {
-            var Listaproductos = new Array();
-           
-            $("#detalle tbody tr").each(function (index) {
-                var Producto = {};
-                Producto.codigo_Producto = $(this).find('td').eq(0).text();
-                Producto.cantidad = $(this).find('td').eq(1).text();
-                Producto.nombre_Articulo = $(this).find('td').eq(2).text();
-                Producto.precio_Unidad = $(this).find('td').eq(3).text();
-                Producto.subTotal = $(this).find('td').eq(4).text();
-                Producto.descuento = $(this).find('td').eq(5).text();
-                Producto.impuesto_Producto = $(this).find('td').eq(6).text();
-                Producto.total = $(this).find('td').eq(7).text();
-                Listaproductos.push(Producto);
-                alert(index);
-            });
-            console.log(Listaproductos);
 
-            $.ajax({
-                type: "POST",
-                url: "Facturaracion",
-                data: {
-                    SubTotal: $("#SubTotalFacura").val(),
-                    Descuento: $("#DescuentoFactura").val(),
-                    Total: $("#TotalFactura").val(),
-                    IdentificacionCliente: $("#CampoCedulaPersona").val(), 
-                    ListaProductos: Listaproductos
-                },
-                
-                success: function (mensaje) {
-                    //alert(mensaje);
-                    //$("#idproducto").val(mensaje.Nombre);
-                    $(mensaje).each(function (index, item) {
-                        //recibir datos json
 
-                    });
-                }
-            });
-           
+            if ($("#CedulaCliente").val() != ("") && $("#detalle tbody tr").length > 0  ) {
+                var Listaproductos = new Array();
+
+                $("#detalle tbody tr").each(function (index) {
+                    var Producto = {};
+                    Producto.codigo_Producto = $(this).find('td').eq(0).text();
+                    Producto.cantidad = $(this).find('td').eq(1).text();
+                    Producto.nombre_Articulo = $(this).find('td').eq(2).text();
+                    Producto.precio_Unidad = $(this).find('td').eq(3).text();
+                    Producto.subTotal = $(this).find('td').eq(4).text();
+                    Producto.descuento = $(this).find('td').eq(5).text();
+                    Producto.impuesto_Producto = $(this).find('td').eq(6).text();
+                    Producto.total = $(this).find('td').eq(7).text();
+                    Listaproductos.push(Producto);
+                });
+
+                $.ajax({
+                    type: "POST",
+                    url: "Facturaracion",
+                    data: {
+                        SubTotal: $("#SubTotalFacura").val(),
+                        Descuento: $("#DescuentoFactura").val(),
+                        Total: $("#TotalFactura").val(),
+                        IdentificacionCliente: $("#CedulaCliente").val(),
+                        ListaProductos: Listaproductos
+                    },
+
+                    success: function (mensaje) {
+                        alert("La compra se ha efectuado con exito");
+                        $(mensaje).each(function (index, item) {
+                            //recibir datos json
+
+                        });
+                    }
+                });
+            } else {
+                alert("Agregue un articulo o cliente");
+            }
+
+
 
         }
 
@@ -330,12 +394,12 @@
 
         }
 
-        function AgregarPersona()
+        function VerificarPersona()
         {
-            if (Codigo.value.length != 0)
+            if ($('#CampoCedulaPersonaBuscar').val().length != 0)
             {
                     try {
-                        fetch("@Url.Content("~/Usuario/SeleccionarPersona")" + "?cedulapersona=" + Codigo.value)
+                        fetch("@Url.Content("~/Usuario/SeleccionarPersona")" + "?cedulapersona=" + $('#CampoCedulaPersonaBuscar').val())
                 .then(function (result)
                 {
                     if (result.ok)
@@ -343,11 +407,18 @@
                         return result.json();
                     }
                 })
-                .then(function (Producto)
+                .then(function (Persona)
                 {
-                    if (Producto != null) {
+                    if (Persona != null) {
+                        console.log(Persona);
+                        $('#CedulaClientemodal').val(Persona.cedula);
+                        $('#NombreClientemodal').val(Persona.nombre1);
+                        $('#ApellidoClientemodal').val(Persona.apellido1);
+                        $('#telefonomodal').val(Persona.telefono.numero);
+                        $('#correomodal').val(Persona.correo.correo);
+                        $('#Codigo_Postalmodal').val(Persona.codigo_Postal);
 
-
+                        $('#ListarPersona').modal('show');
                     } else {
                         $("#CampoCedulaPersona").val("");
                         alert("La persona no fue encontrada");
@@ -359,9 +430,18 @@
                     }
             } else
             {
-                $('#ListaProductos').modal('show');
+                //limpiarPersona();
+                $('#ListarTotalPersonas').modal('show');
             }
 
+        }
+
+        function AgregarPersona() {
+            $('#CedulaCliente').val($('#CedulaClientemodal').val());
+            $('#NombreCliente').val($('#NombreClientemodal').val());
+            $('#ApellidoCliente').val($('#ApellidoClientemodal').val());
+            $('#ListarPersona').modal('hide');
+            $('#CampoCedulaPersonaBuscar').val("")
         }
 
         function agregarProducto() {

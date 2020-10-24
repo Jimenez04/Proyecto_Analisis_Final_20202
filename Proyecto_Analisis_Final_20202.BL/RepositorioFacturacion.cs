@@ -236,11 +236,19 @@ namespace Proyecto_Analisis_Final_20202.BL
 
         public Persona ObtenerPersonaPorCedula(String Cedula)
         {
-            Persona persona;
-            persona = ElContextoDeBaseDeDatos.Persona.Find(Cedula);
-            persona.Correo = ElContextoDeBaseDeDatos.Correo_Electronico.Find(Cedula);
-            persona.telefono = ElContextoDeBaseDeDatos.Telefono.Find(Cedula);
-            return persona;
+            try
+            {
+                Persona persona;
+                persona = ElContextoDeBaseDeDatos.Persona.Find(Cedula);
+                persona.Correo = ElContextoDeBaseDeDatos.Correo_Electronico.Find(Cedula);
+                persona.telefono = ElContextoDeBaseDeDatos.Telefono.Find(Cedula);
+                return persona;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+           
         }
 
         public void EditarPersona(Persona persona)

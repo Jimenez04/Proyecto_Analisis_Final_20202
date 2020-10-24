@@ -38,7 +38,6 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
         [HttpPost]
         public ActionResult Facturaracion(double SubTotal, int Descuento, double Total,  string IdentificacionCliente, List<DetalleFactura> ListaProductos)
         {
-            int a = Descuento;
             return Json("Hola");
         }
     }
