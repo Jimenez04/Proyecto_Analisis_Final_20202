@@ -1,4 +1,5 @@
-﻿<div>
+﻿<link href="~/css/Facturacion.css" rel="stylesheet" />
+
     @model IEnumerable<Proyecto_Analisis_Final_20202.Models.DetalleFactura>
 
     @{
@@ -33,19 +34,18 @@
     </div>
 
     <div class="row">
-        <div class="col-md-12" style=" height: 330px; overflow: scroll; ">
+        <div class="col-md-12" style=" height: 330px; overflow: scroll; width:auto; text-align:center">
             <table id="detalle" class="lista table" border="1">
                 <thead style="font-size:12px;">
-                    <tr class="bg-danger">
-                        <th>Código</th>
-                        <th>Cantidad</th>
-                        <th>Descripcion del Producto</th>
-                        <th>Precion Unidad</th>
-                        <th>SubTotal</th>
-                        <th>Descuento</th>
-                        <th>Impuesto</th>
-                        <th>Total</th>
-                        <th></th>
+                    <tr class="thead-dark">
+                        <th scope="col">Código</th>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">Descripcion del Producto</th>
+                        <th scope="col">Precion Unidad</th>
+                        <th scope="col">SubTotal</th>
+                        <th scope="col">Descuento</th>
+                        <th scope="col">Impuesto</th>
+                        <th scope="col">Total</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -55,7 +55,7 @@
 
 
     <div class="row" style=" font-family:'Radley' ">
-        <div class="col-md-8" style="border: 3px solid #FFF; border-color: black">
+        <div class="col-md-8" style=" border-right: 3px solid #343A40;">
             Datos de Cliente
             <div class="row">
                 <div class="col-4"></div>
@@ -482,7 +482,6 @@
 
     </script>
 
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
