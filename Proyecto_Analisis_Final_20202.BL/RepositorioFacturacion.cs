@@ -181,11 +181,13 @@ namespace Proyecto_Analisis_Final_20202.BL
             clientedefactura.Descuento = 0;
             ElContextoDeBaseDeDatos.Cliente.Add(clientedefactura);
             ElContextoDeBaseDeDatos.SaveChanges();
+            Persona cliente = ObtenerPersonaPorCedula(clientedefactura.Cedula);
+            EnviarArchivosDeFactura(GenerarXMLDeFactura(nuevafactura), GenerarPDF(nuevafactura),cliente.Correo.Correo);
 
-            GenerarXMLDeFactura(nuevafactura);    
 
 
-           return 1;
+
+            return 1;
         }
 
         public void AgregarInventario(Inventario inventario)
@@ -384,12 +386,12 @@ namespace Proyecto_Analisis_Final_20202.BL
         }
 
         // Metodo de creación del XML 
-        public String GenerarXMLDeFactura(Factura factura)
+        public Attachment GenerarXMLDeFactura(Factura factura)
         {
-            Cliente cliente = ObtenerCliente_porConsecutivo(factura.Consecutivo); 
+            Cliente cliente = ObtenerCliente_porConsecutivo(factura.Consecutivo);
             Persona persona = ObtenerPersonaPorCedula(cliente.Cedula);
-            Empresa empresa = ObtenerEmpresa();  
-            
+            Empresa empresa = ObtenerEmpresa();
+
 
             List<DetalleFactura> detalleFactura = ElDetalleDeFactura(factura.Consecutivo);
 
@@ -668,12 +670,12 @@ namespace Proyecto_Analisis_Final_20202.BL
             System.Xml.Serialization.XmlSerializer ser = new System.Xml.Serialization.XmlSerializer(typeof(XmlElement));
             ser.Serialize(ms, doc);
             ms.Position = 0;
-            var attachment = new System.Net.Mail.Attachment(ms, factura.Consecutivo + ".xml");
+            var xmlfactura = new System.Net.Mail.Attachment(ms, factura.Consecutivo + ".xml");
 
-            return total;
+            return xmlfactura;
         }
 
-        public void EnviarArchivosDeFactura(Attachment archivoxml, string correodestinatario)
+        public void EnviarArchivosDeFactura(Attachment archivoxml, Attachment archivopdf, string correodestinatario)
         {
 
             string CorreoEmisor = "facturacionjjyf@gmail.com";
@@ -686,9 +688,10 @@ namespace Proyecto_Analisis_Final_20202.BL
             CorreoElectronico.From = new MailAddress(CorreoEmisor);
 
             CorreoElectronico.Body = "XML es el siguiente:";
-            CorreoElectronico.To.Add(new MailAddress("josue-1231@hotmail.es"));
+            CorreoElectronico.To.Add(new MailAddress(correodestinatario));
 
             CorreoElectronico.Attachments.Add(archivoxml);
+            CorreoElectronico.Attachments.Add(archivopdf); 
 
             SmtpClient smtp = new SmtpClient();
             smtp.Host = "smtp.gmail.com";
@@ -791,7 +794,7 @@ namespace Proyecto_Analisis_Final_20202.BL
             return DateTime.Now.ToString("ddMMyy");
         }
 
-        private void GenerarPDF(Factura factura)
+        private Attachment GenerarPDF(Factura factura)
         {
             List<DetalleFactura> detalleFactura = ElDetalleDeFactura(factura.Consecutivo);
             Empresa empresa = ObtenerEmpresa();
@@ -804,7 +807,7 @@ namespace Proyecto_Analisis_Final_20202.BL
             var lugar = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); 
             var expportar = System.IO.Path.Combine(lugar, "Pruebas.pdf");
 
-            PdfWriter pwf = new PdfWriter(expportar); // Poner ms
+            PdfWriter pwf = new PdfWriter(ms); // Poner ms
 
             PdfDocument pdfDocument = new PdfDocument(pwf);
             Document doc = new Document(pdfDocument, PageSize.LETTER);
@@ -839,8 +842,8 @@ namespace Proyecto_Analisis_Final_20202.BL
 
 
             Cell nuevacell = new Cell()
-               .Add(new Paragraph("Consecutivo " + GenerarConsecutivo()))
-               .Add(new Paragraph("Clave: " + GenerarClave(GenerarConsecutivo(), empresa.Cedula_Juridica)).SetFontSize(9))
+               .Add(new Paragraph("Consecutivo " + factura.Consecutivo))
+               .Add(new Paragraph("Clave: " + factura.Clave).SetFontSize(9))
                .Add(new Paragraph("\n" + " Receptor"))
                .Add(new Paragraph( persona.Nombre1+ " "  + persona.Apellido2).SetFontSize(10))
                .Add(new Paragraph(" Cedula: " + persona.Cedula).SetFontSize(10))
@@ -962,9 +965,9 @@ Table tabla = new Table(UnitValue.CreatePercentArray(tamanios));
             
 
 
-            var attachment = new System.Net.Mail.Attachment(ms, "hola.pdf" ); 
+            var pdffactura = new System.Net.Mail.Attachment(ms, factura.Consecutivo+".pdf" );
 
-            
+            return pdffactura;
             /**
             string CorreoEmisor = "facturacionjjyf@gmail.com";
             string Contrasena = "facturacion01";
@@ -989,6 +992,7 @@ Table tabla = new Table(UnitValue.CreatePercentArray(tamanios));
             smtp.Credentials = nc;
             smtp.Send(CorreoElectronico);
             **/
+
         }
     }
 }
