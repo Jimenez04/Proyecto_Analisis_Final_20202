@@ -181,10 +181,10 @@ namespace Proyecto_Analisis_Final_20202.BL
             clientedefactura.Descuento = 0;
             ElContextoDeBaseDeDatos.Cliente.Add(clientedefactura);
             ElContextoDeBaseDeDatos.SaveChanges();
-            Persona cliente = ObtenerPersonaPorCedula(clientedefactura.Cedula);
-            EnviarArchivosDeFactura(GenerarXMLDeFactura(nuevafactura), GenerarPDF(nuevafactura),cliente.Correo.Correo);
+            // Persona cliente = ObtenerPersonaPorCedula(clientedefactura.Cedula);
+            //  EnviarArchivosDeFactura(GenerarXMLDeFactura(nuevafactura), GenerarPDF(nuevafactura),cliente.Correo.Correo);
 
-
+            GenerarPDF(nuevafactura);
 
 
             return 1;
@@ -803,11 +803,11 @@ namespace Proyecto_Analisis_Final_20202.BL
 
             MemoryStream ms = new MemoryStream();
 
-           
-            var lugar = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); 
+
+            var lugar = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             var expportar = System.IO.Path.Combine(lugar, "Pruebas.pdf");
 
-            PdfWriter pwf = new PdfWriter(ms); // Poner ms
+            PdfWriter pwf = new PdfWriter(expportar); // Poner ms para mandar o poner exxportar para hacerlo en menotia
 
             PdfDocument pdfDocument = new PdfDocument(pwf);
             Document doc = new Document(pdfDocument, PageSize.LETTER);
@@ -820,9 +820,9 @@ namespace Proyecto_Analisis_Final_20202.BL
 
             doc.Add(TablaDatos1);
 
-            Table table1 = new Table(6).UseAllAvailableWidth().SetStrokeColor(ColorConstants.BLUE); 
+            Table table1 = new Table(6).UseAllAvailableWidth().SetStrokeColor(ColorConstants.BLUE);
 
-           
+
 
 
             Cell cell1 = new Cell(1, 3).Add(new Paragraph(empresa.Nombre +
@@ -845,27 +845,27 @@ namespace Proyecto_Analisis_Final_20202.BL
                .Add(new Paragraph("Consecutivo " + factura.Consecutivo))
                .Add(new Paragraph("Clave: " + factura.Clave).SetFontSize(9))
                .Add(new Paragraph("\n" + " Receptor"))
-               .Add(new Paragraph( persona.Nombre1+ " "  + persona.Apellido2).SetFontSize(10))
+               .Add(new Paragraph(persona.Nombre1 + " " + persona.Apellido2).SetFontSize(10))
                .Add(new Paragraph(" Cedula: " + persona.Cedula).SetFontSize(10))
                .Add(new Paragraph(" Correo: " + persona.Correo.Correo).SetFontSize(10))
                .SetBorder(new SolidBorder(WebColors.GetRGBColor("#0B73D5"), 2))
                .SetBorderRight(Border.NO_BORDER)
-                ; 
-               TablaDatos.AddCell(nuevacell);
+                ;
+            TablaDatos.AddCell(nuevacell);
 
             Cell nuevacellda = new Cell()
                .Add(new Paragraph("Fecha " + DateTime.Now.ToString("dd/MM/yyyy")).SetFontSize(10))
                .Add(new Paragraph("\n Medio de pago " + "Efectivo").SetFontSize(10))
                .Add(new Paragraph("Condición venta " + "Contado").SetFontSize(10))
-               .Add(new Paragraph("\n Teléfono" + "+(506)"+ persona.telefono.Numero).SetFontSize(10))
+               .Add(new Paragraph("\n Teléfono" + "+(506)" + persona.telefono.Numero).SetFontSize(10))
                .Add(new Paragraph(" Cedula: " + persona.Cedula).SetFontSize(10))
                .Add(new Paragraph("Dirección " + persona.SenasExactas).SetFontSize(10))
                .SetBorder(new SolidBorder(WebColors.GetRGBColor("#0B73D5"), 2))
                .SetBorderLeft(Border.NO_BORDER)
                ;
-               TablaDatos.AddCell(nuevacellda);
-               
-               doc.Add(TablaDatos);
+            TablaDatos.AddCell(nuevacellda);
+
+            doc.Add(TablaDatos);
 
 
             /**
@@ -898,10 +898,10 @@ Table tabla = new Table(UnitValue.CreatePercentArray(tamanios));
             // Tabla de los productos 
 
 
-            doc.Add(new Paragraph ());
+            doc.Add(new Paragraph());
 
             float[] tamanios = { 60f, 60f, 60f, 60f };
-            Table _table = new Table (8).UseAllAvailableWidth();
+            Table _table = new Table(8).UseAllAvailableWidth().SetBorder(new SolidBorder(WebColors.GetRGBColor("#0B73D5"), 1));
 
             Style EstilodeCeldasprimarias = new Style()
               .SetTextAlignment(TextAlignment.CENTER)
@@ -935,21 +935,21 @@ Table tabla = new Table(UnitValue.CreatePercentArray(tamanios));
                 {
                     Inventario producto = ObtenerProductoPorCodigo(item.Codigo_Producto);
 
-                    _cell = new Cell(1,2).Add(new Paragraph(item.Codigo_Producto)).SetBorderRight(Border.NO_BORDER).SetTextAlignment(TextAlignment.CENTER).SetBorderBottom(Border.NO_BORDER).SetBorder(new SolidBorder(ColorConstants.BLUE, 1));
+                    _cell = new Cell(1,2).Add(new Paragraph(item.Codigo_Producto)).SetBorderRight(Border.NO_BORDER).SetTextAlignment(TextAlignment.CENTER).SetBorderBottom(Border.NO_BORDER).SetBorderTop(Border.NO_BORDER).SetBorder(new SolidBorder(ColorConstants.BLUE, 1));
                     _table.AddCell(_cell.AddStyle(EstilodeCeldas));
 
-                    _cell = new Cell(1,2).Add(new Paragraph(producto.Nombre)).SetBorderRight(Border.NO_BORDER).SetBorderLeft(Border.NO_BORDER).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(ColorConstants.BLUE, 1));
-                    _table.AddCell(_cell.AddStyle(EstilodeCeldas));
+                _cell = new Cell(1, 2).Add(new Paragraph(producto.Nombre)).SetBorderRight(Border.NO_BORDER).SetTextAlignment(TextAlignment.CENTER).SetBorderBottom(Border.NO_BORDER).SetBorderTop(Border.NO_BORDER).SetBorder(new SolidBorder(ColorConstants.BLUE, 1));
 
-                   
 
-                     _cell = new Cell(1,2).Add(new Paragraph(item.Cantidad.ToString())).SetBorderRight(Border.NO_BORDER).SetBorderLeft(Border.NO_BORDER).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(ColorConstants.BLUE, 1));
-                    _table.AddCell(_cell.AddStyle(EstilodeCeldas));
+
+
+                     _cell = new Cell(1,2).Add(new Paragraph(item.Cantidad.ToString())).SetBorderRight(Border.NO_BORDER).SetTextAlignment(TextAlignment.CENTER).SetBorderBottom(Border.NO_BORDER).SetBorderTop(Border.NO_BORDER).SetBorder(new SolidBorder(ColorConstants.BLUE, 1));
+                _table.AddCell(_cell.AddStyle(EstilodeCeldas));
 
                     
 
-                _cell = new Cell(1,2).Add(new Paragraph(item.Precio_Unidad.ToString())).SetBorderLeft(Border.NO_BORDER).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(ColorConstants.BLUE, 1));
-                    _table.AddCell(_cell.AddStyle(EstilodeCeldas));
+                _cell = new Cell(1,2).Add(new Paragraph(item.Precio_Unidad.ToString())).SetBorderRight(Border.NO_BORDER).SetTextAlignment(TextAlignment.CENTER).SetBorderBottom(Border.NO_BORDER).SetBorderTop(Border.NO_BORDER).SetBorder(new SolidBorder(ColorConstants.BLUE, 1));
+                _table.AddCell(_cell.AddStyle(EstilodeCeldas));
                 }
             
             doc.Add(_table);
@@ -968,30 +968,7 @@ Table tabla = new Table(UnitValue.CreatePercentArray(tamanios));
             var pdffactura = new System.Net.Mail.Attachment(ms, factura.Consecutivo+".pdf" );
 
             return pdffactura;
-            /**
-            string CorreoEmisor = "facturacionjjyf@gmail.com";
-            string Contrasena = "facturacion01";
-
-
-            MailMessage CorreoElectronico = new MailMessage();
-
-            CorreoElectronico.Subject = "PDF";
-            CorreoElectronico.From = new MailAddress(CorreoEmisor);
-
-            CorreoElectronico.Body = "PDF:";
-            CorreoElectronico.To.Add(new MailAddress("Sandymarif1297@gamil.com"));
-
-            CorreoElectronico.Attachments.Add(attachment);
-
-            SmtpClient smtp = new SmtpClient();
-            smtp.Host = "smtp.gmail.com";
-            smtp.Port = 587;
-            smtp.UseDefaultCredentials = false;
-            smtp.EnableSsl = true;
-            NetworkCredential nc = new NetworkCredential(CorreoEmisor, Contrasena);
-            smtp.Credentials = nc;
-            smtp.Send(CorreoElectronico);
-            **/
+          
 
         }
     }
