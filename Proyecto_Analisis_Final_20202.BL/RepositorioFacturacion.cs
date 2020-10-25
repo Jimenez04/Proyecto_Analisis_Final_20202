@@ -182,6 +182,7 @@ namespace Proyecto_Analisis_Final_20202.BL
             ElContextoDeBaseDeDatos.Cliente.Add(clientedefactura);
             ElContextoDeBaseDeDatos.SaveChanges();
 
+            GenerarXMLDeFactura(nuevafactura);    
 
 
            return 1;
@@ -374,9 +375,11 @@ namespace Proyecto_Analisis_Final_20202.BL
         // Metodo de creación del XML 
         public String GenerarXMLDeFactura(Factura factura)
         {
-            Cliente cliente = ObtenerCliente_porConsecutivo(factura.Consecutivo);
+            Cliente cliente = ObtenerCliente_porConsecutivo(factura.Consecutivo); 
             Persona persona = ObtenerPersonaPorCedula(cliente.Cedula);
-            Empresa empresa = ObtenerEmpresa();
+            Empresa empresa = ObtenerEmpresa();  
+            
+
             List<DetalleFactura> detalleFactura = ElDetalleDeFactura(factura.Consecutivo);
 
             // Esto es una prueba humilde del XML 
@@ -413,7 +416,7 @@ namespace Proyecto_Analisis_Final_20202.BL
             seccionFacturacion.AppendChild(subseccionclave);
 
             XmlElement clave = doc.CreateElement(string.Empty, "Clave", string.Empty);
-            XmlText textClave = doc.CreateTextNode("50Digitos");
+            XmlText textClave = doc.CreateTextNode(factura.Clave);
             clave.AppendChild(textClave);
             subseccionclave.AppendChild(clave);
 
@@ -431,7 +434,7 @@ namespace Proyecto_Analisis_Final_20202.BL
             nombreempresa.AppendChild(textnombreempresa);
             subseccionempresa.AppendChild(nombreempresa);
 
-            XmlElement codigopais = doc.CreateElement(string.Empty, "Provincia", string.Empty);
+            XmlElement codigopais = doc.CreateElement(string.Empty, "País", string.Empty);
             XmlText textcodigopais = doc.CreateTextNode("506");
             codigopais.AppendChild(textcodigopais);
             subseccionempresa.AppendChild(codigopais);
@@ -558,6 +561,12 @@ namespace Proyecto_Analisis_Final_20202.BL
                 precio.AppendChild(textoprecio);
                 productos.AppendChild(precio);
 
+
+                XmlElement totalproductos = doc.CreateElement(string.Empty, "TotalProductos", string.Empty);
+                XmlText texttotalproductos = doc.CreateTextNode(item.Total.ToString());
+                totalproductos.AppendChild(texttotalproductos);
+                productos.AppendChild(totalproductos);
+
             }
             // Medio de pago
             XmlElement subseccionmediodepago = doc.CreateElement(string.Empty, "MedioPago", string.Empty);
@@ -628,7 +637,7 @@ namespace Proyecto_Analisis_Final_20202.BL
             seccionFacturacion.AppendChild(subseccionimpuesto);
 
             XmlElement impuesto = doc.CreateElement(string.Empty, "Impuesto", string.Empty);
-            XmlText textimpuesto = doc.CreateTextNode("13"); //VentaServicios
+            XmlText textimpuesto = doc.CreateTextNode(factura.IVA.ToString()); //VentaServicios
             impuesto.AppendChild(textimpuesto);
             subseccionimpuesto.AppendChild(impuesto);
             //
@@ -650,10 +659,6 @@ namespace Proyecto_Analisis_Final_20202.BL
             ms.Position = 0;
             var attachment = new System.Net.Mail.Attachment(ms, factura.Consecutivo + ".xml");
 
-            String Ver = GenerarClave(GenerarConsecutivo(), empresa.Cedula_Juridica);
-            GenerarClave(GenerarConsecutivo(), empresa.Cedula_Juridica);
-
-            //EnviarArchivosDeFactura(attachment, persona.Correo.Correo);
             return total;
         }
 
