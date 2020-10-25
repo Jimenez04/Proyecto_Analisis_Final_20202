@@ -85,13 +85,14 @@ namespace Proyecto_Analisis_Final_20202.UI.Areas.Identity.Pages.Account
             {
                 var user = new IdentityUser { UserName = Input.UserName, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
-                await _userManager.AddToRoleAsync(user, "Empleado");
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(user, "Empleado");
                     _logger.LogInformation("User created a new account with password.");
 
                     return RedirectToAction("ListarPersonas", "Persona");
                 }
+
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);

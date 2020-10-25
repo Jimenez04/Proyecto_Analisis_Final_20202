@@ -63,9 +63,9 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
                         PhoneNumber = nuevaCuentaEmpresarial.NumeroTelefonico,
                     };
                     var Estado = await gestionusuarios.CreateAsync(Usuario, contrasena);
-                    await gestionusuarios.AddToRoleAsync(Usuario, "Administrador");
                     if (Estado.Succeeded)
                     {
+                        await gestionusuarios.AddToRoleAsync(Usuario, "Administrador");
                         await Login.SignInAsync(Usuario, isPersistent: false);
                         await _emailSender.SendEmailAsync(Usuario.Email, "Creación de nuevo usuario administrador",
                      "Usuario " + Usuario.UserName + ", contraseña temporal: " + contrasena + ", esta contraseña es su responsabilidad, cámbiela lo antes posible" );
