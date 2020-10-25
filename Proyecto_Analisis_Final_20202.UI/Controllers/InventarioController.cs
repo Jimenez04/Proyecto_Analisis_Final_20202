@@ -233,5 +233,13 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
                 return RedirectToAction(nameof(ListarInventario));
             }
         }
+
+        [Authorize(Roles = "Administrador, Empleado")]
+        public JsonResult ListarProductosDisponiblesJSON()
+        {
+            List<Inventario> LaListaDisponible;
+            LaListaDisponible = RepositorioFacturacion.ObtenerProductosDisponibles();
+            return Json(LaListaDisponible);
+        }
     }
 }
