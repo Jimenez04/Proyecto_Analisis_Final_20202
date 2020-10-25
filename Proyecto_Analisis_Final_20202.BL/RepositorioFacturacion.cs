@@ -228,18 +228,29 @@ namespace Proyecto_Analisis_Final_20202.BL
 
         public void AgregarPersonas(Persona persona)
         {
-            persona.telefono.Cedula = persona.Cedula;
+
+            try
+            {
+             persona.telefono.Cedula = persona.Cedula;
             persona.Correo.Cedula = persona.Cedula;
 
 
-            ElContextoDeBaseDeDatos.Persona.Add(persona);
+                ElContextoDeBaseDeDatos.Persona.Add(persona);
+                ElContextoDeBaseDeDatos.SaveChanges();
 
-            ElContextoDeBaseDeDatos.SaveChanges();
+                ElContextoDeBaseDeDatos.Telefono.Add(persona.telefono);
+                ElContextoDeBaseDeDatos.SaveChanges();
 
-            ElContextoDeBaseDeDatos.Telefono.Add(persona.telefono);
-            ElContextoDeBaseDeDatos.Correo_Electronico.Add(persona.Correo);
+                ElContextoDeBaseDeDatos.Correo_Electronico.Add(persona.Correo);
+                ElContextoDeBaseDeDatos.SaveChanges();
+            }
+            catch (Exception e )
+            {
+              //  ElContextoDeBaseDeDatos.RollBack();
 
-            ElContextoDeBaseDeDatos.SaveChanges();
+                throw;
+            }
+            
 
         }
 
