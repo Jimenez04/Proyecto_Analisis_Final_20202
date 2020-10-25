@@ -210,8 +210,18 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    En Contrucción
+                <div class="modal-body" style=" height: 330px; overflow: scroll; width:auto; text-align:center">
+                        <table id="ListarTotalProductos" class="lista table" border="1">
+                            <thead style="font-size:12px;">
+                                <tr class="thead-dark">
+                                    <th scope="col">Código</th>
+                                    <th scope="col">Disponibilidad</th>
+                                    <th scope="col">Descripcion del Producto</th>
+                                    <th scope="col">Precion Unidad</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -327,8 +337,9 @@
             console.log(Total);
         }
 
-        function EliminarFila() {
-            alert("Hola");
+        function EliminarFila(hola) {
+            console.log(hola);
+            alert(hola.value);
 
                 valor = $(this).parents("tr").find("td").eq(5).html();
                 $(this).parents("tr").fadeOut("normal", function () {
@@ -385,10 +396,53 @@
                     }
             } else
             {
+                ObtenerTodosLosProductos();
                 $('#ListaProductos').modal('show');
             }
 
         }
+
+        function AgregarDesdeListado(codigo) {
+            $("#CampoNuevoArticulo").val(codigo.value);
+            VerificarArticulo();
+            $('#ListaProductos').modal('hide');
+        }
+
+        function ObtenerTodosLosProductos() {
+            try {
+                fetch("@Url.Content("~/Inventario/ListarProductosDisponiblesJSON")")
+                    .then(function (result) {
+                        if (result.ok) {
+                            return result.json();
+                        }
+                    })
+                    .then(function (Producto) {
+                        if (Producto != null) {
+                            console.log(Producto);
+
+                            Producto.forEach(function (index) {
+
+
+                                cadena = "<tr>"
+                                cadena = cadena + "<td>" + index.codigo_Producto + "</td>";
+                                cadena = cadena + "<td>" + index.cantidad_Disponible + "</td>";
+                                cadena = cadena + "<td>" + index.descripcion + "</td>";
+                                cadena = cadena + "<td>" + index.precio_Venta + "</td>";
+
+                                cadena = cadena + '<td><input type="button" class="Agregar" onclick="AgregarDesdeListado(this)" value=' + index.codigo_Producto +' />Agregar</td>';
+
+                                $("#ListarTotalProductos tbody").append(cadena);
+                            });
+                          
+                        } else {
+                            alert("No existen productos disponibles");
+                        }
+                    })
+            } catch (error) {
+                alert("No existen productos disponibles");
+            }
+        }
+        
 
         function VerificarPersona()
         {
