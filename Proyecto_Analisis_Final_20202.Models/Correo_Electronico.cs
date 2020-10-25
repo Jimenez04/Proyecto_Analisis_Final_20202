@@ -9,10 +9,11 @@ namespace Proyecto_Analisis_Final_20202.Models
 {
     public class Correo_Electronico
     {
-        // No se que hacer porque solo hay una para los 2
-        [DisplayName("Cedula")]
+        // No se que hacer porque solo hay una para los 2 
+
         [ForeignKey("Persona")]
         [Key]
+        [DisplayName("Cedula")]
         public string Cedula { get; set; }
 
 
