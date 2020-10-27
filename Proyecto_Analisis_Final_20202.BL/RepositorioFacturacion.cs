@@ -868,102 +868,82 @@ namespace Proyecto_Analisis_Final_20202.BL
             doc.Add(TablaDatos);
 
 
-            /**
-                 Cell celda1 = new Cell(1, 3).Add(new Paragraph(" Consecutivo: " + GenerarConsecutivo()).SetFontSize(10)).SetBorder(Border.NO_BORDER);
-                 TablaDatos.AddCell(celda1);
-
-                 Cell celda2 = new Cell(1, 6).Add(new Paragraph(" Fecha: " + DateTime.Now.ToString("dd/MM/yyyy")).SetFontSize(9)).SetBorder(Border.NO_BORDER);
-                 TablaDatos.AddCell(celda2);
-            
-
-
-                 Cell celda3 = new Cell(2, 3).Add(new Paragraph(" Clave Numerica: " + GenerarClave(GenerarConsecutivo(), empresa.Cedula_Juridica)).SetFontSize(9)).SetBorder(Border.NO_BORDER);
-                 TablaDatos.AddCell(celda3);
-            **/
-
-
-            /**  doc.Add(new Paragraph("Cedula Jurídica: " + empresa.Cedula_Juridica +
-                  "\n Número: " + "(506) 85442065" +
-                  "\n Correo: " + "facturacionjjyf@gmail.com" +
-                  "\n Dirección: " + empresa.Senas_Exactas).SetFontSize(10).SetMarginLeft(342).SetFontColor(ColorConstants.BLACK).SetPaddingBottom(1).SetMarginTop(1));
-           **/
-
-            //Parte de la tabla arriba donde está el texto de la tabla  
-
-
-            /** float[] tamanios = {}
-
-Table tabla = new Table(UnitValue.CreatePercentArray(tamanios));
-**/
-            // Tabla de los productos 
-
-
+            // Tabla de Productos
             doc.Add(new Paragraph());
 
-            float[] tamanios = { 60f, 60f, 60f, 60f };
+            
             Table _table = new Table(8).UseAllAvailableWidth().SetBorder(new SolidBorder(WebColors.GetRGBColor("#0B73D5"), 1));
 
-            Style EstilodeCeldasprimarias = new Style()
+            Style Celdasorganizacionproductos = new Style()
               .SetTextAlignment(TextAlignment.CENTER)
               .SetFontSize(11)
+              .SetBorder(Border.NO_BORDER)
               .SetBackgroundColor(WebColors.GetRGBColor("#0B73D5"))
               .SetFontColor(ColorConstants.WHITE)
               ;
-            Style EstilodeCeldas = new Style()
+
+            Style Celdasdatosdeproductos = new Style()
             .SetTextAlignment(TextAlignment.CENTER)
+            .SetBorder(Border.NO_BORDER)
             .SetFontSize(10);
 
-            Cell _cell = new Cell(1, 2).Add(new Paragraph("Codigo")).SetBorderRight(Border.NO_BORDER).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(WebColors.GetRGBColor("#0B73D5"), 1));
-            _table.AddHeaderCell(_cell.AddStyle(EstilodeCeldasprimarias));
+            Cell _cell = new Cell(1, 2).Add(new Paragraph("Codigo")); 
+            _table.AddHeaderCell(_cell.AddStyle(Celdasorganizacionproductos));
 
-            _cell = new Cell(1,2).Add(new Paragraph("Nombre")).SetBorderLeft(Border.NO_BORDER).SetBorderRight(Border.NO_BORDER).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(WebColors.GetRGBColor("#0B73D5"), 1));
-            _table.AddHeaderCell(_cell.AddStyle(EstilodeCeldasprimarias));
+            _cell = new Cell(1,2).Add(new Paragraph("Nombre")); 
+            _table.AddHeaderCell(_cell.AddStyle(Celdasorganizacionproductos));
 
-            
+            _cell = new Cell(1,2).Add(new Paragraph("Cantidad"));
+            _table.AddHeaderCell(_cell.AddStyle(Celdasorganizacionproductos));
 
-            _cell = new Cell(1,2).Add(new Paragraph("Cantidad")).SetBorderRight(Border.NO_BORDER).SetBorderLeft(Border.NO_BORDER).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(WebColors.GetRGBColor("#0B73D5"), 1));
-            _table.AddHeaderCell(_cell.AddStyle(EstilodeCeldasprimarias));
-
-           
-
-            _cell = new Cell(1,2).Add(new Paragraph("Precio")).SetBorderLeft(Border.NO_BORDER).SetTextAlignment(TextAlignment.CENTER).SetBorder(new SolidBorder(WebColors.GetRGBColor("#0B73D5"), 1));
-            _table.AddHeaderCell(_cell.AddStyle(EstilodeCeldasprimarias)); 
-
+            _cell = new Cell(1,2).Add(new Paragraph("Precio")); 
+            _table.AddHeaderCell(_cell.AddStyle(Celdasorganizacionproductos)); 
 
 
                 foreach (var item in detalleFactura)
                 {
                     Inventario producto = ObtenerProductoPorCodigo(item.Codigo_Producto);
 
-                    _cell = new Cell(1,2).Add(new Paragraph(item.Codigo_Producto)).SetBorderRight(Border.NO_BORDER).SetTextAlignment(TextAlignment.CENTER).SetBorderBottom(Border.NO_BORDER).SetBorderTop(Border.NO_BORDER).SetBorder(new SolidBorder(ColorConstants.BLUE, 1));
-                    _table.AddCell(_cell.AddStyle(EstilodeCeldas));
+                 _cell = new Cell(1,2).Add(new Paragraph(item.Codigo_Producto)); 
+                _table.AddCell(_cell.AddStyle(Celdasdatosdeproductos));
 
-                _cell = new Cell(1, 2).Add(new Paragraph(producto.Nombre)).SetBorderRight(Border.NO_BORDER).SetTextAlignment(TextAlignment.CENTER).SetBorderBottom(Border.NO_BORDER).SetBorderTop(Border.NO_BORDER).SetBorder(new SolidBorder(ColorConstants.BLUE, 1));
+                _cell = new Cell(1, 2).Add(new Paragraph(producto.Nombre)); 
+                _table.AddCell(_cell.AddStyle(Celdasdatosdeproductos));
 
 
+                _cell = new Cell(1,2).Add(new Paragraph(item.Cantidad.ToString())); 
+                _table.AddCell(_cell.AddStyle(Celdasdatosdeproductos));
 
 
-                     _cell = new Cell(1,2).Add(new Paragraph(item.Cantidad.ToString())).SetBorderRight(Border.NO_BORDER).SetTextAlignment(TextAlignment.CENTER).SetBorderBottom(Border.NO_BORDER).SetBorderTop(Border.NO_BORDER).SetBorder(new SolidBorder(ColorConstants.BLUE, 1));
-                _table.AddCell(_cell.AddStyle(EstilodeCeldas));
-
-                    
-
-                _cell = new Cell(1,2).Add(new Paragraph(item.Precio_Unidad.ToString())).SetBorderRight(Border.NO_BORDER).SetTextAlignment(TextAlignment.CENTER).SetBorderBottom(Border.NO_BORDER).SetBorderTop(Border.NO_BORDER).SetBorder(new SolidBorder(ColorConstants.BLUE, 1));
-                _table.AddCell(_cell.AddStyle(EstilodeCeldas));
+                _cell = new Cell(1,2).Add(new Paragraph(item.Precio_Unidad.ToString())); 
+                _table.AddCell(_cell.AddStyle(Celdasdatosdeproductos));
                 }
             
-            doc.Add(_table);
+                doc.Add(_table);
 
+            // Tabla para los totales. 
+            Table TablaMonetaria = new Table(2).SetBorder(new SolidBorder(WebColors.GetRGBColor("#0B73D5"), 1)).SetMarginLeft(300);
 
+            Style celdasmonetarias = new Style()
+               .SetTextAlignment(TextAlignment.CENTER)
+              .SetFontSize(11)
+              .SetBorder(Border.NO_BORDER)
+              .SetBackgroundColor(WebColors.GetRGBColor("#0B73D5"))
+              .SetFontColor(ColorConstants.WHITE)
+              ;
+
+            Cell celdasmonetairas = new Cell(1, 1).Add(new Paragraph("Total")).SetWidth(100);
+            TablaMonetaria.AddHeaderCell(celdasmonetairas.AddStyle(celdasmonetarias));
+
+            celdasmonetairas = new Cell(1, 1).Add(new Paragraph("500")).SetWidth(100);
+            TablaMonetaria.AddHeaderCell(celdasmonetairas.AddStyle(celdasmonetarias));
+
+            doc.Add(TablaMonetaria);
             doc.Close();
             byte[] byteStream = ms.ToArray();
             ms = new MemoryStream();
             ms.Write(byteStream, 0, byteStream.Length);
             ms.Position = 0;
-
-            
-            
-
 
             var pdffactura = new System.Net.Mail.Attachment(ms, factura.Consecutivo+".pdf" );
 
