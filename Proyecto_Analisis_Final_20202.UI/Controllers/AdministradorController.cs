@@ -15,11 +15,13 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
     [Authorize]
     public class AdministradorController : Controller
     {
-        private readonly IRepositorioFacturacion RepositorioFacturacion;
+        private readonly EmpresaBL RepositorioEmpresa;
+        private readonly UbicacionBL RepositorioUbicacion;
 
-        public AdministradorController(IRepositorioFacturacion repositorio)
+        public AdministradorController(EmpresaBL empresa , UbicacionBL ubicacionBL)
         {
-            RepositorioFacturacion = repositorio;
+            this.RepositorioEmpresa = empresa;
+            this.RepositorioUbicacion = ubicacionBL;
         }
 
 
@@ -30,10 +32,10 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
 
         public ActionResult EditarEmpresa()
         {
-            Empresa empresa = RepositorioFacturacion.ObtenerEmpresa();
-            ViewBag.Pais = new SelectList(RepositorioFacturacion.ListadoDeProvincias(), "ID_Provincia", "Nombre_Provincia");
-            ViewBag.Cantones = new SelectList(RepositorioFacturacion.ListadoDeCantones((int)empresa.ID_Provincia), "ID_Canton", "ID_Provincia", "Nombre_Canton");
-            ViewBag.Distritos = new SelectList(RepositorioFacturacion.ListadoDeDistritos((int)empresa.ID_Provincia, (int)empresa.ID_Canton), "ID_Distrito", "ID_Canton", "ID_Provincia", "Nombre");
+            Empresa empresa = this.RepositorioEmpresa.ObtenerEmpresa();
+            ViewBag.Pais = new SelectList(RepositorioUbicacion.ListadoDeProvincias(), "ID_Provincia", "Nombre_Provincia");
+            ViewBag.Cantones = new SelectList(RepositorioUbicacion.ListadoDeCantones((int)empresa.ID_Provincia), "ID_Canton", "ID_Provincia", "Nombre_Canton");
+            ViewBag.Distritos = new SelectList(RepositorioUbicacion.ListadoDeDistritos((int)empresa.ID_Provincia, (int)empresa.ID_Canton), "ID_Distrito", "ID_Canton", "ID_Provincia", "Nombre");
             return View(empresa);
         }
 
@@ -41,14 +43,14 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditarEmpresa(Empresa empresa)
         {
-            ViewBag.Pais = new SelectList(RepositorioFacturacion.ListadoDeProvincias(), "ID_Provincia", "Nombre_Provincia");
-            ViewBag.Cantones = new SelectList(RepositorioFacturacion.ListadoDeCantones((int)empresa.ID_Provincia), "ID_Canton", "ID_Provincia", "Nombre_Canton");
-            ViewBag.Distritos = new SelectList(RepositorioFacturacion.ListadoDeDistritos((int)empresa.ID_Provincia, (int)empresa.ID_Canton), "ID_Distrito", "ID_Canton", "ID_Provincia", "Nombre");
+            ViewBag.Pais = new SelectList(RepositorioUbicacion.ListadoDeProvincias(), "ID_Provincia", "Nombre_Provincia");
+            ViewBag.Cantones = new SelectList(RepositorioUbicacion.ListadoDeCantones((int)empresa.ID_Provincia), "ID_Canton", "ID_Provincia", "Nombre_Canton");
+            ViewBag.Distritos = new SelectList(RepositorioUbicacion.ListadoDeDistritos((int)empresa.ID_Provincia, (int)empresa.ID_Canton), "ID_Distrito", "ID_Canton", "ID_Provincia", "Nombre");
             try
             {
                 if (ModelState.IsValid)
                 {
-                    RepositorioFacturacion.EditarEmpresa(empresa);
+                    this.RepositorioEmpresa.EditarEmpresa(empresa);
                     return RedirectToAction("ListarPersonas", "Persona");
                 }
                 else
@@ -58,6 +60,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 return View();
             }
         }

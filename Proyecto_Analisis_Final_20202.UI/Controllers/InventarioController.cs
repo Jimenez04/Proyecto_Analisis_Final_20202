@@ -12,11 +12,11 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
     [Authorize]
     public class InventarioController : Controller
     {
-        private readonly IRepositorioFacturacion RepositorioFacturacion;
+        private readonly InventarioBL RepositorioInventario;
 
-        public InventarioController(IRepositorioFacturacion repositorio)
+        public InventarioController(InventarioBL inventario)
         {
-            RepositorioFacturacion = repositorio;
+            this.RepositorioInventario = inventario;
         }
 
         [Authorize(Roles = "Administrador, Empleado")]
@@ -24,7 +24,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
         public ActionResult ListarProductosDisponibles()
         {
             List<Inventario> LaListaDisponible;
-            LaListaDisponible = RepositorioFacturacion.ObtenerProductosDisponibles();
+            LaListaDisponible = RepositorioInventario.ObtenerProductosDisponibles();
             return View(LaListaDisponible);
         }
 
@@ -33,7 +33,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
         public ActionResult ListarProductosSinExistencia()
         {
             List<Inventario> LaListaSinExistencia;
-            LaListaSinExistencia = RepositorioFacturacion.ObtenerProductosSinExistencia();
+            LaListaSinExistencia = RepositorioInventario.ObtenerProductosSinExistencia();
             return View(LaListaSinExistencia);
         }
 
@@ -42,7 +42,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
         public ActionResult ListarInventario()
         {
             List<Inventario> LaLista;
-            LaLista = RepositorioFacturacion.ListaInventario();
+            LaLista = RepositorioInventario.ListaInventario();
             return View(LaLista);
         }
 
@@ -64,14 +64,14 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (!RepositorioFacturacion.ProductoExiste(inventario))
+                    if (!this.RepositorioInventario.ProductoExiste(inventario))
                     {
-                        RepositorioFacturacion.AgregarInventario(inventario);
+                        this.RepositorioInventario.AgregarInventario(inventario);
                         return RedirectToAction(nameof(ListarInventario));
                     }
                     else
                     {
-                        ModelState.AddModelError("Codigo_Prodcuto", "El código ingresado  ya  existe");
+                        ModelState.AddModelError("Codigo_Producto", "El código ingresado  ya  existe");
                         return View();
                     }
                 }
@@ -95,14 +95,14 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (!RepositorioFacturacion.ProductoExiste(inventario))
+                    if (!this.RepositorioInventario.ProductoExiste(inventario))
                     {
-                        RepositorioFacturacion.AgregarInventario(inventario);
+                        this.RepositorioInventario.AgregarInventario(inventario);
                         return RedirectToAction(nameof(ListarProductosDisponibles));
                     }
                     else
                     {
-                        ModelState.AddModelError("Codigo_Prodcuto", "El código ingresado  ya  existe");
+                        ModelState.AddModelError("Codigo_Producto", "El código ingresado  ya  existe");
                         return View();
                     }
                 }
@@ -120,7 +120,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
         [Route("Inventario/EditarProducto")]
         public ActionResult EditarProducto(String Codigo_Prodcuto, String Accion)
         {
-            Inventario producto = RepositorioFacturacion.ObternerPorCodigo(Codigo_Prodcuto);
+            Inventario producto = this.RepositorioInventario.ObternerPorCodigo(Codigo_Prodcuto);
             return View(producto);
         }
 
@@ -134,7 +134,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    RepositorioFacturacion.EditarProducto(producto);
+                    this.RepositorioInventario.EditarProducto(producto);
                     return RedirectToAction(nameof(ListarInventario));
                 }
                 else
@@ -152,7 +152,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
         [Route("Inventario/EditarProductoDisponible")]
         public ActionResult EditarProductoDisponible(String Codigo_Prodcuto)
         {
-            Inventario producto = RepositorioFacturacion.ObternerPorCodigo(Codigo_Prodcuto);
+            Inventario producto = this.RepositorioInventario.ObternerPorCodigo(Codigo_Prodcuto);
             return View(producto);
         }
 
@@ -166,7 +166,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    RepositorioFacturacion.EditarProducto(producto);
+                    this.RepositorioInventario.EditarProducto(producto);
                     return RedirectToAction(nameof(ListarProductosDisponibles));
                 }
                 else
@@ -179,12 +179,12 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
                 return View();
             }
         }
-        //
+
         [Authorize(Roles = "Administrador")]
         [Route("Inventario/EditarProductoFueraDeInventario")]
         public ActionResult EditarProductoFueraDeInventario(String Codigo_Prodcuto, String Accion)
         {
-            Inventario producto = RepositorioFacturacion.ObternerPorCodigo(Codigo_Prodcuto);
+            Inventario producto = this.RepositorioInventario.ObternerPorCodigo(Codigo_Prodcuto);
             return View(producto);
         }
 
@@ -198,7 +198,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    RepositorioFacturacion.EditarProducto(producto);
+                    this.RepositorioInventario.EditarProducto(producto);
                     return RedirectToAction(nameof(ListarProductosSinExistencia));
                 }
                 else
@@ -218,7 +218,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
         {
             try
             {
-                RepositorioFacturacion.FueraServicio(Codigo_Prodcuto);
+                this.RepositorioInventario.FueraServicio(Codigo_Prodcuto);
                 if (Accion.Equals("Total")) 
                 {
                     return RedirectToAction(nameof(ListarInventario));
@@ -230,6 +230,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 return RedirectToAction(nameof(ListarInventario));
             }
         }
@@ -238,7 +239,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
         public JsonResult ListarProductosDisponiblesJSON()
         {
             List<Inventario> LaListaDisponible;
-            LaListaDisponible = RepositorioFacturacion.ObtenerProductosDisponibles();
+            LaListaDisponible = this.RepositorioInventario.ObtenerProductosDisponibles();
             return Json(LaListaDisponible);
         }
     }

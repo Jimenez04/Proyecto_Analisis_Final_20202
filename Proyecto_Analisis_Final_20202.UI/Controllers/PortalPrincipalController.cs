@@ -15,17 +15,15 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
     public class PortalPrincipalController : Controller
     {
         private readonly UserManager<IdentityUser> gestionusuarios;
-        private readonly IRepositorioFacturacion RepositorioFacturacion;
+        private readonly EmpresaBL RepositorioFacturacion;
         private readonly SignInManager<IdentityUser> Login;
-        private readonly RoleManager<IdentityRole> Roles;
         private readonly IEmailSender _emailSender;
 
-        public PortalPrincipalController(UserManager<IdentityUser> userManager, IRepositorioFacturacion repositorio, 
-            SignInManager<IdentityUser> Log, RoleManager<IdentityRole> Rol, IEmailSender emailSender)
+        public PortalPrincipalController(UserManager<IdentityUser> userManager, EmpresaBL repositorio, 
+            SignInManager<IdentityUser> Log, IEmailSender emailSender)
         {
             gestionusuarios = userManager;
             RepositorioFacturacion = repositorio;
-            Roles = Rol;
             Login = Log;
             _emailSender = emailSender;
         }
@@ -78,7 +76,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
                 }
                 else 
                 {
-                    ModelState.AddModelError("Cedula", "La empresa ingresada no  existe en nuestro sistema");
+                    ModelState.AddModelError("Cedula", "La empresa ingresada no existe en nuestro sistema");
                 }
             }
             return View();

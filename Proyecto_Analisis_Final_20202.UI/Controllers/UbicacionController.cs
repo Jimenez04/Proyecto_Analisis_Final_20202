@@ -12,16 +12,15 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
 {
     public class UbicacionController : Controller
     {
-        private readonly IRepositorioFacturacion Repositorio;
+        private readonly UbicacionBL RepositorioUbicacion;
 
-        public UbicacionController(IRepositorioFacturacion repositorio)
-        {
-            Repositorio = repositorio;
+        public UbicacionController(UbicacionBL ubicacion)
+        {this.RepositorioUbicacion = ubicacion;
 
         }
         public JsonResult RecargarCanton(int ID_Provincia)
         {
-            List<Canton> Cantones = Repositorio.ListadoDeCantones(ID_Provincia);
+            List<Canton> Cantones = RepositorioUbicacion.ListadoDeCantones(ID_Provincia);
 
             ViewBag.Cantones = new SelectList(Cantones, "ID_Canton", "ID_Provincia", "Nombre_Canton");
 
@@ -36,7 +35,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
             {
                 int ID_Provincia = int.Parse(Coordenadas[0].Trim());
                 int ID_Canton = int.Parse(Coordenadas[1].Trim());
-                Distritos = Repositorio.ListadoDeDistritos(ID_Provincia, ID_Canton);
+                Distritos = RepositorioUbicacion.ListadoDeDistritos(ID_Provincia, ID_Canton);
             }
             ViewBag.Distritos = new SelectList(Distritos, "ID_Distrito", "ID_Canton", "ID_Provincia", "Nombre");
             return Json(Distritos);

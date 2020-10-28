@@ -34,7 +34,11 @@ namespace Proyecto_Analisis_Final_20202.UI
 
             services.AddDbContext<ContextoBaseDeDatos>(options =>
            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddScoped<IRepositorioFacturacion, RepositorioFacturacion>();
+            services.AddScoped<PersonaBL>();
+            services.AddScoped<UbicacionBL>();
+            services.AddScoped<EmpresaBL>();
+            services.AddScoped<InventarioBL>();
+            services.AddScoped<FacturacionBL>();
 
             services.AddDefaultIdentity<IdentityUser>(options => {
                 options.SignIn.RequireConfirmedAccount = false;

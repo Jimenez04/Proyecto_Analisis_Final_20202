@@ -13,11 +13,15 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
     [Authorize(Roles = "Administrador, Empleado")]
     public class UsuarioController : Controller
     {
-        private readonly IRepositorioFacturacion RepositorioFacturacion;
+        private readonly FacturacionBL RepositorioFacturacion;
+        private readonly PersonaBL RepositorioPersona;
+        private readonly InventarioBL RepositorioInventario;
 
-        public UsuarioController(IRepositorioFacturacion repositorio)
+        public UsuarioController(FacturacionBL Facturacion, PersonaBL Persona, InventarioBL Inventario)
         {
-            RepositorioFacturacion = repositorio;
+                this.RepositorioFacturacion = Facturacion;
+                this.RepositorioPersona = Persona;
+                this.RepositorioInventario = Inventario;
         }
         public IActionResult VentanaPrincipal()
         {
@@ -27,21 +31,39 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
 
         public JsonResult SeleccionarProducto(string CodigoProducto)
         {
-            return Json(RepositorioFacturacion.ObternerPorCodigo(CodigoProducto));
+            return Json(RepositorioInventario.ObternerPorCodigo(CodigoProducto));
         }
 
         public JsonResult SeleccionarPersona(string cedulapersona)
         {
-            return Json(RepositorioFacturacion.ObtenerPersonaPorCedula(cedulapersona));
+            Persona persona = new Persona();
+            persona.Cedula = cedulapersona.ToString().Trim();
+            if (RepositorioPersona.PersonaExiste(persona))
+            {
+                return Json(RepositorioPersona.ObtenerPersonaPorCedula(cedulapersona.Trim()));
+            }
+            else
+            {
+                return Json(null);
+            }
         }
 
         [HttpPost]
         public ActionResult Facturaracion(double SubTotal, int Descuento, double Total,  string IdentificacionCliente, List<DetalleFactura> ListaProductos)
         {
+            Persona persona = new Persona();
+            persona.Cedula = IdentificacionCliente.ToString().Trim();
             try
             {
-                RepositorioFacturacion.Facturar(SubTotal, Descuento, Total, IdentificacionCliente, ListaProductos);
-                return Json("La compra se ha efectuado con exito");
+                if (RepositorioPersona.PersonaExiste(persona))
+                {
+                    RepositorioFacturacion.Facturar(SubTotal, Descuento, Total, IdentificacionCliente.Trim(), ListaProductos);
+                    return Json("La compra se ha efectuado con exito");
+                }
+                else
+                {
+                    return Json("La persona no existe en sistema");
+                }
             }
             catch (Exception e)
             {
