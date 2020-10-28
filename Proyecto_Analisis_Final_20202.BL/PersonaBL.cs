@@ -77,9 +77,9 @@ namespace Proyecto_Analisis_Final_20202.BL
             try
             {
                 Persona persona;
-                persona = ElContextoDeBaseDeDatos.Persona.Find(Cedula.Trim());
-                persona.Correo = ElContextoDeBaseDeDatos.Correo_Electronico.Find(Cedula.Trim());
-                persona.telefono = ElContextoDeBaseDeDatos.Telefono.Find(Cedula.Trim());
+                persona = ElContextoDeBaseDeDatos.Persona.Find(Cedula);
+                persona.Correo = ElContextoDeBaseDeDatos.Correo_Electronico.Find(Cedula);
+                persona.telefono = ElContextoDeBaseDeDatos.Telefono.Find(Cedula);
                 return persona;
             }
             catch (Exception e)
