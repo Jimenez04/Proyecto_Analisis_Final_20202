@@ -299,7 +299,12 @@
                     },
 
                     success: function (mensaje) {
-                        alert(mensaje);
+                        if (mensaje == "La compra se ha efectuado con exito") {
+                            alert(mensaje);
+                         location.href='@Url.Action("VentanaPrincipal", "Usuario")';
+                        } else {
+                            alert(mensaje);
+                        }
                     }
                 });
             } else {
@@ -413,7 +418,7 @@
             }
 
         }
-       
+
         function AgregarDesdeListado_De_Productos(codigo_Producto) {
             $("#CampoNuevoArticulo").val(codigo_Producto.toString());
             VerificarArticulo();
@@ -493,7 +498,7 @@
             {
                 ObtenerTodaslasPersonas();
                 $('#ListarTotalPersonas').modal('show');
-               // 
+               //
             }
 
         }
@@ -556,7 +561,7 @@
                 cadena = cadena + "<td>" + $("#TotalProducto").val() + "</td>";
 
                 cadena = cadena + '<td><input type="button" class="borrar" onclick="EliminarFila()" value="Eliminar" /></td>';
-             
+
                 $("#detalle tbody").append(cadena);
                 //sumar();
                 //fn_dar_eliminar();
