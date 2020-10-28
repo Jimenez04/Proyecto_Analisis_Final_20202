@@ -1001,7 +1001,7 @@ namespace Proyecto_Analisis_Final_20202.BL
 
             Cell celdaTotal = new Cell().Add(new Paragraph(" Total " + " CRC " + factura.Total.ToString()));
             TablaTotal.AddHeaderCell(celdaTotal.AddStyle(celdatotal));
-            doc.Add(TablaTotal);
+            doc.Add(TablaTotal); 
 
             Table tablaprueba = new Table(2);
 
@@ -1054,7 +1054,7 @@ namespace Proyecto_Analisis_Final_20202.BL
                 .Add(table)
                 .Close();
         }
-    }
+    } 
 
 }
 
