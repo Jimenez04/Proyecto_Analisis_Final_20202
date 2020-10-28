@@ -15,11 +15,9 @@ using iText.Layout.Element;
 using iText.Layout.Properties;
 using iText.Layout.Borders;
 using iText.Kernel.Colors;
-using Org.BouncyCastle.Crypto.Tls;
-using System.Drawing;
-using iText.IO.Font;
-using iText.Kernel.Font;
-using iText.IO.Font.Constants;
+using iText.IO.Image;
+using iText.Kernel.Events;
+using iText.Kernel.Pdf.Canvas;
 
 namespace Proyecto_Analisis_Final_20202.BL
 {
@@ -209,7 +207,8 @@ namespace Proyecto_Analisis_Final_20202.BL
             if (producto.Cantidad_Disponible > 0)
             {
                 producto.ID_Estado = EstadoInventario.Disponible;
-            } else if (producto.Cantidad_Disponible == 0 && producto.ID_Estado == EstadoInventario.Disponible)
+            }
+            else if (producto.Cantidad_Disponible == 0 && producto.ID_Estado == EstadoInventario.Disponible)
             {
                 producto.ID_Estado = EstadoInventario.Sin_existencias;
             }
@@ -233,8 +232,8 @@ namespace Proyecto_Analisis_Final_20202.BL
 
             try
             {
-             persona.telefono.Cedula = persona.Cedula;
-            persona.Correo.Cedula = persona.Cedula;
+                persona.telefono.Cedula = persona.Cedula;
+                persona.Correo.Cedula = persona.Cedula;
 
 
                 ElContextoDeBaseDeDatos.Persona.Add(persona);
@@ -246,13 +245,13 @@ namespace Proyecto_Analisis_Final_20202.BL
                 ElContextoDeBaseDeDatos.Correo_Electronico.Add(persona.Correo);
                 ElContextoDeBaseDeDatos.SaveChanges();
             }
-            catch (Exception e )
+            catch (Exception e)
             {
-              //  ElContextoDeBaseDeDatos.RollBack();
+                //  ElContextoDeBaseDeDatos.RollBack();
 
                 throw;
             }
-            
+
 
         }
 
@@ -261,11 +260,13 @@ namespace Proyecto_Analisis_Final_20202.BL
 
             var existencia = ElContextoDeBaseDeDatos.Persona.Find(persona.Cedula);
 
-            if (existencia != null) {
+            if (existencia != null)
+            {
 
                 return true;
 
-            } else
+            }
+            else
             {
                 return false;
 
@@ -304,14 +305,14 @@ namespace Proyecto_Analisis_Final_20202.BL
             {
                 return null;
             }
-           
+
         }
 
         public void EditarPersona(Persona persona)
         {
             ElContextoDeBaseDeDatos.Persona.Update(persona);
             ElContextoDeBaseDeDatos.SaveChanges();
-           
+
         }
 
         public Empresa ObtenerEmpresa()
@@ -434,7 +435,7 @@ namespace Proyecto_Analisis_Final_20202.BL
             subseccionclave.AppendChild(clave);
 
             //  Datos de la Empresa
-            XmlElement subseccionempresa = doc.CreateElement(string.Empty, "DatosEmpresa", string.Empty);
+            XmlElement subseccionempresa = doc.CreateElement(string.Empty, "Emisor", string.Empty);
             seccionFacturacion.AppendChild(subseccionempresa);
 
             XmlElement cedulajuridicaempresa = doc.CreateElement(string.Empty, "CedulaJuridica", string.Empty);
@@ -691,7 +692,7 @@ namespace Proyecto_Analisis_Final_20202.BL
             CorreoElectronico.To.Add(new MailAddress(correodestinatario));
 
             CorreoElectronico.Attachments.Add(archivoxml);
-            CorreoElectronico.Attachments.Add(archivopdf); 
+            CorreoElectronico.Attachments.Add(archivopdf);
 
             SmtpClient smtp = new SmtpClient();
             smtp.Host = "smtp.gmail.com";
@@ -813,32 +814,60 @@ namespace Proyecto_Analisis_Final_20202.BL
             Document doc = new Document(pdfDocument, PageSize.LETTER);
             doc.SetMargins(10, 35, 70, 35);
 
+            ImageData imageData = ImageDataFactory.Create(@"Imagen/IconoLayout.png");
+
+
+            Image pdfImg = new Image(imageData);
+
+            Style estilodeprimero = new Style()
+            .SetMarginLeft(300).SetMarginTop(20);
+
 
             Table TablaDatos1 = new Table(1).UseAllAvailableWidth();
             Cell cellaDatos = new Cell().Add(new Paragraph(" Factura Electrónica").SetTextAlignment(TextAlignment.CENTER).SetFontColor(ColorConstants.WHITE).SetBorder(new SolidBorder(WebColors.GetRGBColor("#0B73D5"), 2)).SetBackgroundColor(WebColors.GetRGBColor("#0B73D5")));
             TablaDatos1.AddCell(cellaDatos);
 
+
+            
+
             doc.Add(TablaDatos1);
 
-            Table table1 = new Table(6).UseAllAvailableWidth().SetStrokeColor(ColorConstants.BLUE);
+            Table table1 = new Table(6).UseAllAvailableWidth().SetBorder(new SolidBorder(WebColors.GetRGBColor("#0B73D5"), 2));
 
+            Cell celdaImagen = new Cell().Add(pdfImg.SetHeight(120).SetWidth(120)).SetBorder(Border.NO_BORDER);
+            table1.AddCell(celdaImagen);
 
+            Cell celdaempresa = new Cell()
+               .Add(new Paragraph("Cedula Jurídica " + empresa.Cedula_Juridica).SetFontSize(11).SetMarginLeft(220).SetMarginTop(10))
+               .Add(new Paragraph("\n Numero:  " + " (506) 85660429 ").SetFontSize(11).SetMarginLeft(220))
+               .Add(new Paragraph(" Coreo: " + " facturacionjjyf@gmail.com").SetFontSize(11).SetMarginLeft(220))
+               .Add(new Paragraph("\n  Dirección " + empresa.Senas_Exactas).SetFontSize(11).SetMarginLeft(220))
+               .SetBorder(new SolidBorder(WebColors.GetRGBColor("#0B73D5"), 2))
+               .SetBorderRight(Border.NO_BORDER)
+               .SetBorder(Border.NO_BORDER)
+               ;
 
-
-            Cell cell1 = new Cell(1, 3).Add(new Paragraph(empresa.Nombre +
-                "\nCedula Jurídica: " + empresa.Cedula_Juridica +
-                "\n Número: " + "(506) 85442065" +
-                "\n Correo: " + "facturacionjjyf@gmail.com" +
-                "\n Dirección: " + empresa.Senas_Exactas).SetFontSize(10).SetMarginLeft(342).SetFontColor(ColorConstants.BLACK).SetPaddingBottom(1).SetMarginTop(1)).SetFontSize(16)
-                .SetBorder(new SolidBorder(WebColors.GetRGBColor("#0B73D5"), 2));
-            table1.AddCell(cell1);
+            table1.AddCell(celdaempresa);
             doc.Add(table1);
 
 
+            //.SetMarginLeft(293)
+
+            /**
+            Cell cell1 = new Cell().Add(new Paragraph(empresa.Nombre +
+                "\nCedula Jurídica: " + empresa.Cedula_Juridica +
+                "\n Número: " + "(506) 85442065" +
+                "\n Correo: " + "facturacionjjyf@gmail.com" +
+                "\n Dirección: " + empresa.Senas_Exactas).SetFontSize(10).SetFontColor(ColorConstants.BLACK)).SetFontSize(15)
+                .SetBorder(Border.NO_BORDER);
+                table1.AddCell(cell1);
+                 doc.Add(table1);
+
+            **/
 
 
 
-            Table TablaDatos = new Table(6).UseAllAvailableWidth();
+            Table TablaDatos = new Table(6).UseAllAvailableWidth().SetBorder(new SolidBorder(WebColors.GetRGBColor("#0B73D5"), 1));
 
 
             Cell nuevacell = new Cell()
@@ -871,7 +900,7 @@ namespace Proyecto_Analisis_Final_20202.BL
             // Tabla de Productos
             doc.Add(new Paragraph());
 
-            
+
             Table _table = new Table(8).UseAllAvailableWidth().SetBorder(new SolidBorder(WebColors.GetRGBColor("#0B73D5"), 1));
 
             Style Celdasorganizacionproductos = new Style()
@@ -887,69 +916,147 @@ namespace Proyecto_Analisis_Final_20202.BL
             .SetBorder(Border.NO_BORDER)
             .SetFontSize(10);
 
-            Cell _cell = new Cell(1, 2).Add(new Paragraph("Codigo")); 
+            Cell _cell = new Cell(1, 2).Add(new Paragraph("Codigo"));
             _table.AddHeaderCell(_cell.AddStyle(Celdasorganizacionproductos));
 
-            _cell = new Cell(1,2).Add(new Paragraph("Nombre")); 
+            _cell = new Cell(1, 2).Add(new Paragraph("Nombre"));
             _table.AddHeaderCell(_cell.AddStyle(Celdasorganizacionproductos));
 
-            _cell = new Cell(1,2).Add(new Paragraph("Cantidad"));
+            _cell = new Cell(1, 2).Add(new Paragraph("Cantidad"));
             _table.AddHeaderCell(_cell.AddStyle(Celdasorganizacionproductos));
 
-            _cell = new Cell(1,2).Add(new Paragraph("Precio")); 
-            _table.AddHeaderCell(_cell.AddStyle(Celdasorganizacionproductos)); 
+            _cell = new Cell(1, 2).Add(new Paragraph("Precio"));
+            _table.AddHeaderCell(_cell.AddStyle(Celdasorganizacionproductos));
 
 
-                foreach (var item in detalleFactura)
-                {
-                    Inventario producto = ObtenerProductoPorCodigo(item.Codigo_Producto);
+            foreach (var item in detalleFactura)
+            {
 
-                 _cell = new Cell(1,2).Add(new Paragraph(item.Codigo_Producto)); 
+                Inventario producto = ObtenerProductoPorCodigo(item.Codigo_Producto);
+
+                _cell = new Cell(1, 2).Add(new Paragraph(item.Codigo_Producto));
                 _table.AddCell(_cell.AddStyle(Celdasdatosdeproductos));
 
-                _cell = new Cell(1, 2).Add(new Paragraph(producto.Nombre)); 
-                _table.AddCell(_cell.AddStyle(Celdasdatosdeproductos));
-
-
-                _cell = new Cell(1,2).Add(new Paragraph(item.Cantidad.ToString())); 
+                _cell = new Cell(1, 2).Add(new Paragraph(producto.Nombre));
                 _table.AddCell(_cell.AddStyle(Celdasdatosdeproductos));
 
 
-                _cell = new Cell(1,2).Add(new Paragraph(item.Precio_Unidad.ToString())); 
+                _cell = new Cell(1, 2).Add(new Paragraph(item.Cantidad.ToString()));
                 _table.AddCell(_cell.AddStyle(Celdasdatosdeproductos));
-                }
-            
-                doc.Add(_table);
+
+
+                _cell = new Cell(1, 2).Add(new Paragraph(item.Precio_Unidad.ToString()));
+                _table.AddCell(_cell.AddStyle(Celdasdatosdeproductos));
+
+            }
+
+            doc.Add(_table);
 
             // Tabla para los totales. 
-            Table TablaMonetaria = new Table(2).SetBorder(new SolidBorder(WebColors.GetRGBColor("#0B73D5"), 1)).SetMarginLeft(300);
+            Table TablaMonetaria = new Table(2).SetBorder(new SolidBorder(WebColors.GetRGBColor("#0B73D5"), 1)).SetMarginLeft(335);
 
             Style celdasmonetarias = new Style()
                .SetTextAlignment(TextAlignment.CENTER)
-              .SetFontSize(11)
-              .SetBorder(Border.NO_BORDER)
-              .SetBackgroundColor(WebColors.GetRGBColor("#0B73D5"))
-              .SetFontColor(ColorConstants.WHITE)
-              ;
+               .SetFontSize(11)
+               .SetWidth(100)
+               .SetBackgroundColor(WebColors.GetRGBColor("#0B73D5"))
+               .SetBorder(Border.NO_BORDER)
+               .SetFontColor(ColorConstants.WHITE);
 
-            Cell celdasmonetairas = new Cell(1, 1).Add(new Paragraph("Total")).SetWidth(100);
+
+            Cell celdasmonetairas = new Cell().Add(new Paragraph("SubTotal"));
             TablaMonetaria.AddHeaderCell(celdasmonetairas.AddStyle(celdasmonetarias));
 
-            celdasmonetairas = new Cell(1, 1).Add(new Paragraph("500")).SetWidth(100);
+
+            celdasmonetairas = new Cell().Add(new Paragraph(" CRC " + factura.SubTotal.ToString())).SetFontSize(9);
+            TablaMonetaria.AddHeaderCell(celdasmonetairas.AddStyle(celdasmonetarias));
+
+            celdasmonetairas = new Cell().Add(new Paragraph("Descuento"));
+            TablaMonetaria.AddHeaderCell(celdasmonetairas.AddStyle(celdasmonetarias));
+
+
+            celdasmonetairas = new Cell().Add(new Paragraph(factura.Descuento.ToString() + "%")).SetFontSize(10);
+            TablaMonetaria.AddHeaderCell(celdasmonetairas.AddStyle(celdasmonetarias));
+
+
+            celdasmonetairas = new Cell().Add(new Paragraph("IVA"));
+            TablaMonetaria.AddHeaderCell(celdasmonetairas.AddStyle(celdasmonetarias));
+
+            celdasmonetairas = new Cell().Add(new Paragraph(factura.IVA.ToString() + "%")).SetFontSize(10);
             TablaMonetaria.AddHeaderCell(celdasmonetairas.AddStyle(celdasmonetarias));
 
             doc.Add(TablaMonetaria);
+
+            // Tabla para ubicación del total 
+            Table TablaTotal = new Table(1).SetBorder(new SolidBorder(WebColors.GetRGBColor("#0B73D5"), 1)).SetMarginLeft(335);
+
+            Style celdatotal = new Style()
+               .SetTextAlignment(TextAlignment.CENTER)
+               .SetFontSize(11)
+               .SetWidth(202)
+               .SetBackgroundColor(WebColors.GetRGBColor("#0B73D5"))
+               .SetBorder(Border.NO_BORDER)
+               .SetFontColor(ColorConstants.WHITE);
+
+
+            Cell celdaTotal = new Cell().Add(new Paragraph(" Total " + " CRC " + factura.Total.ToString()));
+            TablaTotal.AddHeaderCell(celdaTotal.AddStyle(celdatotal));
+            doc.Add(TablaTotal);
+
+            Table tablaprueba = new Table(2);
+
+            Cell cell = new Cell().Add(new Paragraph("This is a test doc"));
+            cell.SetBackgroundColor(ColorConstants.ORANGE);
+            tablaprueba.AddCell(cell);
+
+            cell = new Cell().Add(new Paragraph("This is a copyright notice"));
+            cell.SetBackgroundColor(ColorConstants.LIGHT_GRAY);
+            tablaprueba.AddCell(cell);
+
+            pdfDocument.AddEventHandler(PdfDocumentEvent.END_PAGE, new TableFooterEventHandler(tablaprueba));
+
+
+
+
             doc.Close();
             byte[] byteStream = ms.ToArray();
             ms = new MemoryStream();
             ms.Write(byteStream, 0, byteStream.Length);
             ms.Position = 0;
 
-            var pdffactura = new System.Net.Mail.Attachment(ms, factura.Consecutivo+".pdf" );
+            var pdffactura = new System.Net.Mail.Attachment(ms, factura.Consecutivo + ".pdf");
 
             return pdffactura;
-          
+
 
         }
+
+
     }
+
+    public class TableFooterEventHandler : IEventHandler
+    {
+        private Table table;
+
+        public TableFooterEventHandler(Table table)
+        {
+            this.table = table;
+        }
+
+        public void HandleEvent(Event currentEvent)
+        {
+            PdfDocumentEvent docEvent = (PdfDocumentEvent)currentEvent;
+            PdfDocument pdfDoc = docEvent.GetDocument();
+            PdfPage page = docEvent.GetPage();
+            PdfCanvas canvas = new PdfCanvas(page.NewContentStreamBefore(), page.GetResources(), pdfDoc);
+
+            new Canvas(canvas, new Rectangle(36, 20, page.GetPageSize().GetWidth() - 72, 50))
+                .Add(table)
+                .Close();
+        }
+    }
+
 }
+
+
+

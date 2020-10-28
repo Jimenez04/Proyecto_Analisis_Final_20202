@@ -6,6 +6,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Imagen\Agregar.png" />
+    <None Remove="Imagen\IconoLayout.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Imagen\Agregar.png">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Imagen\IconoLayout.png">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.7" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.8" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.8" />
