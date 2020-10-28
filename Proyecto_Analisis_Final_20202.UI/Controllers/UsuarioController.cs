@@ -29,24 +29,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
             return View(ListadetalleFacturas);
         }
 
-        public JsonResult SeleccionarProducto(string CodigoProducto)
-        {
-            return Json(RepositorioInventario.ObternerPorCodigo(CodigoProducto));
-        }
-
-        public JsonResult SeleccionarPersona(string cedulapersona)
-        {
-            Persona persona = new Persona();
-            persona.Cedula = cedulapersona.ToString().Trim();
-            if (RepositorioPersona.PersonaExiste(persona))
-            {
-                return Json(RepositorioPersona.ObtenerPersonaPorCedula(cedulapersona.Trim()));
-            }
-            else
-            {
-                return Json(null);
-            }
-        }
+       
 
         [HttpPost]
         public ActionResult Facturaracion(double SubTotal, int Descuento, double Total,  string IdentificacionCliente, List<DetalleFactura> ListaProductos)

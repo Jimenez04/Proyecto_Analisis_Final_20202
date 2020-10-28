@@ -29,7 +29,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
             LaLista = RepositorioPersona.ListarPersonas();
             return View(LaLista);
         }
-        [Route("RepositorioPersona/AgregarPersona")]
+        [Route("Persona/AgregarPersona")]
         public ActionResult AgregarPersona()
         {
             ViewBag.Pais = new SelectList(RepositorioUbicacion.ListadoDeProvincias(), "ID_Provincia", "Nombre_Provincia");
@@ -40,7 +40,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
         }
 
         [HttpPost]
-        [Route("RepositorioPersona/AgregarPersona")]
+        [Route("Persona/AgregarPersona")]
         [ValidateAntiForgeryToken]
         public ActionResult AgregarPersona(Persona persona)
         {
@@ -74,7 +74,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
                 return View();
             }
         }
-        [Route("RepositorioPersona/EditarPersona")]
+        [Route("Persona/EditarPersona")]
         public ActionResult EditarPersona(String Cedula)
         {
             Persona persona = RepositorioPersona.ObtenerPersonaPorCedula(Cedula);
@@ -86,7 +86,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
         }
 
         [HttpPost]
-        [Route("RepositorioPersona/EditarPersona")]
+        [Route("Persona/EditarPersona")]
         [ValidateAntiForgeryToken]
         public ActionResult EditarPersona(Persona persona)
         {
@@ -111,6 +111,27 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
                 Console.WriteLine(e);
                 return View();
             }
+        }
+
+        [Route("Persona/SeleccionarPersona")]
+        public JsonResult SeleccionarPersona(string cedulapersona)
+        {
+            Persona persona = new Persona();
+            persona.Cedula = cedulapersona.ToString().Trim();
+            if (RepositorioPersona.PersonaExiste(persona))
+            {
+                return Json(RepositorioPersona.ObtenerPersonaPorCedula(cedulapersona.Trim()));
+            }
+            else
+            {
+                return Json(null);
+            }
+        }
+
+        [Route("Persona/ListartodaslasPersonasJSON")]
+        public JsonResult ListartodaslasPersonasJSON()
+        {
+            return Json(RepositorioPersona.ListarPersonas());
         }
     }
 }

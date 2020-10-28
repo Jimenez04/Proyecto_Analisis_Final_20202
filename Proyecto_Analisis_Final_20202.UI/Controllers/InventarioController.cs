@@ -236,11 +236,21 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
         }
 
         [Authorize(Roles = "Administrador, Empleado")]
+        [Route("Inventario/ListarProductosDisponiblesJSON")]
+
         public JsonResult ListarProductosDisponiblesJSON()
         {
             List<Inventario> LaListaDisponible;
             LaListaDisponible = this.RepositorioInventario.ObtenerProductosDisponibles();
             return Json(LaListaDisponible);
         }
+
+        [Authorize(Roles = "Administrador, Empleado")]
+        [Route("Inventario/SeleccionarProducto")]
+        public JsonResult SeleccionarProducto(string CodigoProducto)
+        {
+            return Json(RepositorioInventario.ObternerPorCodigo(CodigoProducto));
+        }
+
     }
 }

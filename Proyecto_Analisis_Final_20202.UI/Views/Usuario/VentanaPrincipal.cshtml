@@ -60,10 +60,12 @@
             <div class="row">
                 <div class="col-4"></div>
                 <div class="col-5">
-                    <input id="CampoCedulaPersonaBuscar" type="text" style="font-size:16px;" placeholder="Identificación de Cliente" />
-                    <a onclick="VerificarPersona()">
-                        <img src="~/lupa.png" width="30" height="30" id="lupa" />
-                    </a>
+                    <form action="javascript:VerificarPersona()">
+                        <input id="CampoCedulaPersonaBuscar" type="text" style="font-size:16px;" placeholder="Identificación de Cliente" />
+                        <a onclick="VerificarPersona()">
+                            <img src="~/lupa.png" width="30" height="30" id="lupa" />
+                        </a>
+                    </form>
                 </div>
                 <div class="col-3"></div>
             </div>
@@ -218,6 +220,7 @@
                                     <th scope="col">Disponibilidad</th>
                                     <th scope="col">Descripcion del Producto</th>
                                     <th scope="col">Precion Unidad</th>
+                                    <th scope="col"></th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -239,8 +242,18 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    En Contrucción
+                <div class="modal-body" style=" height: 330px; overflow: scroll; width:auto; text-align:center">
+                    <table id="ListarTotalPersonas" class="lista table" border="1">
+                        <thead style="font-size:12px;">
+                            <tr class="thead-dark">
+                                <th scope="col">Cédula</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Apellido</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -257,7 +270,6 @@
         }
 
         function Facturar() {
-
 
             if ($("#CedulaCliente").val() != ("") && $("#detalle tbody tr").length > 0  ) {
                 var Listaproductos = new Array();
@@ -355,7 +367,7 @@
             if (Codigo.value.length != 0)
             {
                     try {
-                        fetch("@Url.Content("~/Usuario/SeleccionarProducto")" + "?CodigoProducto=" + Codigo.value)
+                        fetch("@Url.Content("~/Inventario/SeleccionarProducto")" + "?CodigoProducto=" + Codigo.value)
                 .then(function (result)
                 {
                     if (result.ok)
@@ -401,9 +413,9 @@
             }
 
         }
-
-        function AgregarDesdeListado(codigo) {
-            $("#CampoNuevoArticulo").val(codigo.value);
+       
+        function AgregarDesdeListado_De_Productos(codigo_Producto) {
+            $("#CampoNuevoArticulo").val(codigo_Producto.toString());
             VerificarArticulo();
             $('#ListaProductos').modal('hide');
         }
@@ -429,11 +441,10 @@
                                 cadena = cadena + "<td>" + index.descripcion + "</td>";
                                 cadena = cadena + "<td>" + index.precio_Venta + "</td>";
 
-                                cadena = cadena + '<td><input type="button" class="Agregar" onclick="AgregarDesdeListado(this)" value=' + index.codigo_Producto +' />Agregar</td>';
-
+                                cadena = cadena + '<td><input type="button" class="Agregar" onclick="AgregarDesdeListado_De_Productos(' + "'" + index.codigo_Producto.toString() + "'"+')" value="Agregar" /></td>';
                                 $("#ListarTotalProductos tbody").append(cadena);
                             });
-                          
+
                         } else {
                             alert("No existen productos disponibles");
                         }
@@ -442,14 +453,14 @@
                 alert("No existen productos disponibles");
             }
         }
-        
+
 
         function VerificarPersona()
         {
             if ($('#CampoCedulaPersonaBuscar').val().length != 0)
             {
                     try {
-                        fetch("@Url.Content("~/Usuario/SeleccionarPersona")" + "?cedulapersona=" + $('#CampoCedulaPersonaBuscar').val())
+                        fetch("@Url.Content("~/Persona/SeleccionarPersona")" + "?cedulapersona=" + $('#CampoCedulaPersonaBuscar').val())
                 .then(function (result)
                 {
                     if (result.ok)
@@ -480,10 +491,47 @@
                     }
             } else
             {
-                //limpiarPersona();
+                ObtenerTodaslasPersonas();
                 $('#ListarTotalPersonas').modal('show');
+               // 
             }
 
+        }
+        function AgregarPersona_desde_lista(codigo) {
+            $("#CampoCedulaPersonaBuscar").val(codigo.toString());
+            VerificarPersona();
+            $('#ListarTotalPersonas').modal('hide');
+        }
+
+        function ObtenerTodaslasPersonas() {
+            try {
+                fetch("@Url.Content("~/Persona/ListartodaslasPersonasJSON")")
+                    .then(function (result) {
+                        if (result.ok) {
+                            return result.json();
+                        }
+                    })
+                    .then(function (Persona) {
+                        if (Persona != null) {
+                            console.log(Persona);
+
+                            Persona.forEach(function (index) {
+
+                                cadena = "<tr>"
+                                cadena = cadena + "<td>" + index.cedula + "</td>";
+                                cadena = cadena + "<td>" + index.nombre1 + "</td>";
+                                cadena = cadena + "<td>" + index.apellido1 + "</td>";
+                                cadena = cadena + '<td><input type="button" class="Agregar" onclick="AgregarPersona_desde_lista(' +  index.cedula + ')" value="Agregar" /></td>';
+                                $("#ListarTotalPersonas tbody").append(cadena);
+                            });
+
+                        } else {
+                            alert("No existen personas disponibles");
+                        }
+                    })
+            } catch (error) {
+                alert("No existen personas disponibles");
+            }
         }
 
         function AgregarPersona() {
@@ -508,6 +556,7 @@
                 cadena = cadena + "<td>" + $("#TotalProducto").val() + "</td>";
 
                 cadena = cadena + '<td><input type="button" class="borrar" onclick="EliminarFila()" value="Eliminar" /></td>';
+             
                 $("#detalle tbody").append(cadena);
                 //sumar();
                 //fn_dar_eliminar();
