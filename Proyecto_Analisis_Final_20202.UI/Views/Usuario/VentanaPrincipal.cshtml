@@ -219,7 +219,7 @@
                                     <th scope="col">Código</th>
                                     <th scope="col">Disponibilidad</th>
                                     <th scope="col">Descripcion del Producto</th>
-                                    <th scope="col">Precion Unidad</th>
+                                    <th scope="col">Precio Unidad</th>
                                     <th scope="col"></th>
                                 </tr>
                             </thead>
@@ -279,11 +279,12 @@
                     Producto.codigo_Producto = $(this).find('td').eq(0).text();
                     Producto.cantidad = $(this).find('td').eq(1).text();
                     Producto.nombre_Articulo = $(this).find('td').eq(2).text();
-                    Producto.precio_Unidad = $(this).find('td').eq(3).text();
+                    Producto.precio_Unidad = $(this).find('td').eq(3).text().replace(".", ",");
                     Producto.subTotal = $(this).find('td').eq(4).text();
                     Producto.descuento = $(this).find('td').eq(5).text();
                     Producto.impuesto_Producto = $(this).find('td').eq(6).text();
-                    Producto.total = $(this).find('td').eq(7).text();
+                    Producto.total = $(this).find('td').eq(7).text().replace(".", ",");
+                  
                     Listaproductos.push(Producto);
                 });
 
@@ -346,12 +347,11 @@
             var subtotalsuma = PrecioProducto * CantidadProducto;
             $("#SubTotalProducto").val(subtotalsuma - (subtotalsuma * (Descuento/100)));
             $("#ImpuestoProducto").val("13");
-            var Total = $("#SubTotalProducto").val();
-            $("#TotalProducto").val(Number(Total) + (Number(Total) * (13 / 100)));
 
+            $("#TotalProducto").val(Number($("#SubTotalProducto").val()) + (Number($("#SubTotalProducto").val()) * (13 / 100)));
 
+            console.log(Number($("#SubTotalProducto").val()) + (Number($("#SubTotalProducto").val()) * (13 / 100)));
 
-            console.log(Total);
         }
 
         function EliminarFila(hola) {
@@ -395,10 +395,10 @@
                         var CantidadProducto = $("#CantidadProducto").val();
                         $("#SubTotalProducto").val(PrecioProducto * CantidadProducto);
                         $("#ImpuestoProducto").val("13");
-                        var Total = $("#SubTotalProducto").val();
 
+                        $("#TotalProducto").val(Number($("#SubTotalProducto").val()) + (Number($("#SubTotalProducto").val()) * (13 / 100)));
 
-                        $("#TotalProducto").val(Number(Total) + (Number(Total) * (13 / 100)));
+                        console.log(Number($("#SubTotalProducto").val()) + (Number($("#SubTotalProducto").val()) * (13 / 100)));
 
                         $("#CampoNuevoArticulo").val("");
                         $('#VentanaProductos').modal('show');
@@ -444,7 +444,7 @@
                                 cadena = cadena + "<td>" + index.codigo_Producto + "</td>";
                                 cadena = cadena + "<td>" + index.cantidad_Disponible + "</td>";
                                 cadena = cadena + "<td>" + index.descripcion + "</td>";
-                                cadena = cadena + "<td>" + index.precio_Venta + "</td>";
+                                cadena = cadena + "<td>" + index.precio_Venta.toString() + "</td>";
 
                                 cadena = cadena + '<td><input type="button" class="Agregar" onclick="AgregarDesdeListado_De_Productos(' + "'" + index.codigo_Producto.toString() + "'"+')" value="Agregar" /></td>';
                                 $("#ListarTotalProductos tbody").append(cadena);

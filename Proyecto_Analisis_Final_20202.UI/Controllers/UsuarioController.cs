@@ -32,7 +32,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
        
 
         [HttpPost]
-        public ActionResult Facturaracion(double SubTotal, int Descuento, double Total,  string IdentificacionCliente, List<DetalleFactura> ListaProductos)
+        public ActionResult Facturaracion(string SubTotal, int Descuento, string Total,  string IdentificacionCliente, List<DetalleFactura> ListaProductos)
         {
             Persona persona = new Persona();
             persona.Cedula = IdentificacionCliente.ToString().Trim();
@@ -40,7 +40,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
             {
                 if (RepositorioPersona.PersonaExiste(persona))
                 {
-                    RepositorioFacturacion.Facturar(SubTotal, Descuento, Total, IdentificacionCliente.Trim(), ListaProductos);
+                    RepositorioFacturacion.Facturar( SubTotal, Descuento, Total, IdentificacionCliente.Trim(), ListaProductos);
                     return Json("La compra se ha efectuado con exito");
                 }
                 else

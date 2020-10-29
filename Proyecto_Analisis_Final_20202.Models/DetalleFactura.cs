@@ -37,7 +37,6 @@ namespace Proyecto_Analisis_Final_20202.Models
        
         public double Total { get; set; }
 
-       
         public int Impuesto_Producto { get; set; }
     }
 }

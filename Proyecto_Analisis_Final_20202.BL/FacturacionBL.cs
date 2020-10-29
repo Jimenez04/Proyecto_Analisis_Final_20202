@@ -36,7 +36,7 @@ namespace Proyecto_Analisis_Final_20202.BL
             this.inventario = inventario;
         }
 
-        public int Facturar(double Subtotal, int Descuento, double Total, String IdentificacionCliente, List<DetalleFactura> ListaProductos)
+        public int Facturar(String Subtotal, int Descuento, String Total, String IdentificacionCliente, List<DetalleFactura> ListaProductos)
         {
             Factura nuevafactura = new Factura();
             Cliente clientedefactura = new Cliente();
@@ -46,10 +46,10 @@ namespace Proyecto_Analisis_Final_20202.BL
             nuevafactura.ID_Condicion = 1;
             nuevafactura.Plazo_Credito = 0;
             nuevafactura.ID_MetodoPago = 1;
-            nuevafactura.SubTotal = Subtotal;
+            nuevafactura.SubTotal = Double.Parse(Subtotal);
             nuevafactura.Descuento = Descuento;
             nuevafactura.IVA = 13;
-            nuevafactura.Total = Total;
+            nuevafactura.Total = Double.Parse(Total);
             nuevafactura.Fecha_Emision = DateTime.Now;
             nuevafactura.Clave = GenerarClave(nuevafactura.Consecutivo, nuevafactura.Cedula_Juridica);
             nuevafactura.Codigo_Actividad = 1;
@@ -115,8 +115,10 @@ namespace Proyecto_Analisis_Final_20202.BL
             doc.InsertBefore(xmlDeclaration, root);
 
             // cuerpo principal
-            XmlElement seccionFacturacion = doc.CreateElement(string.Empty, "FacturaElectronica  xmlns:xsd=http://www.w3.org/2001/XMLSchema ", string.Empty);
-            doc.AppendChild(seccionFacturacion);
+            XmlElement seccionFacturacion = doc.CreateElement(string.Empty, "FacturaElectronica", string.Empty);
+            doc.AppendChild(seccionFacturacion); 
+
+
 
             // Consecutivo
             XmlElement subseccionconsecutivo = doc.CreateElement(string.Empty, "Consecutivo",string.Empty);
@@ -261,7 +263,7 @@ namespace Proyecto_Analisis_Final_20202.BL
             foreach (var item in detalleFactura)
             {
 
-                Inventario producto = this.inventario.ObtenerProductoPorCodigo(item.Codigo_Producto);
+                Inventario producto = this.inventario.ObternerPorCodigo(item.Codigo_Producto);
 
                 XmlElement subseccionproductos = doc.CreateElement(string.Empty, "Producto", string.Empty);
                 productos.AppendChild(subseccionproductos);
@@ -282,7 +284,7 @@ namespace Proyecto_Analisis_Final_20202.BL
                 productos.AppendChild(cantidad);
 
                 XmlElement precio = doc.CreateElement(string.Empty, "Precio", string.Empty);
-                XmlText textoprecio = doc.CreateTextNode(item.Precio_Unidad.ToString());
+                XmlText textoprecio = doc.CreateTextNode(producto.PrecionDeVenta.ToString());
                 precio.AppendChild(textoprecio);
                 productos.AppendChild(precio);
 
@@ -374,7 +376,7 @@ namespace Proyecto_Analisis_Final_20202.BL
             detalle.AppendChild(textdetalle);
             subsecciondetalle.AppendChild(detalle);
 
-            doc.Save("C:/Users/josue/Desktop/" + factura.Consecutivo + ".xml"); // Modificar esta ruta si se va a usar 
+           // doc.Save("C:/Users/josue/Desktop/" + factura.Consecutivo + ".xml"); // Modificar esta ruta si se va a usar 
             String total = doc.OuterXml;
 
             //  Conversion a tipo archivo del XML
