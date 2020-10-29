@@ -11,6 +11,8 @@ namespace Proyecto_Analisis_Final_20202.Models
 {
    public class Provincia
     {
+        public Canton canton = new Canton();
+
         [Key]
         public int ID_Provincia { get; set; }
 

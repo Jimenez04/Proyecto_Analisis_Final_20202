@@ -9,15 +9,18 @@ namespace Proyecto_Analisis_Final_20202.Models
 {
     public class DetalleFactura
     {
+        private DetalleFactura Orden;
+
+        public DetalleFactura()
+        {
+            Orden = new DetalleFactura();
+        }
+
         public int ID { get; set; }
 
-       
         public string Consecutivo { get; set; }
-
      
         public string Codigo_Producto { get; set; }
-
-
       
         public double Precio_Unidad { get; set; }
        
@@ -28,7 +31,6 @@ namespace Proyecto_Analisis_Final_20202.Models
         public string SubTotal { get; set; }
       
         public int Cantidad { get; set; }
-
        
         public int Descuento { get; set; }
 
