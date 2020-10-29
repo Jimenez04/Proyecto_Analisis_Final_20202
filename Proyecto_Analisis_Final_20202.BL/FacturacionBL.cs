@@ -40,16 +40,17 @@ namespace Proyecto_Analisis_Final_20202.BL
         {
             Factura nuevafactura = new Factura();
             Cliente clientedefactura = new Cliente();
-
+            
+            
             clientedefactura.Consecutivo = nuevafactura.Consecutivo = GenerarConsecutivo();
             nuevafactura.Cedula_Juridica = empresa.ObtenerEmpresa().Cedula_Juridica;
             nuevafactura.ID_Condicion = 1;
             nuevafactura.Plazo_Credito = 0;
             nuevafactura.ID_MetodoPago = 1;
-            nuevafactura.SubTotal = Double.Parse(Subtotal);
+            nuevafactura.SubTotal = Double.Parse(Subtotal.Replace(".", ","));
             nuevafactura.Descuento = Descuento;
             nuevafactura.IVA = 13;
-            nuevafactura.Total = Double.Parse(Total);
+            nuevafactura.Total = Double.Parse(Total.Replace(".", ","));
             nuevafactura.Fecha_Emision = DateTime.Now;
             nuevafactura.Clave = GenerarClave(nuevafactura.Consecutivo, nuevafactura.Cedula_Juridica);
             nuevafactura.Codigo_Actividad = 1;
