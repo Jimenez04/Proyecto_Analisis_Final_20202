@@ -115,12 +115,31 @@ namespace Proyecto_Analisis_Final_20202.BL
             XmlElement root = doc.DocumentElement;
             doc.InsertBefore(xmlDeclaration, root);
 
+
+
+
             // cuerpo principal
             XmlElement seccionFacturacion = doc.CreateElement(string.Empty, "FacturaElectronica", string.Empty);
-            doc.AppendChild(seccionFacturacion); 
+            doc.AppendChild(seccionFacturacion);
+
+          //  seccionFacturacion.WriteAttributeString("xmlns", "https://tribunet.hacienda.go.cr/docs/esquemas/2017/v4.2/facturaElectronica");
+            //seccionFacturacion.WriteAttributeString("xmlns:ds", "http://www.w3.org/2000/09/xmldsig#");
+           /// seccionFacturacion.WriteAttributeString("xmlns:vc", "http://www.w3.org/2007/XMLSchema-versioning");
+            //seccionFacturacion.WriteAttributeString("xmlns:xs", "http://www.w3.org/2001/XMLSchema");
+
+            seccionFacturacion.SetAttribute("xmlns", "https://tribunet.hacienda.go.cr/docs/esquemas/2017/v4.2/facturaElectronica");
+            seccionFacturacion.SetAttribute("xmlns:ds", "http://www.w3.org/2000/09/xmldsig#");
+            seccionFacturacion.SetAttribute("xmlns:vc", "http://www.w3.org/2007/XMLSchema-versioning");
+            seccionFacturacion.SetAttribute("xmlns:xs", "http://www.w3.org/2001/XMLSchema");
 
 
+            // Clave 
+            XmlElement subseccionclave = doc.CreateElement(string.Empty, "Clave", string.Empty);
+            seccionFacturacion.AppendChild(subseccionclave);
 
+            XmlText textClave = doc.CreateTextNode(factura.Clave);
+            subseccionclave.AppendChild(textClave);
+            
             // Consecutivo
             XmlElement subseccionconsecutivo = doc.CreateElement(string.Empty, "Consecutivo",string.Empty);
             seccionFacturacion.AppendChild(subseccionconsecutivo);
@@ -139,14 +158,7 @@ namespace Proyecto_Analisis_Final_20202.BL
             fechaemision.AppendChild(textfecha);
             subseccionrmision.AppendChild(fechaemision);
 
-            // Clave 
-            XmlElement subseccionclave = doc.CreateElement(string.Empty, "Clave", string.Empty);
-            seccionFacturacion.AppendChild(subseccionclave);
-
-            XmlElement clave = doc.CreateElement(string.Empty, "Clave", string.Empty);
-            XmlText textClave = doc.CreateTextNode(factura.Clave);
-            clave.AppendChild(textClave);
-            subseccionclave.AppendChild(clave);
+           
 
             //  Datos de la Empresa
             XmlElement subseccionempresa = doc.CreateElement(string.Empty, "Emisor", string.Empty);
