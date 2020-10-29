@@ -9,6 +9,8 @@ namespace Proyecto_Analisis_Final_20202.Models
 {
     public class Canton
     {
+        public Distrito distrito = new Distrito();
+
         [Key]
         public int ID_Canton { get; set; }
       // [Key]
@@ -16,8 +18,5 @@ namespace Proyecto_Analisis_Final_20202.Models
         public int ID_Provincia { get; set; }
 
         public String Nombre_Canton { get; set; }
-
-
-     
     }
 }

@@ -10,6 +10,13 @@ namespace Proyecto_Analisis_Final_20202.Models
 {
     public class Persona
     {
+        private Provincia Ubicacion;
+
+        public Persona()
+        {
+            Ubicacion = new Provincia();
+        }
+
         [Key]
         [DisplayName("Identificación")]
         [Required(ErrorMessage = "La identificación es requerida")]

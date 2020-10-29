@@ -9,6 +9,8 @@ namespace Proyecto_Analisis_Final_20202.Models
 {
     public class Factura
     {
+        public DetalleFactura detallefactura = new DetalleFactura();
+
         [Key]
         [DisplayName("Consecutivo")]
         public string Consecutivo { get; set; }

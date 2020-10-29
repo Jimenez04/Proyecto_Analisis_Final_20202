@@ -8,7 +8,13 @@ using System.Text;
 namespace Proyecto_Analisis_Final_20202.Models
 {
    public  class Empresa
-  {      
+  {
+        private Provincia Ubicacion;
+
+        public Empresa()
+        {
+            Ubicacion = new Provincia();
+        }
 
         [Key]
         [DisplayName("Cedula jurídica")]
