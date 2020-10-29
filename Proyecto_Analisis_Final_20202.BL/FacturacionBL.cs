@@ -329,7 +329,7 @@ namespace Proyecto_Analisis_Final_20202.BL
             int numerodelinea = 1;
             foreach (var item in detalleFactura)
             {
-               item.SubTotal = double.Parse(item.Cantidad * item.Precio_Unidad);
+               item.SubTotal = item.Cantidad * item.Precio_Unidad;
                 Inventario producto = this.inventario.ObternerPorCodigo(item.Codigo_Producto);
 
                 XmlElement LineaDetalle = doc.CreateElement(string.Empty, "LineaDetalle", string.Empty);
@@ -396,11 +396,8 @@ namespace Proyecto_Analisis_Final_20202.BL
                 tarifaimpuesto.AppendChild(texttarifaimpuesto);
                 impuestodelinea.AppendChild(tarifaimpuesto);
 
-                
-               double calculo = parseosubtotal * (0.13);
-
                 XmlElement montoimpuesto = doc.CreateElement(string.Empty, "Monto", string.Empty);
-                XmlText textmontoimpuesto = doc.CreateTextNode(calculo.ToString());
+                XmlText textmontoimpuesto = doc.CreateTextNode((item.SubTotal*(item.Impuesto_Producto / 100)).ToString());
                 montoimpuesto.AppendChild(textmontoimpuesto);
                 impuestodelinea.AppendChild(montoimpuesto);
 
