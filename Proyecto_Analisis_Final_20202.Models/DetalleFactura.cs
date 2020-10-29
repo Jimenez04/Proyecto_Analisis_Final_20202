@@ -9,11 +9,11 @@ namespace Proyecto_Analisis_Final_20202.Models
 {
     public class DetalleFactura
     {
-        private DetalleFactura Orden;
+        private Inventario Orden;
 
         public DetalleFactura()
         {
-            Orden = new DetalleFactura();
+            Orden = new Inventario();
         }
 
         public int ID { get; set; }

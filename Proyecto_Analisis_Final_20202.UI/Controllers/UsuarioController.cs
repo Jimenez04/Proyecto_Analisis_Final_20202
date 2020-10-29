@@ -50,6 +50,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Controllers
             }
             catch (Exception e)
             {
+                Console.WriteLine(e);
                 return Json("Error inesperado, verifique los datos");
             }
         }
