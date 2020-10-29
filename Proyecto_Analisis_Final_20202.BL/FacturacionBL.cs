@@ -67,10 +67,10 @@ namespace Proyecto_Analisis_Final_20202.BL
             clientedefactura.Descuento = 0;
             ElContextoDeBaseDeDatos.Cliente.Add(clientedefactura);
             ElContextoDeBaseDeDatos.SaveChanges();
-            // Persona cliente = ObtenerPersonaPorCedula(clientedefactura.Cedula);
-            //  EnviarArchivosDeFactura(GenerarXMLDeFactura(nuevafactura), GenerarPDF(nuevafactura),cliente.Correo.Correo);
 
-            GenerarPDF(nuevafactura);
+
+            GenerarXMLDeFactura(nuevafactura);
+          
 
 
             return 1;
@@ -115,11 +115,11 @@ namespace Proyecto_Analisis_Final_20202.BL
             doc.InsertBefore(xmlDeclaration, root);
 
             // cuerpo principal
-            XmlElement seccionFacturacion = doc.CreateElement(string.Empty, "FacturaElectronica", string.Empty);
+            XmlElement seccionFacturacion = doc.CreateElement(string.Empty, "FacturaElectronica  xmlns:xsd=http://www.w3.org/2001/XMLSchema ", string.Empty);
             doc.AppendChild(seccionFacturacion);
 
             // Consecutivo
-            XmlElement subseccionconsecutivo = doc.CreateElement(string.Empty, "Consecutivo", string.Empty);
+            XmlElement subseccionconsecutivo = doc.CreateElement(string.Empty, "Consecutivo",string.Empty);
             seccionFacturacion.AppendChild(subseccionconsecutivo);
 
             XmlElement consecutivo = doc.CreateElement(string.Empty, "Consecutivo", string.Empty);
@@ -384,6 +384,8 @@ namespace Proyecto_Analisis_Final_20202.BL
             ms.Position = 0;
             var xmlfactura = new System.Net.Mail.Attachment(ms, factura.Consecutivo + ".xml");
 
+            EnviarArchivosDeFactura(xmlfactura,GenerarPDF(factura),persona.Correo.Correo);
+
             return xmlfactura;
         }
 
@@ -521,47 +523,43 @@ namespace Proyecto_Analisis_Final_20202.BL
             var lugar = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             var expportar = System.IO.Path.Combine(lugar, "Pruebas.pdf");
 
-            PdfWriter pwf = new PdfWriter(expportar); // Poner ms para mandar o poner exxportar para hacerlo en menotia
+            PdfWriter pwf = new PdfWriter(ms); // Poner ms para mandar o poner exxportar para hacerlo en menotia
 
             PdfDocument pdfDocument = new PdfDocument(pwf);
             Document doc = new Document(pdfDocument, PageSize.A4);
 
 
             Style estilodefooter = new Style()
-                .SetFontSize(10);
+            .SetFontSize(10);
 
             Table tablaprueba = new Table(1).SetBorder(Border.NO_BORDER);
 
             Cell celdafooter = new Cell()
-                   .Add(new Paragraph("Emitido por facturación FYJJ " ).SetFontSize(11));
+            .Add(new Paragraph("Emitido por facturación FYJJ " ).SetFontSize(12)).SetBorder(Border.NO_BORDER);
             tablaprueba.AddCell(celdafooter);
 
-             Cell Celda2 = new Cell().Add(new Paragraph("Confome a lo dispuesto en las declaraciones en las DHTRT DE 2019 donde se solicita las creaciones de documentos electronicos").SetFontSize(8)).SetHeight(100);
+             Cell Celda2 = new Cell().Add(new Paragraph("Documento emitido conforme a la resolución de factura electrónica N° DGT-R-033-2019")
+             .SetFontSize(8))
+             .SetHeight(100).SetBorder(Border.NO_BORDER);
               tablaprueba.AddCell(Celda2);
+              pdfDocument.AddEventHandler(PdfDocumentEvent.END_PAGE, new TableFooterEventHandler(tablaprueba));
 
-                   
-
-            pdfDocument.AddEventHandler(PdfDocumentEvent.END_PAGE, new TableFooterEventHandler(tablaprueba));
 
             ImageData imageData = ImageDataFactory.Create(@"Imagen/IconoLayout.png");
 
-            doc.SetMargins(36, 36, 120, 36);
+            doc.SetMargins(36, 36, 100, 36);
             Image pdfImg = new Image(imageData);
 
             Style estilodeprimero = new Style()
             .SetMarginLeft(300).SetMarginTop(20);
 
-      
             Table TablaDatos1 = new Table(1).UseAllAvailableWidth();
-            Cell cellaDatos = new Cell().Add(new Paragraph(" Factura Electrónica").SetTextAlignment(TextAlignment.CENTER).SetFontColor(ColorConstants.WHITE).SetBorder(new SolidBorder(WebColors.GetRGBColor("#0B73D5"), 2)).SetBackgroundColor(WebColors.GetRGBColor("#0B73D5")));
-            TablaDatos1.AddCell(cellaDatos);
+            Cell cellaDatos = new Cell().Add(new Paragraph(" Factura Electrónica").SetTextAlignment(TextAlignment.CENTER) 
+            .SetFontColor(ColorConstants.WHITE).SetBorder(new SolidBorder(WebColors.GetRGBColor("#0B73D5"), 2))
+            .SetBackgroundColor(WebColors.GetRGBColor("#0B73D5")));
+             TablaDatos1.AddCell(cellaDatos);
+             doc.Add(TablaDatos1); 
 
-
-
-
-            doc.Add(TablaDatos1); 
-
-          
 
             Table table1 = new Table(6).UseAllAvailableWidth().SetBorder(new SolidBorder(WebColors.GetRGBColor("#0B73D5"), 2));
 
@@ -580,23 +578,6 @@ namespace Proyecto_Analisis_Final_20202.BL
 
             table1.AddCell(celdaempresa);
             doc.Add(table1);
-
-
-            //.SetMarginLeft(293)
-
-            /**
-            Cell cell1 = new Cell().Add(new Paragraph(empresa.Nombre +
-                "\nCedula Jurídica: " + empresa.Cedula_Juridica +
-                "\n Número: " + "(506) 85442065" +
-                "\n Correo: " + "facturacionjjyf@gmail.com" +
-                "\n Dirección: " + empresa.Senas_Exactas).SetFontSize(10).SetFontColor(ColorConstants.BLACK)).SetFontSize(15)
-                .SetBorder(Border.NO_BORDER);
-                table1.AddCell(cell1);
-                 doc.Add(table1);
-
-            **/
-
-
 
             Table TablaDatos = new Table(6).UseAllAvailableWidth().SetBorder(new SolidBorder(WebColors.GetRGBColor("#0B73D5"), 1));
 
@@ -624,9 +605,7 @@ namespace Proyecto_Analisis_Final_20202.BL
                .SetBorderLeft(Border.NO_BORDER)
                ;
             TablaDatos.AddCell(nuevacellda);
-
             doc.Add(TablaDatos);
-
 
             // Tabla de Productos
             doc.Add(new Paragraph());
@@ -662,7 +641,7 @@ namespace Proyecto_Analisis_Final_20202.BL
 
             foreach (var item in detalleFactura)
             {
-                for (int i = 0; i < 50; i++) {
+               
                     Inventario producto = this.inventario.ObtenerProductoPorCodigo(item.Codigo_Producto);
 
                     _cell = new Cell(1, 2).Add(new Paragraph(item.Codigo_Producto));
@@ -678,7 +657,7 @@ namespace Proyecto_Analisis_Final_20202.BL
 
                     _cell = new Cell(1, 2).Add(new Paragraph(item.Precio_Unidad.ToString()));
                     _table.AddCell(_cell.AddStyle(Celdasdatosdeproductos));
-                }
+                
             }
 
             doc.Add(_table);
@@ -689,7 +668,7 @@ namespace Proyecto_Analisis_Final_20202.BL
             Style celdasmonetarias = new Style()
                .SetTextAlignment(TextAlignment.CENTER)
                .SetFontSize(11)
-               .SetWidth(100)
+               .SetWidth(188)
                .SetBackgroundColor(WebColors.GetRGBColor("#0B73D5"))
                .SetBorder(Border.NO_BORDER)
                .SetFontColor(ColorConstants.WHITE);
@@ -716,23 +695,10 @@ namespace Proyecto_Analisis_Final_20202.BL
             celdasmonetairas = new Cell().Add(new Paragraph(factura.IVA.ToString() + "%")).SetFontSize(10);
             TablaMonetaria.AddHeaderCell(celdasmonetairas.AddStyle(celdasmonetarias));
 
-            doc.Add(TablaMonetaria);
+            celdasmonetairas = new Cell(1,2).Add(new Paragraph(" Total " + " CRC " + factura.Total.ToString()));
+            TablaMonetaria.AddHeaderCell(celdasmonetairas).AddStyle(celdasmonetarias); 
 
-            // Tabla para ubicación del total 
-            Table TablaTotal = new Table(1).SetBorder(new SolidBorder(WebColors.GetRGBColor("#0B73D5"), 1)).SetMarginLeft(335);
-
-            Style celdatotal = new Style()
-               .SetTextAlignment(TextAlignment.CENTER)
-               .SetFontSize(11)
-               .SetWidth(202)
-               .SetBackgroundColor(WebColors.GetRGBColor("#0B73D5"))
-               .SetBorder(Border.NO_BORDER)
-               .SetFontColor(ColorConstants.WHITE);
-
-
-            Cell celdaTotal = new Cell().Add(new Paragraph(" Total " + " CRC " + factura.Total.ToString()));
-            TablaTotal.AddHeaderCell(celdaTotal.AddStyle(celdatotal));
-            doc.Add(TablaTotal);
+            doc.Add(TablaMonetaria); 
 
             doc.Close();
             byte[] byteStream = ms.ToArray();
@@ -743,7 +709,6 @@ namespace Proyecto_Analisis_Final_20202.BL
             var pdffactura = new System.Net.Mail.Attachment(ms, factura.Consecutivo + ".pdf");
 
             return pdffactura;
-
 
         }
 
@@ -768,8 +733,7 @@ namespace Proyecto_Analisis_Final_20202.BL
 
             PdfCanvas canvas = new PdfCanvas(page.NewContentStreamBefore(), page.GetResources(), pdfDoc);
 
-            new Canvas(canvas, new Rectangle(36,80, page.GetPageSize().GetWidth() - 72, 50))
-                
+            new Canvas(canvas, new Rectangle(36,60, page.GetPageSize().GetWidth() - 72, 50))
                 .Add(table)
                 .Close();
         }
