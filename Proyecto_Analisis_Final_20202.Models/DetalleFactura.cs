@@ -28,7 +28,7 @@ namespace Proyecto_Analisis_Final_20202.Models
         public string Nombre_Articulo { get; set; }
 
         [NotMapped]
-        public string SubTotal { get; set; }
+        public double SubTotal { get; set; }
       
         public int Cantidad { get; set; }
        
