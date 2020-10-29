@@ -40,8 +40,8 @@ namespace Proyecto_Analisis_Final_20202.BL
         {
             Factura nuevafactura = new Factura();
             Cliente clientedefactura = new Cliente();
-            
-            
+
+
             clientedefactura.Consecutivo = nuevafactura.Consecutivo = GenerarConsecutivo();
             nuevafactura.Cedula_Juridica = empresa.ObtenerEmpresa().Cedula_Juridica;
             nuevafactura.ID_Condicion = 1;
@@ -71,7 +71,7 @@ namespace Proyecto_Analisis_Final_20202.BL
 
 
             GenerarXMLDeFactura(nuevafactura);
-          
+
 
 
             return 1;
@@ -122,274 +122,331 @@ namespace Proyecto_Analisis_Final_20202.BL
             XmlElement seccionFacturacion = doc.CreateElement(string.Empty, "FacturaElectronica", string.Empty);
             doc.AppendChild(seccionFacturacion);
 
-          //  seccionFacturacion.WriteAttributeString("xmlns", "https://tribunet.hacienda.go.cr/docs/esquemas/2017/v4.2/facturaElectronica");
+            //  seccionFacturacion.WriteAttributeString("xmlns", "https://tribunet.hacienda.go.cr/docs/esquemas/2017/v4.2/facturaElectronica");
             //seccionFacturacion.WriteAttributeString("xmlns:ds", "http://www.w3.org/2000/09/xmldsig#");
-           /// seccionFacturacion.WriteAttributeString("xmlns:vc", "http://www.w3.org/2007/XMLSchema-versioning");
+            /// seccionFacturacion.WriteAttributeString("xmlns:vc", "http://www.w3.org/2007/XMLSchema-versioning");
             //seccionFacturacion.WriteAttributeString("xmlns:xs", "http://www.w3.org/2001/XMLSchema");
 
-            seccionFacturacion.SetAttribute("xmlns", "https://tribunet.hacienda.go.cr/docs/esquemas/2017/v4.2/facturaElectronica");
-            seccionFacturacion.SetAttribute("xmlns:ds", "http://www.w3.org/2000/09/xmldsig#");
-            seccionFacturacion.SetAttribute("xmlns:vc", "http://www.w3.org/2007/XMLSchema-versioning");
-            seccionFacturacion.SetAttribute("xmlns:xs", "http://www.w3.org/2001/XMLSchema");
+            seccionFacturacion.SetAttribute("xmlns:xsd", "http://www.w3.org/2001/XMLSchema");
+            seccionFacturacion.SetAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+            seccionFacturacion.SetAttribute("xmlns", "https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/facturaElectronica");
+            
 
 
             // Clave 
             XmlElement subseccionclave = doc.CreateElement(string.Empty, "Clave", string.Empty);
             seccionFacturacion.AppendChild(subseccionclave);
-
             XmlText textClave = doc.CreateTextNode(factura.Clave);
             subseccionclave.AppendChild(textClave);
-            
-            // Consecutivo
-            XmlElement subseccionconsecutivo = doc.CreateElement(string.Empty, "Consecutivo",string.Empty);
-            seccionFacturacion.AppendChild(subseccionconsecutivo);
 
-            XmlElement consecutivo = doc.CreateElement(string.Empty, "Consecutivo", string.Empty);
+            // Codigo Actividad 
+            XmlElement subseccionactividad = doc.CreateElement(string.Empty, "CodigoActividad", string.Empty);
+            seccionFacturacion.AppendChild(subseccionactividad);
+            XmlText textactividad = doc.CreateTextNode("722003");
+            subseccionactividad.AppendChild(textactividad);
+
+            // Consecutivo
+            XmlElement subseccionconsecutivo = doc.CreateElement(string.Empty, "NumeroConsecutivo", string.Empty);
+            seccionFacturacion.AppendChild(subseccionconsecutivo);
             XmlText textconsecutivo = doc.CreateTextNode(factura.Consecutivo);
-            consecutivo.AppendChild(textconsecutivo);
-            subseccionconsecutivo.AppendChild(consecutivo);
+            subseccionconsecutivo.AppendChild(textconsecutivo);
 
             // Fecha de emision
             XmlElement subseccionrmision = doc.CreateElement(string.Empty, "FechaEmision", string.Empty);
             seccionFacturacion.AppendChild(subseccionrmision);
-
-            XmlElement fechaemision = doc.CreateElement(string.Empty, "Fecha", string.Empty);
-            XmlText textfecha = doc.CreateTextNode(factura.Fecha_Emision.ToString());
-            fechaemision.AppendChild(textfecha);
-            subseccionrmision.AppendChild(fechaemision);
-
-           
+            XmlText textfecha = doc.CreateTextNode(DateTime.Now.ToString("yyyy-MM-ddTHH:mm:sszzz"));
+            subseccionrmision.AppendChild(textfecha);
 
             //  Datos de la Empresa
             XmlElement subseccionempresa = doc.CreateElement(string.Empty, "Emisor", string.Empty);
             seccionFacturacion.AppendChild(subseccionempresa);
 
-            XmlElement cedulajuridicaempresa = doc.CreateElement(string.Empty, "CedulaJuridica", string.Empty);
-            XmlText textcedulajuridicaemepresa = doc.CreateTextNode(empresa.Cedula_Juridica);
-            cedulajuridicaempresa.AppendChild(textcedulajuridicaemepresa);
-            subseccionempresa.AppendChild(cedulajuridicaempresa);
-
-            XmlElement nombreempresa = doc.CreateElement(string.Empty, "NombreEmpresa", string.Empty);
+            // Nombre Emnpresa
+            XmlElement nombreempresa = doc.CreateElement(string.Empty, "Nombre", string.Empty);
             XmlText textnombreempresa = doc.CreateTextNode(empresa.Nombre);
             nombreempresa.AppendChild(textnombreempresa);
             subseccionempresa.AppendChild(nombreempresa);
 
-            XmlElement codigopais = doc.CreateElement(string.Empty, "País", string.Empty);
-            XmlText textcodigopais = doc.CreateTextNode("506");
-            codigopais.AppendChild(textcodigopais);
-            subseccionempresa.AppendChild(codigopais);
+            //Identificacion
+            XmlElement identificacionempresa = doc.CreateElement(string.Empty, "Identificacion", string.Empty);
+            subseccionempresa.AppendChild(identificacionempresa);
+
+            // Tipo de identificacion 
+            XmlElement tipoIdentifiacionempresa = doc.CreateElement(string.Empty, "Tipo", string.Empty);
+            XmlText texttipoIdentifiacion = doc.CreateTextNode("02");
+            tipoIdentifiacionempresa.AppendChild(texttipoIdentifiacion);
+            identificacionempresa.AppendChild(tipoIdentifiacionempresa);
+
+            // Cedula Jurridica 
+            XmlElement cedulajuridica = doc.CreateElement(string.Empty, "Numero", string.Empty);
+            XmlText textcedulajuridica = doc.CreateTextNode(empresa.Cedula_Juridica);
+            cedulajuridica.AppendChild(textcedulajuridica);
+            identificacionempresa.AppendChild(cedulajuridica);
+
+            // Nombre Comercial 
+            XmlElement nombrecomercial = doc.CreateElement(string.Empty, "NombreComercial", string.Empty);
+            XmlText textnombrecomercial = doc.CreateTextNode(empresa.Nombre);
+            nombrecomercial.AppendChild(textnombrecomercial);
+            subseccionempresa.AppendChild(nombrecomercial);
+
+            // Subseccio Ubicacion dentro de empresa
+            XmlElement Ubicacion = doc.CreateElement(string.Empty, "Ubicacion", string.Empty);
+            subseccionempresa.AppendChild(Ubicacion);
 
             XmlElement provinciaempresa = doc.CreateElement(string.Empty, "Provincia", string.Empty);
             XmlText textprovinciaempresa = doc.CreateTextNode(empresa.ID_Provincia.ToString());
             provinciaempresa.AppendChild(textprovinciaempresa);
-            subseccionempresa.AppendChild(provinciaempresa);
+            Ubicacion.AppendChild(provinciaempresa);
 
             XmlElement cantonempresa = doc.CreateElement(string.Empty, "Canton", string.Empty);
-            XmlText textcantonempresa = doc.CreateTextNode(empresa.ID_Provincia.ToString());
+            XmlText textcantonempresa = doc.CreateTextNode("0" + empresa.ID_Canton.ToString());
             cantonempresa.AppendChild(textcantonempresa);
-            subseccionempresa.AppendChild(cantonempresa);
+            Ubicacion.AppendChild(cantonempresa);
 
             XmlElement distritoempresa = doc.CreateElement(string.Empty, "Distrito", string.Empty);
-            XmlText textodistritoempresa = doc.CreateTextNode(empresa.ID_Distrito.ToString());
+            XmlText textodistritoempresa = doc.CreateTextNode("0" + empresa.ID_Distrito.ToString());
             distritoempresa.AppendChild(textodistritoempresa);
-            subseccionempresa.AppendChild(distritoempresa);
+            Ubicacion.AppendChild(distritoempresa);
 
-            XmlElement senasempresa = doc.CreateElement(string.Empty, "SenasExactas", string.Empty);
+            XmlElement barrioempresa = doc.CreateElement(string.Empty, "Barrio", string.Empty);
+            XmlText textbarrioempresa = doc.CreateTextNode("01");
+            barrioempresa.AppendChild(textbarrioempresa);
+            Ubicacion.AppendChild(barrioempresa);
+
+            XmlElement senasempresa = doc.CreateElement(string.Empty, "OtrasSenas", string.Empty);
             XmlText textsenasempresa = doc.CreateTextNode(empresa.Senas_Exactas);
             senasempresa.AppendChild(textsenasempresa);
-            subseccionempresa.AppendChild(senasempresa);
+            Ubicacion.AppendChild(senasempresa);
 
-            XmlElement codigopostalempresa = doc.CreateElement(string.Empty, "SenasExactas", string.Empty);
-            XmlText textcodigopostalempresa = doc.CreateTextNode(empresa.Codigo_Postal);
-            codigopostalempresa.AppendChild(textcodigopostalempresa);
-            subseccionempresa.AppendChild(codigopostalempresa);
+            XmlElement Telefono = doc.CreateElement(string.Empty, "Telefono", string.Empty);
+            subseccionempresa.AppendChild(Telefono);
 
-            XmlElement correoempresarial = doc.CreateElement(string.Empty, "CorreoEmpresa", string.Empty);
+            XmlElement Paistelefono = doc.CreateElement(string.Empty, "CodigoPais", string.Empty);
+            XmlText textpaistelefono = doc.CreateTextNode("506");
+            Paistelefono.AppendChild(textpaistelefono);
+            Telefono.AppendChild(Paistelefono);
+
+            XmlElement Telefonoempresa = doc.CreateElement(string.Empty, "NumTelefono", string.Empty);
+            XmlText textTelefono = doc.CreateTextNode("85660429");
+            Telefonoempresa.AppendChild(textTelefono);
+            Telefono.AppendChild(Telefonoempresa);
+
+            XmlElement correoempresarial = doc.CreateElement(string.Empty, "CorreoElectronico", string.Empty);
             XmlText textcorreoempresa = doc.CreateTextNode("facturacionjjyf@gmail.com");
             correoempresarial.AppendChild(textcorreoempresa);
             subseccionempresa.AppendChild(correoempresarial);
-
-            XmlElement razonsocial = doc.CreateElement(string.Empty, "CorreoEmpresa", string.Empty);
-            XmlText textrazonsocial = doc.CreateTextNode(empresa.Razon_Social);
-            razonsocial.AppendChild(textrazonsocial);
-            subseccionempresa.AppendChild(razonsocial);
+            // Fin Emisor
 
             // Persona
-            XmlElement subseccionpersona = doc.CreateElement(string.Empty, "Destinatario", string.Empty);
-            seccionFacturacion.AppendChild(subseccionpersona);
+            XmlElement subseccionreceptor = doc.CreateElement(string.Empty, "Receptor", string.Empty);
+            seccionFacturacion.AppendChild(subseccionreceptor);
 
-            XmlElement cedulapersona = doc.CreateElement(string.Empty, "Identificacion", string.Empty);
-            XmlText textcedulapersona = doc.CreateTextNode(persona.Cedula);
-            cedulapersona.AppendChild(textcedulapersona);
-            subseccionpersona.AppendChild(cedulapersona);
+            // Nombre Emnpresa
+            XmlElement nombrereceptor = doc.CreateElement(string.Empty, "Nombre", string.Empty);
+            XmlText textnombrereceptor = doc.CreateTextNode(persona.Nombre1 + " " + persona.Apellido1 + " " + persona.Apellido2);
+            nombrereceptor.AppendChild(textnombrereceptor);
+            subseccionreceptor.AppendChild(nombrereceptor);
 
-            XmlElement numeropersona = doc.CreateElement(string.Empty, "Numero", string.Empty);
-            XmlText textnumeropersona = doc.CreateTextNode(persona.telefono.Numero);
-            numeropersona.AppendChild(textnumeropersona);
-            subseccionpersona.AppendChild(numeropersona);
+            //Identificacion
+            XmlElement subseccionidentificacion = doc.CreateElement(string.Empty, "Identificacion", string.Empty);
+            subseccionreceptor.AppendChild(subseccionidentificacion);
 
-            XmlElement nombrepersona = doc.CreateElement(string.Empty, "Nombre", string.Empty);
-            XmlText textnombrepersona = doc.CreateTextNode(persona.Nombre1);
-            nombrepersona.AppendChild(textnombrepersona);
-            subseccionpersona.AppendChild(nombrepersona);
+            // Tipo de identificacion 
+            XmlElement tipoidentificacionpersona = doc.CreateElement(string.Empty, "Tipo", string.Empty);
+            XmlText texttipoidpersona = doc.CreateTextNode("01");
+            tipoidentificacionpersona.AppendChild(texttipoidpersona);
+            subseccionidentificacion.AppendChild(tipoidentificacionpersona);
 
-            XmlElement Apellido1 = doc.CreateElement(string.Empty, "Apellido1", string.Empty);
-            XmlText textapellido1 = doc.CreateTextNode(persona.Apellido1);
-            Apellido1.AppendChild(textapellido1);
-            subseccionpersona.AppendChild(Apellido1);
+            // Cedula
+            XmlElement cedula = doc.CreateElement(string.Empty, "Numero", string.Empty);
+            XmlText textcedula = doc.CreateTextNode(persona.Cedula);
+            cedula.AppendChild(textcedula);
+            subseccionidentificacion.AppendChild(cedula);
 
-            XmlElement Apellido2 = doc.CreateElement(string.Empty, "Apellido2", string.Empty);
-            XmlText textapellido2 = doc.CreateTextNode(persona.Apellido2);
-            Apellido2.AppendChild(textapellido2);
-            subseccionpersona.AppendChild(Apellido2);
+
+            // Subseccio Ubicacion dentro de empresa
+            XmlElement Ubicacionpersona = doc.CreateElement(string.Empty, "Ubicacion", string.Empty);
+            subseccionreceptor.AppendChild(Ubicacionpersona);
 
             XmlElement provinciapersona = doc.CreateElement(string.Empty, "Provincia", string.Empty);
             XmlText textprovinciapersona = doc.CreateTextNode(persona.ID_Provincia.ToString());
             provinciapersona.AppendChild(textprovinciapersona);
-            subseccionpersona.AppendChild(provinciapersona);
+            Ubicacionpersona.AppendChild(provinciapersona);
 
             XmlElement cantonpersona = doc.CreateElement(string.Empty, "Canton", string.Empty);
-            XmlText textcantonpersona = doc.CreateTextNode(persona.ID_Canton.ToString());
+            XmlText textcantonpersona = doc.CreateTextNode("0" + persona.ID_Canton.ToString());
             cantonpersona.AppendChild(textcantonpersona);
-            subseccionpersona.AppendChild(cantonpersona);
+            Ubicacionpersona.AppendChild(cantonpersona);
 
-            XmlElement distritoperrsona = doc.CreateElement(string.Empty, "Distrito", string.Empty);
-            XmlText textdistritopersona = doc.CreateTextNode(persona.ID_Distrito.ToString());
-            distritoperrsona.AppendChild(textdistritopersona);
-            subseccionpersona.AppendChild(distritoperrsona);
+            XmlElement distritopersona = doc.CreateElement(string.Empty, "Distrito", string.Empty);
+            XmlText textdistritopersona = doc.CreateTextNode("0" + persona.ID_Distrito.ToString());
+            distritopersona.AppendChild(textdistritopersona);
+            Ubicacionpersona.AppendChild(distritopersona);
 
-            XmlElement codigopostalpersona = doc.CreateElement(string.Empty, "CodigoPostal", string.Empty);
-            XmlText textcodigopostalpersona = doc.CreateTextNode(persona.Codigo_Postal.ToString());
-            codigopostalpersona.AppendChild(textcodigopostalpersona);
-            subseccionpersona.AppendChild(codigopostalpersona);
+            XmlElement barriopersona = doc.CreateElement(string.Empty, "Barrio", string.Empty);
+            XmlText textbarriopersona = doc.CreateTextNode("01");
+            barriopersona.AppendChild(textbarriopersona);
+            Ubicacionpersona.AppendChild(barriopersona);
 
-            XmlElement correopersona = doc.CreateElement(string.Empty, "Destinatario", string.Empty);
+            XmlElement Senaspersona = doc.CreateElement(string.Empty, "OtrasSenas", string.Empty);
+            XmlText textsenaspersona = doc.CreateTextNode(persona.SenasExactas);
+            Senaspersona.AppendChild(textsenaspersona);
+            Ubicacionpersona.AppendChild(Senaspersona);
+
+            XmlElement Telefonopersona = doc.CreateElement(string.Empty, "Telefono", string.Empty);
+            subseccionreceptor.AppendChild(Telefonopersona);
+
+            XmlElement Paistelefonopersona = doc.CreateElement(string.Empty, "CodigoPais", string.Empty);
+            XmlText textpaistelefonopersona = doc.CreateTextNode("+506");
+            Paistelefonopersona.AppendChild(textpaistelefonopersona);
+            Telefonopersona.AppendChild(Paistelefonopersona);
+
+            XmlElement Telefonoperosona = doc.CreateElement(string.Empty, "NumTelefono", string.Empty);
+            XmlText textTelefonopersona = doc.CreateTextNode(persona.telefono.Numero);
+            Telefonoperosona.AppendChild(textTelefonopersona);
+            Telefonopersona.AppendChild(Telefonoperosona);
+
+            XmlElement correopersona = doc.CreateElement(string.Empty, "CorreoElectronico", string.Empty);
             XmlText textcorreopersona = doc.CreateTextNode(persona.Correo.Correo);
             correopersona.AppendChild(textcorreopersona);
-            subseccionpersona.AppendChild(correopersona);
+            subseccionreceptor.AppendChild(correopersona);
+
+            XmlElement condicionventa = doc.CreateElement(string.Empty, "CondicionVenta", string.Empty);
+            XmlText textcondicionventa = doc.CreateTextNode("01");
+            condicionventa.AppendChild(textcondicionventa);
+            seccionFacturacion.AppendChild(condicionventa);
+
+            XmlElement mediopago = doc.CreateElement(string.Empty, "MedioPago", string.Empty);
+            XmlText textmediopago = doc.CreateTextNode("01");
+            mediopago.AppendChild(textmediopago);
+            seccionFacturacion.AppendChild(mediopago);
 
 
             // Nueva sección de productos 
-            XmlElement productos = doc.CreateElement(string.Empty, "Productos", string.Empty);
-            seccionFacturacion.AppendChild(productos);
+            XmlElement Detalleservicio = doc.CreateElement(string.Empty, "DetalleServicio", string.Empty);
+            seccionFacturacion.AppendChild(Detalleservicio);
 
+            int numerodelinea = 1;
             foreach (var item in detalleFactura)
             {
-
                 Inventario producto = this.inventario.ObternerPorCodigo(item.Codigo_Producto);
 
-                XmlElement subseccionproductos = doc.CreateElement(string.Empty, "Producto", string.Empty);
-                productos.AppendChild(subseccionproductos);
+                XmlElement LineaDetalle = doc.CreateElement(string.Empty, "LineaDetalle", string.Empty);
+                Detalleservicio.AppendChild(LineaDetalle);
 
-                XmlElement codigoproducto = doc.CreateElement(string.Empty, "CodigoProducto", string.Empty);
-                XmlText textcodigoproducto = doc.CreateTextNode(item.Codigo_Producto);
-                codigoproducto.AppendChild(textcodigoproducto);
-                productos.AppendChild(codigoproducto);
+                XmlElement numerolinea = doc.CreateElement(string.Empty, "NumeroLinea", string.Empty);
+                XmlText textnumerolinea = doc.CreateTextNode(numerodelinea.ToString());
+                numerolinea.AppendChild(textnumerolinea);
+                LineaDetalle.AppendChild(numerolinea);
 
-                XmlElement nombreproducto = doc.CreateElement(string.Empty, "NombreProducto", string.Empty);
-                XmlText textonombre = doc.CreateTextNode(producto.Nombre);
-                nombreproducto.AppendChild(textonombre);
-                productos.AppendChild(nombreproducto);
+                XmlElement codigocomercial = doc.CreateElement(string.Empty, "CodigoComercial", string.Empty);
+                LineaDetalle.AppendChild(codigocomercial);
+
+                XmlElement tipocodigocomercial = doc.CreateElement(string.Empty, "Tipo", string.Empty);
+                XmlText textcodigocomercial = doc.CreateTextNode("01");
+                tipocodigocomercial.AppendChild(textcodigocomercial);
+                codigocomercial.AppendChild(tipocodigocomercial);
+
+                XmlElement codigocomercialproducto = doc.CreateElement(string.Empty, "Codigo", string.Empty);
+                XmlText textcodigocomercialproducto = doc.CreateTextNode("010");
+                codigocomercialproducto.AppendChild(textcodigocomercialproducto);
+                codigocomercial.AppendChild(codigocomercialproducto);
 
                 XmlElement cantidad = doc.CreateElement(string.Empty, "Cantidad", string.Empty);
-                XmlText textocantidad = doc.CreateTextNode(item.Cantidad.ToString());
-                cantidad.AppendChild(textocantidad);
-                productos.AppendChild(cantidad);
+                XmlText textcantidad = doc.CreateTextNode(item.Cantidad.ToString());
+                cantidad.AppendChild(textcantidad);
+                LineaDetalle.AppendChild(cantidad);
 
-                XmlElement precio = doc.CreateElement(string.Empty, "Precio", string.Empty);
-                XmlText textoprecio = doc.CreateTextNode(producto.PrecionDeVenta.ToString());
-                precio.AppendChild(textoprecio);
-                productos.AppendChild(precio);
+                XmlElement unidadmedida = doc.CreateElement(string.Empty, "UnidadMedida", string.Empty);
+                XmlText textunidadmedida = doc.CreateTextNode("Unid");
+                unidadmedida.AppendChild(textunidadmedida);
+                LineaDetalle.AppendChild(unidadmedida);
 
+                XmlElement descripcion = doc.CreateElement(string.Empty, "Detalle", string.Empty);
+                XmlText textdescripcion = doc.CreateTextNode(producto.Descripcion);
+                descripcion.AppendChild(textdescripcion);
+                LineaDetalle.AppendChild(descripcion);
 
-                XmlElement totalproductos = doc.CreateElement(string.Empty, "TotalProductos", string.Empty);
-                XmlText texttotalproductos = doc.CreateTextNode(item.Total.ToString());
-                totalproductos.AppendChild(texttotalproductos);
-                productos.AppendChild(totalproductos);
+                XmlElement preciounitario = doc.CreateElement(string.Empty, "PrecioUnitario", string.Empty);
+                XmlText textpreciounitario = doc.CreateTextNode(item.Precio_Unidad.ToString());
+                preciounitario.AppendChild(textpreciounitario);
+                LineaDetalle.AppendChild(preciounitario);
+
+                XmlElement montototal = doc.CreateElement(string.Empty, "MontoTotal", string.Empty);
+                XmlText textmontototal = doc.CreateTextNode(item.SubTotal.ToString());
+                montototal.AppendChild(textmontototal);
+                LineaDetalle.AppendChild(montototal);
+
+                XmlElement subtotal = doc.CreateElement(string.Empty, "SubTotal", string.Empty);
+                XmlText textsubtotal = doc.CreateTextNode(item.SubTotal.ToString());
+                subtotal.AppendChild(textsubtotal);
+                LineaDetalle.AppendChild(subtotal);
+
+                XmlElement impuestodelinea = doc.CreateElement(string.Empty, "Impuesto", string.Empty);
+                LineaDetalle.AppendChild(impuestodelinea);
+
+                XmlElement codigoimpuestolinea = doc.CreateElement(string.Empty, "Codigo", string.Empty);
+                XmlText textcodigoimpuestolinea = doc.CreateTextNode("01");
+                codigoimpuestolinea.AppendChild(textcodigoimpuestolinea);
+                impuestodelinea.AppendChild(codigoimpuestolinea);
+
+                XmlElement tarifaimpuesto = doc.CreateElement(string.Empty, "Tarifa", string.Empty);
+                XmlText texttarifaimpuesto = doc.CreateTextNode("13.00");
+                tarifaimpuesto.AppendChild(texttarifaimpuesto);
+                impuestodelinea.AppendChild(tarifaimpuesto);
+
+                double parseosubtotal = double.Parse(item.SubTotal);
+                double calculo = parseosubtotal * (0.13);
+
+                XmlElement montoimpuesto = doc.CreateElement(string.Empty, "Monto", string.Empty);
+                XmlText textmontoimpuesto = doc.CreateTextNode(calculo.ToString());
+                montoimpuesto.AppendChild(textmontoimpuesto);
+                impuestodelinea.AppendChild(montoimpuesto);
+
+                XmlElement totallinea = doc.CreateElement(string.Empty, "MontoTotalLinea", string.Empty);
+                XmlText texttotallinea = doc.CreateTextNode(item.Total.ToString());
+                totallinea.AppendChild(texttotallinea);
+
+                LineaDetalle.AppendChild(totallinea);
+
+                numerodelinea++;
 
             }
-            // Medio de pago
-            XmlElement subseccionmediodepago = doc.CreateElement(string.Empty, "MedioPago", string.Empty);
-            seccionFacturacion.AppendChild(subseccionmediodepago);
 
-            XmlElement mediodepagof = doc.CreateElement(string.Empty, "Metodo", string.Empty);
-            XmlText textmediodepago = doc.CreateTextNode(factura.ID_MetodoPago.ToString());
-            mediodepagof.AppendChild(textmediodepago);
-            subseccionmediodepago.AppendChild(mediodepagof);
+            XmlElement ResumenFactura = doc.CreateElement(string.Empty, "ResumenFactura", string.Empty);
+            seccionFacturacion.AppendChild(ResumenFactura);
 
+            XmlElement totalgrabado = doc.CreateElement(string.Empty, "TotalGravado", string.Empty);
+            XmlText texttotalgrabado = doc.CreateTextNode(factura.SubTotal.ToString());
+            totalgrabado.AppendChild(texttotalgrabado);
+            ResumenFactura.AppendChild(totalgrabado);
 
-            //Unidad de medida 
-            XmlElement subseccionunidad = doc.CreateElement(string.Empty, "UnidadMedida", string.Empty);
-            seccionFacturacion.AppendChild(subseccionunidad);
+            XmlElement TotalExento = doc.CreateElement(string.Empty, "TotalExento", string.Empty);
+            XmlText textTotalExento = doc.CreateTextNode("0.00");
+            TotalExento.AppendChild(textTotalExento);
+            ResumenFactura.AppendChild(TotalExento);
 
-            XmlElement unidaddemedida = doc.CreateElement(string.Empty, "Unidadmedida", string.Empty);
-            XmlText textunidaddemedida = doc.CreateTextNode("Venta de servicio"); //VentaServicios
-            unidaddemedida.AppendChild(textunidaddemedida);
-            subseccionunidad.AppendChild(unidaddemedida);
+            XmlElement totalventa = doc.CreateElement(string.Empty, "TotalVenta", string.Empty);
+            XmlText texttotalventa = doc.CreateTextNode(factura.SubTotal.ToString());
+            totalventa.AppendChild(texttotalventa);
+            ResumenFactura.AppendChild(totalventa);
 
-            //Plazo 
-            XmlElement subseccionplazo = doc.CreateElement(string.Empty, "Plazo", string.Empty);
-            seccionFacturacion.AppendChild(subseccionplazo);
+            XmlElement totaldescuentos = doc.CreateElement(string.Empty, "TotalDescuentos", string.Empty);
+            XmlText texttotaldescuentos = doc.CreateTextNode((factura.SubTotal * (factura.Descuento / 100)).ToString());
+            totaldescuentos.AppendChild(texttotaldescuentos);
+            ResumenFactura.AppendChild(totaldescuentos);
 
-            XmlElement plazo = doc.CreateElement(string.Empty, "Plazo", string.Empty);
-            XmlText textplazo = doc.CreateTextNode("00");
-            plazo.AppendChild(textplazo);
-            subseccionplazo.AppendChild(plazo);
+            XmlElement totalventaneta = doc.CreateElement(string.Empty, "TotalVentaNeta", string.Empty);
+            XmlText texttotalventaneta = doc.CreateTextNode(factura.SubTotal.ToString());
+            totalventaneta.AppendChild(texttotalventaneta);
+            ResumenFactura.AppendChild(totalventaneta);
 
-            // Condicion de Venta
-            XmlElement subseccioncondicion = doc.CreateElement(string.Empty, "CondicionVenta", string.Empty);
-            seccionFacturacion.AppendChild(subseccioncondicion);
+            XmlElement totalcomprobante = doc.CreateElement(string.Empty, "TotalComprobante", string.Empty);
+            XmlText texttotalcomprobante = doc.CreateTextNode(factura.Total.ToString());
+            totalcomprobante.AppendChild(texttotalcomprobante);
+            ResumenFactura.AppendChild(totalcomprobante);
 
-            XmlElement condicion = doc.CreateElement(string.Empty, "Condicion", string.Empty);
-            XmlText textcondicion = doc.CreateTextNode("02");
-            condicion.AppendChild(textcondicion);
-            subseccioncondicion.AppendChild(condicion);
-
-            //SubTotal
-            XmlElement subseccionsubtotal = doc.CreateElement(string.Empty, "SubTotal", string.Empty);
-            seccionFacturacion.AppendChild(subseccionsubtotal);
-
-            XmlElement Subtotal = doc.CreateElement(string.Empty, "Subtotal", string.Empty);
-            XmlText textSubtotal = doc.CreateTextNode(factura.SubTotal.ToString()); //VentaServicios
-            Subtotal.AppendChild(textSubtotal);
-            subseccionsubtotal.AppendChild(Subtotal);
-
-            //Moneda 
-            XmlElement subseccionmoneda = doc.CreateElement(string.Empty, "Moneda", string.Empty);
-            seccionFacturacion.AppendChild(subseccionmoneda);
-
-            XmlElement moneda = doc.CreateElement(string.Empty, "Moneda", string.Empty);
-            XmlText textmoneda = doc.CreateTextNode("CR Colónes"); //VentaServicios
-            moneda.AppendChild(textmoneda);
-            subseccionmoneda.AppendChild(moneda);
-
-            // Total
-            XmlElement subsecciontotal = doc.CreateElement(string.Empty, "Total", string.Empty);
-            seccionFacturacion.AppendChild(subsecciontotal);
-
-            XmlElement stotal = doc.CreateElement(string.Empty, "Total", string.Empty);
-            XmlText texttotal = doc.CreateTextNode(factura.Total.ToString()); //VentaServicios
-            stotal.AppendChild(texttotal);
-            subsecciontotal.AppendChild(stotal);
-
-            // Impuesto
-            XmlElement subseccionimpuesto = doc.CreateElement(string.Empty, "Impuesto", string.Empty);
-            seccionFacturacion.AppendChild(subseccionimpuesto);
-
-            XmlElement impuesto = doc.CreateElement(string.Empty, "Impuesto", string.Empty);
-            XmlText textimpuesto = doc.CreateTextNode(factura.IVA.ToString()); //VentaServicios
-            impuesto.AppendChild(textimpuesto);
-            subseccionimpuesto.AppendChild(impuesto);
-            //
-            XmlElement subsecciondetalle = doc.CreateElement(string.Empty, "Detalle", string.Empty);
-            seccionFacturacion.AppendChild(subsecciondetalle);
-
-            XmlElement detalle = doc.CreateElement(string.Empty, "Detalle", string.Empty);
-            XmlText textdetalle = doc.CreateTextNode("Otros detalles"); //VentaServicios
-            detalle.AppendChild(textdetalle);
-            subsecciondetalle.AppendChild(detalle);
-
-           // doc.Save("C:/Users/josue/Desktop/" + factura.Consecutivo + ".xml"); // Modificar esta ruta si se va a usar 
+            // doc.Save("C:/Users/josue/Desktop/" + factura.Consecutivo + ".xml"); // Modificar esta ruta si se va a usar 
             String total = doc.OuterXml;
 
             //  Conversion a tipo archivo del XML
