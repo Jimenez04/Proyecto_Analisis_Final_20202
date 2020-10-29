@@ -524,18 +524,34 @@ namespace Proyecto_Analisis_Final_20202.BL
             PdfWriter pwf = new PdfWriter(expportar); // Poner ms para mandar o poner exxportar para hacerlo en menotia
 
             PdfDocument pdfDocument = new PdfDocument(pwf);
-            Document doc = new Document(pdfDocument, PageSize.LETTER);
-            doc.SetMargins(10, 35, 70, 35);
+            Document doc = new Document(pdfDocument, PageSize.A4);
+
+
+            Style estilodefooter = new Style()
+                .SetFontSize(10);
+
+            Table tablaprueba = new Table(1).SetBorder(Border.NO_BORDER);
+
+            Cell celdafooter = new Cell()
+                   .Add(new Paragraph("Emitido por facturación FYJJ " ).SetFontSize(11));
+            tablaprueba.AddCell(celdafooter);
+
+             Cell Celda2 = new Cell().Add(new Paragraph("Confome a lo dispuesto en las declaraciones en las DHTRT DE 2019 donde se solicita las creaciones de documentos electronicos").SetFontSize(8)).SetHeight(100);
+              tablaprueba.AddCell(Celda2);
+
+                   
+
+            pdfDocument.AddEventHandler(PdfDocumentEvent.END_PAGE, new TableFooterEventHandler(tablaprueba));
 
             ImageData imageData = ImageDataFactory.Create(@"Imagen/IconoLayout.png");
 
-
+            doc.SetMargins(36, 36, 120, 36);
             Image pdfImg = new Image(imageData);
 
             Style estilodeprimero = new Style()
             .SetMarginLeft(300).SetMarginTop(20);
 
-
+      
             Table TablaDatos1 = new Table(1).UseAllAvailableWidth();
             Cell cellaDatos = new Cell().Add(new Paragraph(" Factura Electrónica").SetTextAlignment(TextAlignment.CENTER).SetFontColor(ColorConstants.WHITE).SetBorder(new SolidBorder(WebColors.GetRGBColor("#0B73D5"), 2)).SetBackgroundColor(WebColors.GetRGBColor("#0B73D5")));
             TablaDatos1.AddCell(cellaDatos);
@@ -543,7 +559,9 @@ namespace Proyecto_Analisis_Final_20202.BL
 
 
 
-            doc.Add(TablaDatos1);
+            doc.Add(TablaDatos1); 
+
+          
 
             Table table1 = new Table(6).UseAllAvailableWidth().SetBorder(new SolidBorder(WebColors.GetRGBColor("#0B73D5"), 2));
 
@@ -644,23 +662,23 @@ namespace Proyecto_Analisis_Final_20202.BL
 
             foreach (var item in detalleFactura)
             {
+                for (int i = 0; i < 50; i++) {
+                    Inventario producto = this.inventario.ObtenerProductoPorCodigo(item.Codigo_Producto);
 
-                Inventario producto = this.inventario.ObtenerProductoPorCodigo(item.Codigo_Producto);
+                    _cell = new Cell(1, 2).Add(new Paragraph(item.Codigo_Producto));
+                    _table.AddCell(_cell.AddStyle(Celdasdatosdeproductos));
 
-                _cell = new Cell(1, 2).Add(new Paragraph(item.Codigo_Producto));
-                _table.AddCell(_cell.AddStyle(Celdasdatosdeproductos));
-
-                _cell = new Cell(1, 2).Add(new Paragraph(producto.Nombre));
-                _table.AddCell(_cell.AddStyle(Celdasdatosdeproductos));
-
-
-                _cell = new Cell(1, 2).Add(new Paragraph(item.Cantidad.ToString()));
-                _table.AddCell(_cell.AddStyle(Celdasdatosdeproductos));
+                    _cell = new Cell(1, 2).Add(new Paragraph(producto.Nombre));
+                    _table.AddCell(_cell.AddStyle(Celdasdatosdeproductos));
 
 
-                _cell = new Cell(1, 2).Add(new Paragraph(item.Precio_Unidad.ToString()));
-                _table.AddCell(_cell.AddStyle(Celdasdatosdeproductos));
+                    _cell = new Cell(1, 2).Add(new Paragraph(item.Cantidad.ToString()));
+                    _table.AddCell(_cell.AddStyle(Celdasdatosdeproductos));
 
+
+                    _cell = new Cell(1, 2).Add(new Paragraph(item.Precio_Unidad.ToString()));
+                    _table.AddCell(_cell.AddStyle(Celdasdatosdeproductos));
+                }
             }
 
             doc.Add(_table);
@@ -716,21 +734,6 @@ namespace Proyecto_Analisis_Final_20202.BL
             TablaTotal.AddHeaderCell(celdaTotal.AddStyle(celdatotal));
             doc.Add(TablaTotal);
 
-            Table tablaprueba = new Table(2);
-
-            Cell cell = new Cell().Add(new Paragraph("This is a test doc"));
-            cell.SetBackgroundColor(ColorConstants.ORANGE);
-            tablaprueba.AddCell(cell);
-
-            cell = new Cell().Add(new Paragraph("This is a copyright notice"));
-            cell.SetBackgroundColor(ColorConstants.LIGHT_GRAY);
-            tablaprueba.AddCell(cell);
-
-            pdfDocument.AddEventHandler(PdfDocumentEvent.END_PAGE, new TableFooterEventHandler(tablaprueba));
-
-
-
-
             doc.Close();
             byte[] byteStream = ms.ToArray();
             ms = new MemoryStream();
@@ -761,9 +764,12 @@ namespace Proyecto_Analisis_Final_20202.BL
             PdfDocumentEvent docEvent = (PdfDocumentEvent)currentEvent;
             PdfDocument pdfDoc = docEvent.GetDocument();
             PdfPage page = docEvent.GetPage();
+            table.SetHeight(300).SetWidth(500); 
+
             PdfCanvas canvas = new PdfCanvas(page.NewContentStreamBefore(), page.GetResources(), pdfDoc);
 
-            new Canvas(canvas, new Rectangle(36, 20, page.GetPageSize().GetWidth() - 72, 50))
+            new Canvas(canvas, new Rectangle(36,80, page.GetPageSize().GetWidth() - 72, 50))
+                
                 .Add(table)
                 .Close();
         }
