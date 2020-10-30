@@ -130,7 +130,7 @@ namespace Proyecto_Analisis_Final_20202.BL
             seccionFacturacion.SetAttribute("xmlns:xsd", "http://www.w3.org/2001/XMLSchema");
             seccionFacturacion.SetAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
             seccionFacturacion.SetAttribute("xmlns", "https://cdn.comprobanteselectronicos.go.cr/xml-schemas/v4.3/facturaElectronica");
-            
+
 
 
             // Clave 
@@ -329,7 +329,7 @@ namespace Proyecto_Analisis_Final_20202.BL
             int numerodelinea = 1;
             foreach (var item in detalleFactura)
             {
-               item.SubTotal = item.Cantidad * item.Precio_Unidad;
+                item.SubTotal = item.Cantidad * item.Precio_Unidad;
                 Inventario producto = this.inventario.ObternerPorCodigo(item.Codigo_Producto);
 
                 XmlElement LineaDetalle = doc.CreateElement(string.Empty, "LineaDetalle", string.Empty);
@@ -369,17 +369,17 @@ namespace Proyecto_Analisis_Final_20202.BL
                 LineaDetalle.AppendChild(descripcion);
 
                 XmlElement preciounitario = doc.CreateElement(string.Empty, "PrecioUnitario", string.Empty);
-                XmlText textpreciounitario = doc.CreateTextNode(item.Precio_Unidad.ToString());
+                XmlText textpreciounitario = doc.CreateTextNode(item.Precio_Unidad.ToString().Replace(",", "."));
                 preciounitario.AppendChild(textpreciounitario);
                 LineaDetalle.AppendChild(preciounitario);
 
                 XmlElement montototal = doc.CreateElement(string.Empty, "MontoTotal", string.Empty);
-                XmlText textmontototal = doc.CreateTextNode(item.SubTotal.ToString());
+                XmlText textmontototal = doc.CreateTextNode(item.SubTotal.ToString().Replace(",", "."));
                 montototal.AppendChild(textmontototal);
                 LineaDetalle.AppendChild(montototal);
 
                 XmlElement subtotal = doc.CreateElement(string.Empty, "SubTotal", string.Empty);
-                XmlText textsubtotal = doc.CreateTextNode(item.SubTotal.ToString());
+                XmlText textsubtotal = doc.CreateTextNode(item.SubTotal.ToString().Replace(",", "."));
                 subtotal.AppendChild(textsubtotal);
                 LineaDetalle.AppendChild(subtotal);
 
@@ -396,13 +396,14 @@ namespace Proyecto_Analisis_Final_20202.BL
                 tarifaimpuesto.AppendChild(texttarifaimpuesto);
                 impuestodelinea.AppendChild(tarifaimpuesto);
 
+                double calculo = (item.SubTotal * (0.13));
                 XmlElement montoimpuesto = doc.CreateElement(string.Empty, "Monto", string.Empty);
-                XmlText textmontoimpuesto = doc.CreateTextNode((item.SubTotal*(item.Impuesto_Producto / 100)).ToString());
+                XmlText textmontoimpuesto = doc.CreateTextNode(calculo.ToString().Replace(",", "."));
                 montoimpuesto.AppendChild(textmontoimpuesto);
                 impuestodelinea.AppendChild(montoimpuesto);
 
                 XmlElement totallinea = doc.CreateElement(string.Empty, "MontoTotalLinea", string.Empty);
-                XmlText texttotallinea = doc.CreateTextNode(item.Total.ToString());
+                XmlText texttotallinea = doc.CreateTextNode(item.Total.ToString().Replace(",", "."));
                 totallinea.AppendChild(texttotallinea);
 
                 LineaDetalle.AppendChild(totallinea);
@@ -415,7 +416,7 @@ namespace Proyecto_Analisis_Final_20202.BL
             seccionFacturacion.AppendChild(ResumenFactura);
 
             XmlElement totalgrabado = doc.CreateElement(string.Empty, "TotalGravado", string.Empty);
-            XmlText texttotalgrabado = doc.CreateTextNode(factura.SubTotal.ToString());
+            XmlText texttotalgrabado = doc.CreateTextNode(factura.SubTotal.ToString().Replace(",", "."));
             totalgrabado.AppendChild(texttotalgrabado);
             ResumenFactura.AppendChild(totalgrabado);
 
@@ -425,22 +426,24 @@ namespace Proyecto_Analisis_Final_20202.BL
             ResumenFactura.AppendChild(TotalExento);
 
             XmlElement totalventa = doc.CreateElement(string.Empty, "TotalVenta", string.Empty);
-            XmlText texttotalventa = doc.CreateTextNode(factura.SubTotal.ToString());
+            XmlText texttotalventa = doc.CreateTextNode(factura.SubTotal.ToString().Replace(",", "."));
             totalventa.AppendChild(texttotalventa);
             ResumenFactura.AppendChild(totalventa);
 
+            double procentaje = (double) decimal.Divide(factura.Descuento,100);
+
             XmlElement totaldescuentos = doc.CreateElement(string.Empty, "TotalDescuentos", string.Empty);
-            XmlText texttotaldescuentos = doc.CreateTextNode((factura.SubTotal * (factura.Descuento / 100)).ToString());
+            XmlText texttotaldescuentos = doc.CreateTextNode((factura.SubTotal * procentaje).ToString().Replace(",", "."));
             totaldescuentos.AppendChild(texttotaldescuentos);
             ResumenFactura.AppendChild(totaldescuentos);
 
             XmlElement totalventaneta = doc.CreateElement(string.Empty, "TotalVentaNeta", string.Empty);
-            XmlText texttotalventaneta = doc.CreateTextNode(factura.SubTotal.ToString());
+            XmlText texttotalventaneta = doc.CreateTextNode(factura.SubTotal.ToString().Replace(",", "."));
             totalventaneta.AppendChild(texttotalventaneta);
             ResumenFactura.AppendChild(totalventaneta);
 
             XmlElement totalcomprobante = doc.CreateElement(string.Empty, "TotalComprobante", string.Empty);
-            XmlText texttotalcomprobante = doc.CreateTextNode(factura.Total.ToString());
+            XmlText texttotalcomprobante = doc.CreateTextNode(factura.Total.ToString().Replace(",", "."));
             totalcomprobante.AppendChild(texttotalcomprobante);
             ResumenFactura.AppendChild(totalcomprobante);
 
@@ -681,7 +684,7 @@ namespace Proyecto_Analisis_Final_20202.BL
             doc.Add(new Paragraph());
 
 
-            Table _table = new Table(8).UseAllAvailableWidth().SetBorder(new SolidBorder(WebColors.GetRGBColor("#0B73D5"), 1));
+            Table _table = new Table(14).UseAllAvailableWidth().SetBorder(new SolidBorder(WebColors.GetRGBColor("#0B73D5"), 1));
 
             Style Celdasorganizacionproductos = new Style()
               .SetTextAlignment(TextAlignment.CENTER)
@@ -708,6 +711,16 @@ namespace Proyecto_Analisis_Final_20202.BL
             _cell = new Cell(1, 2).Add(new Paragraph("Precio"));
             _table.AddHeaderCell(_cell.AddStyle(Celdasorganizacionproductos));
 
+            _cell = new Cell(1, 2).Add(new Paragraph("Descuento Linea"));
+            _table.AddHeaderCell(_cell.AddStyle(Celdasorganizacionproductos));
+
+            _cell = new Cell(1, 2).Add(new Paragraph("IVA"));
+            _table.AddHeaderCell(_cell.AddStyle(Celdasorganizacionproductos));
+
+            _cell = new Cell(1, 2).Add(new Paragraph("Total Linea"));
+            _table.AddHeaderCell(_cell.AddStyle(Celdasorganizacionproductos));
+
+
 
             foreach (var item in detalleFactura)
             {
@@ -727,7 +740,17 @@ namespace Proyecto_Analisis_Final_20202.BL
 
                     _cell = new Cell(1, 2).Add(new Paragraph(item.Precio_Unidad.ToString()));
                     _table.AddCell(_cell.AddStyle(Celdasdatosdeproductos));
-                
+
+                    _cell = new Cell(1, 2).Add(new Paragraph(item.Descuento.ToString() +"%"));
+                    _table.AddCell(_cell.AddStyle(Celdasdatosdeproductos));
+
+                      _cell = new Cell(1, 2).Add(new Paragraph("13%"));
+                     _table.AddCell(_cell.AddStyle(Celdasdatosdeproductos));
+
+                     _cell = new Cell(1, 2).Add(new Paragraph(item.Total.ToString()));
+                     _table.AddCell(_cell.AddStyle(Celdasdatosdeproductos));
+
+
             }
 
             doc.Add(_table);
@@ -756,13 +779,6 @@ namespace Proyecto_Analisis_Final_20202.BL
 
 
             celdasmonetairas = new Cell().Add(new Paragraph(factura.Descuento.ToString() + "%")).SetFontSize(10);
-            TablaMonetaria.AddHeaderCell(celdasmonetairas.AddStyle(celdasmonetarias));
-
-
-            celdasmonetairas = new Cell().Add(new Paragraph("IVA"));
-            TablaMonetaria.AddHeaderCell(celdasmonetairas.AddStyle(celdasmonetarias));
-
-            celdasmonetairas = new Cell().Add(new Paragraph(factura.IVA.ToString() + "%")).SetFontSize(10);
             TablaMonetaria.AddHeaderCell(celdasmonetairas.AddStyle(celdasmonetarias));
 
             celdasmonetairas = new Cell(1,2).Add(new Paragraph(" Total " + " CRC " + factura.Total.ToString()));
