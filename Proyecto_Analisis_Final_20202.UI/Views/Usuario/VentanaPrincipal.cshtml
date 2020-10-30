@@ -348,7 +348,7 @@
             $("#SubTotalProducto").val(subtotalsuma - (subtotalsuma * (Descuento/100)));
             $("#ImpuestoProducto").val("13");
 
-            $("#TotalProducto").val(Number($("#SubTotalProducto").val()) + (Number($("#SubTotalProducto").val()) * (13 / 100)));
+            $("#TotalProducto").val((Number($("#SubTotalProducto").val()) + (Number($("#SubTotalProducto").val()) * (13 / 100))).toFixed(4));
 
             console.log(Number($("#SubTotalProducto").val()) + (Number($("#SubTotalProducto").val()) * (13 / 100)));
 
@@ -396,7 +396,7 @@
                         $("#SubTotalProducto").val(PrecioProducto * CantidadProducto);
                         $("#ImpuestoProducto").val("13");
 
-                        $("#TotalProducto").val(Number($("#SubTotalProducto").val()) + (Number($("#SubTotalProducto").val()) * (13 / 100)));
+                        $("#TotalProducto").val((Number($("#SubTotalProducto").val()) + (Number($("#SubTotalProducto").val()) * (13 / 100))).toFixed(4));
 
                         console.log(Number($("#SubTotalProducto").val()) + (Number($("#SubTotalProducto").val()) * (13 / 100)));
 
