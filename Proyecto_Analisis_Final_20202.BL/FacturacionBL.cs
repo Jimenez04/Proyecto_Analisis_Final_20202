@@ -398,7 +398,7 @@ namespace Proyecto_Analisis_Final_20202.BL
 
                 double calculo = (item.SubTotal * (0.13));
                 XmlElement montoimpuesto = doc.CreateElement(string.Empty, "Monto", string.Empty);
-                XmlText textmontoimpuesto = doc.CreateTextNode(calculo.ToString().Replace(",", "."));
+                XmlText textmontoimpuesto = doc.CreateTextNode(Math.Round(calculo, 4).ToString().Replace(",", ".").Trim());
                 montoimpuesto.AppendChild(textmontoimpuesto);
                 impuestodelinea.AppendChild(montoimpuesto);
 
@@ -471,10 +471,10 @@ namespace Proyecto_Analisis_Final_20202.BL
 
             MailMessage CorreoElectronico = new MailMessage();
 
-            CorreoElectronico.Subject = "Prueba de envio XML";
+            CorreoElectronico.Subject = "Facturación Electronica JJYF ";
             CorreoElectronico.From = new MailAddress(CorreoEmisor);
 
-            CorreoElectronico.Body = "XML es el siguiente:";
+            CorreoElectronico.Body = "Sus comprobantes elctrónicos son los siguientes";
             CorreoElectronico.To.Add(new MailAddress(correodestinatario));
 
             CorreoElectronico.Attachments.Add(archivoxml);
