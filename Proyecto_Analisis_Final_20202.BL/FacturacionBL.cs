@@ -38,43 +38,48 @@ namespace Proyecto_Analisis_Final_20202.BL
 
         public int Facturar(String Subtotal, int Descuento, String Total, String IdentificacionCliente, List<DetalleFactura> ListaProductos)
         {
-            Factura nuevafactura = new Factura();
-            Cliente clientedefactura = new Cliente();
-
-
-            clientedefactura.Consecutivo = nuevafactura.Consecutivo = GenerarConsecutivo();
-            nuevafactura.Cedula_Juridica = empresa.ObtenerEmpresa().Cedula_Juridica;
-            nuevafactura.ID_Condicion = 1;
-            nuevafactura.Plazo_Credito = 0;
-            nuevafactura.ID_MetodoPago = 1;
-            nuevafactura.SubTotal = Double.Parse(Subtotal.Replace(".", ","));
-            nuevafactura.Descuento = Descuento;
-            nuevafactura.IVA = 13;
-            nuevafactura.Total = Double.Parse(Total.Replace(".", ","));
-            nuevafactura.Fecha_Emision = DateTime.Now;
-            nuevafactura.Clave = GenerarClave(nuevafactura.Consecutivo, nuevafactura.Cedula_Juridica);
-            nuevafactura.Codigo_Actividad = 1;
-
-            ElContextoDeBaseDeDatos.Factura.Add(nuevafactura);
-            ElContextoDeBaseDeDatos.SaveChanges();
-            foreach (var Productos in ListaProductos)
+            try
             {
-                Productos.Consecutivo = nuevafactura.Consecutivo;
-                ElContextoDeBaseDeDatos.DetalleFactura.Add(Productos);
+                Factura nuevafactura = new Factura();
+                Cliente clientedefactura = new Cliente();
+
+                clientedefactura.Consecutivo = nuevafactura.Consecutivo = GenerarConsecutivo();
+                nuevafactura.Cedula_Juridica = empresa.ObtenerEmpresa().Cedula_Juridica;
+                nuevafactura.ID_Condicion = 1;
+                nuevafactura.Plazo_Credito = 0;
+                nuevafactura.ID_MetodoPago = 1;
+                nuevafactura.SubTotal = Double.Parse(Subtotal.Replace(".", ","));
+                nuevafactura.Descuento = Descuento;
+                nuevafactura.IVA = 13;
+                nuevafactura.Total = Double.Parse(Total.Replace(".", ","));
+                nuevafactura.Fecha_Emision = DateTime.Now;
+                nuevafactura.Clave = GenerarClave(nuevafactura.Consecutivo, nuevafactura.Cedula_Juridica);
+                nuevafactura.Codigo_Actividad = 1;
+
+                ElContextoDeBaseDeDatos.Factura.Add(nuevafactura);
                 ElContextoDeBaseDeDatos.SaveChanges();
+                foreach (var Productos in ListaProductos)
+                {
+                    Productos.Consecutivo = nuevafactura.Consecutivo;
+                    ElContextoDeBaseDeDatos.DetalleFactura.Add(Productos);
+                    ElContextoDeBaseDeDatos.SaveChanges();
+                }
+
+                clientedefactura.Cedula = IdentificacionCliente;
+                clientedefactura.Descuento = 0;
+                ElContextoDeBaseDeDatos.Cliente.Add(clientedefactura);
+                ElContextoDeBaseDeDatos.SaveChanges();
+
+
+                GenerarXMLDeFactura(nuevafactura);
+
+                return 1;
+
             }
-
-            clientedefactura.Cedula = IdentificacionCliente;
-            clientedefactura.Descuento = 0;
-            ElContextoDeBaseDeDatos.Cliente.Add(clientedefactura);
-            ElContextoDeBaseDeDatos.SaveChanges();
-
-
-            GenerarXMLDeFactura(nuevafactura);
-
-
-
-            return 1;
+            catch (Exception)
+            {
+                return 0;
+            }
         }
 
         public List<DetalleFactura> ElDetalleDeFactura(string consecutivo)
@@ -749,8 +754,6 @@ namespace Proyecto_Analisis_Final_20202.BL
 
                      _cell = new Cell(1, 2).Add(new Paragraph(item.Total.ToString()));
                      _table.AddCell(_cell.AddStyle(Celdasdatosdeproductos));
-
-
             }
 
             doc.Add(_table);
