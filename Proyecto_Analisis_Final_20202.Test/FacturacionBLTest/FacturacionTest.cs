@@ -34,7 +34,7 @@ namespace Proyecto_Analisis_Final_20202.Test.FacturacionBLTest
                 ID_Distrito = 5,
                 ID_Provincia = 5,
                 ID_Sexo = 1,
-                SenasExactas = "Por el coco",
+                SenasExactas = "Por el coco"
             };
 
             contextoFactura.Persona.Add(nuevapersona);
@@ -93,7 +93,7 @@ namespace Proyecto_Analisis_Final_20202.Test.FacturacionBLTest
 
             List<DetalleFactura> ListaProductos = new List<DetalleFactura>();
             ListaProductos.Add(detalles);
-            Assert.AreEqual(0, repositorioFacturacionBL.Facturar("2400.00", 0 , "2400.00" , "504250352" , ListaProductos)); //fallas en el PDF
+            Assert.AreEqual(1, repositorioFacturacionBL.Facturar("2400.00", 0 , "2400.00" , "504250352" , ListaProductos)); //fallas en el PDF
         }
     }
 }

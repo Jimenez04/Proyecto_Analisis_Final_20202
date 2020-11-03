@@ -800,8 +800,6 @@ namespace Proyecto_Analisis_Final_20202.BL
             return pdffactura;
 
         }
-
-
     }
 
     public class TableFooterEventHandler : IEventHandler
