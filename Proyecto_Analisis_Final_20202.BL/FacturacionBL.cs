@@ -725,7 +725,7 @@ namespace Proyecto_Analisis_Final_20202.BL
             foreach (var item in detalleFactura)
             {
                
-                    Inventario producto = this.inventario.ObtenerProductoPorCodigo(item.Codigo_Producto);
+                    Inventario producto = this.inventario.ObternerPorCodigo(item.Codigo_Producto);
 
                     _cell = new Cell(1, 2).Add(new Paragraph(item.Codigo_Producto));
                     _table.AddCell(_cell.AddStyle(Celdasdatosdeproductos));

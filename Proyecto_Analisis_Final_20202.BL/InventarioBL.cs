@@ -21,12 +21,6 @@ namespace Proyecto_Analisis_Final_20202.BL
             laListaDeInventario = ElContextoDeBaseDeDatos.Inventario.ToList();
             return laListaDeInventario;
         }
-        public Inventario ObtenerProductoPorCodigo(string codigo)
-        {
-            return (from c in ElContextoDeBaseDeDatos.Inventario
-                    where c.Codigo_Producto == codigo
-                    select c).First();
-        }
 
         public Inventario ObternerPorCodigo(String codigo)
         {
@@ -70,19 +64,15 @@ namespace Proyecto_Analisis_Final_20202.BL
 
         public bool ProductoExiste(Inventario producto)
         {
-
             var existencia = ElContextoDeBaseDeDatos.Inventario.Find(producto.Codigo_Producto);
 
             if (existencia != null)
             {
-
                 return true;
-
             }
             else
             {
                 return false;
-
             }
         }
 
