@@ -92,6 +92,7 @@ namespace Proyecto_Analisis_Final_20202.Models
         
         [NotMapped]
         public Correo_Electronico Correo { get; set; }
+
         [NotMapped]
         public Telefono telefono { get; set; }
 

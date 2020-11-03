@@ -20,6 +20,7 @@ namespace Proyecto_Analisis_Final_20202.BL
             laListaDePersonas = ElContextoDeBaseDeDatos.Persona.ToList();
             foreach (var item in laListaDePersonas)
             {
+                item.telefono = ElContextoDeBaseDeDatos.Telefono.Find(item.Cedula);
                 item.Correo = ElContextoDeBaseDeDatos.Correo_Electronico.Find(item.Cedula);
             }
             return laListaDePersonas;
@@ -27,7 +28,6 @@ namespace Proyecto_Analisis_Final_20202.BL
 
         public void AgregarPersonas(Persona persona)
         {
-
             try
             {
                 persona.telefono.Cedula = persona.Cedula;
