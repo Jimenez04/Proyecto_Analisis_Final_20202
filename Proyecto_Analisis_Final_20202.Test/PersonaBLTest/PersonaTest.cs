@@ -41,11 +41,11 @@ namespace Proyecto_Analisis_Final_20202.Test.PersonaBLTest
             contexto.Telefono.Add(new Telefono() { Cedula = "504250352", Numero = "88888888" });
             contexto.Persona.Add(new Persona() { Cedula = "504250352", Nombre1 = "Jose", Nombre2 = "Enrique", Apellido1 = "Jimenez" , Apellido2 = "Soto"});
 
-            contexto.Correo_Electronico.Add(new Correo_Electronico() { Cedula = "504360671", Correo = "josue-1231@hotmailcom" });
+            contexto.Correo_Electronico.Add(new Correo_Electronico() { Cedula = "504360671", Correo = "josue-1231@hotmail.es" });
             contexto.Telefono.Add(new Telefono() { Cedula = "504360671", Numero = "88888888" });
             contexto.Persona.Add(new Persona() { Cedula = "504360671", Nombre1 = "Josue", Nombre2 = "Israel", Apellido1 = "Machado", Apellido2 = "Velasquez" });
 
-            contexto.Correo_Electronico.Add(new Correo_Electronico() { Cedula = "504190867", Correo = "sandymarif1297@gmailcom" });
+            contexto.Correo_Electronico.Add(new Correo_Electronico() { Cedula = "504190867", Correo = "sandymarif1297@gmail.com" });
             contexto.Telefono.Add(new Telefono() { Cedula = "504190867", Numero = "88888888" });
             contexto.Persona.Add(new Persona() { Cedula = "504190867", Nombre1 = "Maria", Nombre2 = "Fernanda", Apellido1 = "Sandi", Apellido2 = "Calderon" });
 

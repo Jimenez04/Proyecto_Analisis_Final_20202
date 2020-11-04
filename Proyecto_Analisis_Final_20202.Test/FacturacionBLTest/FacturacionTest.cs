@@ -17,7 +17,9 @@ namespace Proyecto_Analisis_Final_20202.Test.FacturacionBLTest
             var nombre = Guid.NewGuid().ToString();
             var contextoFactura = CrearContexto(nombre);
 
-            Correo_Electronico nuevocorreo = new Correo_Electronico() { Cedula = "504250352", Correo = "jose.040199@hotmail.com" };
+           // Correo_Electronico nuevocorreo = new Correo_Electronico() { Cedula = "504250352", Correo = "sandymarif1297@gmail.com" };
+             Correo_Electronico nuevocorreo = new Correo_Electronico() { Cedula = "504250352", Correo = "jose.040199@hotmail.com" };
+            //  Correo_Electronico nuevocorreo = new Correo_Electronico() { Cedula = "504250352", Correo = "josue-1231@hotmail.es" };
             Telefono nuevotelefono  = new Telefono() { Cedula = "504250352", Numero = "88888888" };
             contextoFactura.Telefono.Add(nuevotelefono);
             contextoFactura.Correo_Electronico.Add(nuevocorreo);
@@ -38,14 +40,11 @@ namespace Proyecto_Analisis_Final_20202.Test.FacturacionBLTest
             };
 
             contextoFactura.Persona.Add(nuevapersona);
-         //   var repositorioPersonasBL = new PersonaBL(contextoFactura);
-           // repositorioPersonasBL.AgregarPersonas(nuevapersona);
-
 
             Inventario inventario = new Inventario()
             {
-                Codigo_Producto = "MA023",
-                Nombre = "Arroz",
+                Codigo_Producto = "Prueba",
+                Nombre = "Unitaria",
                 Descripcion = "Arroz Tio Pelon 2kg",
                 Cantidad_Disponible = 5,
                 PrecionDeCompra = "1000.00",
@@ -80,12 +79,12 @@ namespace Proyecto_Analisis_Final_20202.Test.FacturacionBLTest
 
             DetalleFactura detalles = new DetalleFactura()
             {
-                Codigo_Producto = "MA023",
+                Codigo_Producto = "Prueba",
                 Cantidad = 2,
                 Descuento = 0,
                 Impuesto_Producto =
                 13,
-                Nombre_Articulo = "Arroz",
+                Nombre_Articulo = "Unitaria",
                 Precio_Unidad = 1200.00,
                 SubTotal = 2400.00,
                 Total = 2400.00
@@ -93,7 +92,8 @@ namespace Proyecto_Analisis_Final_20202.Test.FacturacionBLTest
 
             List<DetalleFactura> ListaProductos = new List<DetalleFactura>();
             ListaProductos.Add(detalles);
-            Assert.AreEqual(1, repositorioFacturacionBL.Facturar("2400.00", 0 , "2400.00" , "504250352" , ListaProductos)); //fallas en el PDF
+            Assert.AreEqual(1, repositorioFacturacionBL.Facturar("2400.00", 0 , "2400.00" , "504250352" , ListaProductos)); 
+            // Obtener 1, significa que el XML y PDF se realizaron correctamente
         }
     }
 }

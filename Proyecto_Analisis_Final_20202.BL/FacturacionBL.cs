@@ -103,6 +103,20 @@ namespace Proyecto_Analisis_Final_20202.BL
             return ElContextoDeBaseDeDatos.Factura.ToList();
         }
 
+
+        public  string Concatenar0_ID_Paises_Provincias_Cantones(string ID)
+        {
+            if (ID.Length == 2)
+            {
+                return ID;
+            }
+            else
+            {
+                return "0" + ID;
+            }
+
+        }
+
         // Metodo de creación del XML 
         public Attachment GenerarXMLDeFactura(Factura factura)
         {
@@ -204,12 +218,12 @@ namespace Proyecto_Analisis_Final_20202.BL
             Ubicacion.AppendChild(provinciaempresa);
 
             XmlElement cantonempresa = doc.CreateElement(string.Empty, "Canton", string.Empty);
-            XmlText textcantonempresa = doc.CreateTextNode("0" + empresa.ID_Canton.ToString());
+            XmlText textcantonempresa = doc.CreateTextNode(Concatenar0_ID_Paises_Provincias_Cantones(empresa.ID_Canton.ToString()));
             cantonempresa.AppendChild(textcantonempresa);
             Ubicacion.AppendChild(cantonempresa);
 
             XmlElement distritoempresa = doc.CreateElement(string.Empty, "Distrito", string.Empty);
-            XmlText textodistritoempresa = doc.CreateTextNode("0" + empresa.ID_Distrito.ToString());
+            XmlText textodistritoempresa = doc.CreateTextNode(Concatenar0_ID_Paises_Provincias_Cantones(empresa.ID_Distrito.ToString()));
             distritoempresa.AppendChild(textodistritoempresa);
             Ubicacion.AppendChild(distritoempresa);
 
@@ -279,12 +293,12 @@ namespace Proyecto_Analisis_Final_20202.BL
             Ubicacionpersona.AppendChild(provinciapersona);
 
             XmlElement cantonpersona = doc.CreateElement(string.Empty, "Canton", string.Empty);
-            XmlText textcantonpersona = doc.CreateTextNode("0" + persona.ID_Canton.ToString());
+            XmlText textcantonpersona = doc.CreateTextNode(Concatenar0_ID_Paises_Provincias_Cantones(persona.ID_Canton.ToString()));
             cantonpersona.AppendChild(textcantonpersona);
             Ubicacionpersona.AppendChild(cantonpersona);
 
             XmlElement distritopersona = doc.CreateElement(string.Empty, "Distrito", string.Empty);
-            XmlText textdistritopersona = doc.CreateTextNode("0" + persona.ID_Distrito.ToString());
+            XmlText textdistritopersona = doc.CreateTextNode(Concatenar0_ID_Paises_Provincias_Cantones(persona.ID_Distrito.ToString()));
             distritopersona.AppendChild(textdistritopersona);
             Ubicacionpersona.AppendChild(distritopersona);
 
@@ -623,10 +637,10 @@ namespace Proyecto_Analisis_Final_20202.BL
               pdfDocument.AddEventHandler(PdfDocumentEvent.END_PAGE, new TableFooterEventHandler(tablaprueba));
 
 
-            ImageData imageData = ImageDataFactory.Create(@"Imagen/IconoLayout.png");
+            ImageData imageData = ImageDataFactory.Create("https://i.ibb.co/8gqt5HF/Icono-Layout.png");
 
             doc.SetMargins(36, 36, 100, 36);
-            Image pdfImg = new Image(imageData);
+           Image pdfImg = new Image(imageData);
 
             Style estilodeprimero = new Style()
             .SetMarginLeft(300).SetMarginTop(20);
