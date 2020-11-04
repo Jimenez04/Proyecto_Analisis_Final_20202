@@ -68,6 +68,7 @@ namespace Proyecto_Analisis_Final_20202.UI.Areas.Identity.Pages.Account
             [DisplayName("Repita su contraseña")]
             [DataType(DataType.Password)]
             [MaxLength(25, ErrorMessage = "El tamaño máximo de la contraseña es de 25 caracteres")]
+            [Compare("Password", ErrorMessage = "Las Contraseñas no Coinciden")]
             public string ConfirmPassword { get; set; }
         }
 
