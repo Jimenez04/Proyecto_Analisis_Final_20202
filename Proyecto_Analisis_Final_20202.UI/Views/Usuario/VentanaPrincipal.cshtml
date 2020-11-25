@@ -436,10 +436,11 @@
                     .then(function (Producto) {
                         if (Producto != null) {
                             console.log(Producto);
+                            cadena = "";
+                          
+                            $("#ListarTotalProductos tr").remove();
 
                             Producto.forEach(function (index) {
-
-
                                 cadena = "<tr>"
                                 cadena = cadena + "<td>" + index.codigo_Producto + "</td>";
                                 cadena = cadena + "<td>" + index.cantidad_Disponible + "</td>";
